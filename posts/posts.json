@@ -2,7 +2,7 @@
   {
     "path": "posts/De små tingene/",
     "title": "De små tingene",
-    "description": "Hvis jeg gjør det jeg kan på mitt kontor, og du på ditt så må vi vel alle bli fornøyde med utfallet?",
+    "description": "Hvis jeg gjør det jeg kan på mitt kontor, og du på ditt så må vi vel alle bli fornøyde med samfunnet?",
     "author": [
       {
         "name": "Endre Grüner Ofstad",
@@ -15,8 +15,8 @@
       "Økosystem"
     ],
     "preview": "posts/De små tingene/_MG_5420.jpg",
-    "last_modified": "2020-10-11T22:44:50+02:00",
-    "input_file": {}
+    "last_modified": "2020-10-11T23:06:49+02:00",
+    "input_file": "DeSmåTingene.utf8.md"
   },
   {
     "path": "posts/welcome/",
