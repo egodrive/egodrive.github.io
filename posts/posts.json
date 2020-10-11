@@ -1,0 +1,37 @@
+[
+  {
+    "path": "posts/De små tingene/",
+    "title": "De små tingene",
+    "description": "Hvis jeg gjør det jeg kan på mitt kontor, og du på ditt så må vi vel alle bli fornøyde med utfallet?",
+    "author": [
+      {
+        "name": "Endre Grüner Ofstad",
+        "url": {}
+      }
+    ],
+    "date": "2020-11-10",
+    "categories": [
+      "Forvaltning",
+      "Økosystem"
+    ],
+    "preview": "posts/De små tingene/_MG_5420.jpg",
+    "last_modified": "2020-10-11T22:44:50+02:00",
+    "input_file": {}
+  },
+  {
+    "path": "posts/welcome/",
+    "title": "Velkommen",
+    "description": "Velkommen til bloggen!",
+    "author": [
+      {
+        "name": "Endre Grüner Ofstad",
+        "url": {}
+      }
+    ],
+    "date": "2020-10-11",
+    "categories": [],
+    "preview": {},
+    "last_modified": "2020-10-11T18:00:35+02:00",
+    "input_file": {}
+  }
+]
