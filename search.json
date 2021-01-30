@@ -2,18 +2,17 @@
   "articles": [
     {
       "path": "about.html",
-      "title": "About this blog",
-      "description": "Some additional details about the blog",
+      "title": "Om",
       "author": [],
-      "contents": "\r\n\r\n\r\n\r\n",
-      "last_modified": "2020-10-11T22:45:46+02:00"
+      "contents": "\r\nDenne tankeboksen kommer til og fylles opp med tanker. Slik at det vil være varierende grad av hvor pedagogisk jeg kommer til være. Målet er vel at jeg skal kunne forstå hva jeg mente når jeg leser tankesurreriene mine om fem år.\r\n\r\n\r\n\r\n",
+      "last_modified": "2021-01-31T00:22:20+01:00"
     },
     {
       "path": "index.html",
       "title": "Tankesurreriet",
       "author": [],
       "contents": "\r\n\r\n\r\n\r\n",
-      "last_modified": "2021-01-30T22:41:36+01:00"
+      "last_modified": "2021-01-31T00:07:53+01:00"
     }
   ],
   "collections": ["posts/posts.json"]
