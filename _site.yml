@@ -1,12 +1,12 @@
-name: "Blog"
-title: "Tankesurreriet"
+name: "Blogg"
+title: "tankesurreri"
 description: |
-  Tankesurreriet
-output_dir: "_site"
+  tankesurreri
+output_dir: "docs"
 navbar:
   right:
-    - text: "Hjem"
+    - text: "Home"
       href: index.html
-    - text: "Om"
+    - text: "About"
       href: about.html
 output: distill::distill_article

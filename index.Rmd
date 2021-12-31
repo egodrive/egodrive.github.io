@@ -1,5 +1,5 @@
 ---
-title: "Tankesurreriet"
+title: "tankesurreri"
 site: distill::distill_website
 listing: posts
 ---
