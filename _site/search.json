@@ -6,14 +6,14 @@
       "description": "Some additional details about the blog",
       "author": [],
       "contents": "\r\n\r\n\r\n\r\n",
-      "last_modified": "2021-12-31T16:51:29+01:00"
+      "last_modified": "2021-12-31T17:05:47+01:00"
     },
     {
       "path": "index.html",
       "title": "Tankesurreriet",
       "author": [],
       "contents": "\r\n\r\n\r\n\r\n",
-      "last_modified": "2021-12-31T16:37:11+01:00"
+      "last_modified": "2021-12-31T17:05:29+01:00"
     }
   ],
   "collections": ["posts/posts.json"]
