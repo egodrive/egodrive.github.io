@@ -1,0 +1,266 @@
+---
+title: "Metapopulasjoner og sykdom"
+description: |
+  Hva man gjør etter og ha snakket om sykdomsspredning mellom byer
+draft: true
+author:
+  - name: Endre Grüner Ofstad
+    url: {}
+
+categories:
+  - Spredning
+  - Økologi
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+Som for folk flest har covid-19 vært et tema i mitt liv også. Som biolog og økolog så er jo dette på mange måter veldig spennende. Spesielt når emnene man er interessert i romlig økologi. Romlig økologi handler om hvordan ting virker sammen i rom. Høres kanskje rart ut, for man tenker jo at alt som skjer skjer jo en plass. Men mye teori er ikke spesifikk til gitte landskap. Hvor langt unna er den ene fra den andre, og hvor stort område bor han andre i? Og vil dette påvirke interaksjonene mellom disse? Så ja, covid-19 og reiserestriksjoner er spennende greier. 
+
+Men tittelen på innlegget er metapopulasjoner. Metapopulasjoner er et konsept som ble presentert av Levins og videre gjort kjent av den finske professoren [Hanski](https://en.wikipedia.org/wiki/Metapopulation). En metapopulasjon, eller metabestand, er en bestand som består av flere delbestander. Disse delbestandene virker sammen, med individer som beveger seg fra den ene til den andre. De enkelte delbestandene kan også ha ulike egenskaper med tanke på størrelse reproduksjon og overlevelse. Dette vil igjen påvirke kolonisering og utryddelse av de enkelte bestandene. 
+
+Virus trenger verter, og verter beveger seg rundt. Bevegelse kan beskrives på mange mulige måter, hvor den enkleste (sett bort fra navnet) kanskje er Brownian motion. Brownian motion er når det neste skrittet du tar skjer i en tilfeldig retning, og skrittlengden er tilfeldig normalfordelt. Dette kan taes et skritt videre med bruk av Lévy walk. I denne er skrittlengden tilfeldig eksponentielt fordelt. Dette vil si at de fleste skrittene er korte, men så gjøres noen lange innimellom. Litt som at for det meste så beveger vi oss hjemmet, på kontoret og i butikken, men vi foretar lengre skritt for å bevege oss mellom disse. 
+
+
+```{r, echo = F}
+# , fig.cap="Forskjellen mellom Lévy walk og Brownian motion", echo = F
+Walk = function(n = 100, alpha = 2, fmin = .1, fmax = 100, type = "Levy"){
+  alpha=2;
+  x=rep(0,n)
+  y=rep(0,n)
+  
+  for (i in 2:n){
+    theta <- runif(n-1)*2*pi
+    if(type=="Levy"){
+      f <- runif(n-1, fmax^(-alpha), fmin^(-alpha))^(-1/alpha)
+    }else if(type=="Brownian"){
+      f <- rnorm(n-1)
+    }
+    
+    x <- c(0, cumsum(f*cos(theta)))
+    y <- c(0, cumsum(f*sin(theta)))
+  }
+  cbind(x, y)
+}
+df = Walk(n = 1000, type = "Levy")
+df2 = Walk(n = 1000, type = "Brownian")
+plot(df[,2]~df[,1], type ="b", xlim = range(c(df[,1], df2[,1])), ylim = range(c(df[,2], df2[,2])), xlab = "", ylab = "")
+points(df2[,2]~df2[,1], type ="b", col = "red")
+legend("topleft",
+       c("Lévy walk", "Brownian motion"),
+       col = c("black", "red"),
+       pch = c(1,1))
+
+
+```
+
+Men for nå skal vi fokusere på Brownian motion, da man bør alltid starte med den "dummeste" løsningen først. Jeg var altså interessert i hvordan individ beveger seg innad sin egen bestand, og smittet hverandre. Virus sprer som organismer flest. For det meste kort, men noen sprer seg langt[^1]. Slik at sannsynligheten for å bli smittet kan beskrives som en funksjon av avstanden til en smittebærer. En slik funksjon kan selvfølgelig ta all slags mulige former, men et eksempel kan være noe slikt:
+
+[^1]: Det er ofte hvor langt organismer kan spre seg som er vanskeligst å estimere. Både rent statistisk, men det er også sabla vanskelig å finne det ene individet som dro så vanvittig mye lengre enn de andre. Den årvåkne leseren kan sikkert se koblingene opp mot ulver som sprer østfra, og sitkatrær som sprer seg dit de ikke er ønsket. 
+
+
+```{r, echo = F}
+# , fig.cap="Sannsynligheten for smittet som en funksjon av avstanden til nærmeste vert.", echo = F
+library(boot)
+par(bty = "L")
+curve(inv.logit(.4 - 0.75*x), from = 0, to = 8, ylab = "Sannsynlighet for smitte", xlab = "Avstand til smittebærer (m)")
+
+```
+
+
+Slik at selv om du er kliss inntil en syk person så er det ikke gitt at du blir syk. 
+
+Men så var det tilbake til metapopulasjonen da. Individer sprer seg mellom delbestander. Denne spredningen kan skje i henhold til indivdets status (er det friskt, sterkt, stort, rik osv.), tettheten (man bør stikke hvis det blir for trangt) eller arealet delbestanden bor på. 
+
+Jeg valgte å gjøre det slik: 
+  1) For hver delbestand, trekk antall individ som sprer seg. Dette var positiv relatert til bestandsareal. 
+  2) Hvis du er et individ som skal spre seg så er det mer sannsynlig at du drar til det større alternativet enn det mindre. 
+
+```{r DiseaseMotions, echo = F}
+#### BROWNIAN MOTION
+# https://www.stat.berkeley.edu/~aldous/Research/Ugrad/ZY1.pdf
+library(data.table);library(ggplot2)
+library(boot)
+library(ggplot2)
+library(cowplot)
+
+#6.Brownian Motion with Boundary Coding
+DiseaseMotions = function(SimLength = 500, nBoxes = 4, nIndRange = 3:10, ArenaDimRange = 10:50,
+                          DispRate = .05, Virulence = .25 ){
+  # SimLength = 100; nBoxes = 4; nIndRange = 3:10; ArenaDimRange = 10:50;  DispRate = .05; Virulence = .25
+  N = SimLength
+  # Number of arenas
+  nBoxes
+  # Individuals per arenas
+  nInd = sample(nIndRange,nBoxes)
+  
+  # Create a matrix which contains info on which arena each player (column) is in at a given time (row)
+  BoxStatus = matrix(nrow = N, ncol = sum(nInd))
+  BoxStatus[1,]<-rep(1:nBoxes, nInd)
+  
+  # Dimensions of the arenas
+  Dims = sample(ArenaDimRange, nBoxes)
+  # set up arenas
+  ub = Dims; lb = -Dims
+  
+  #Movements
+  dx = array(rnorm(n = N*sum(nInd)), c(N,sum(nInd)))
+  dy = array(rnorm(n = N*sum(nInd)), c(N,sum(nInd)))
+  
+  # Positions
+  xpos = array(rep(1,N*sum(nInd)), c(N,sum(nInd))); ypos = array(rep(1,N*sum(nInd)), c(N,sum(nInd)))
+  
+  # Create a matrix which contains info on which infection status of each player (column) is in at a given time (row)
+  IStatus = matrix(nrow = N, ncol = sum(nInd))
+  # sample infected individuals, and how long they should be sick
+  DiseaseDuration = 5
+  Is = sample(1:0, sum(nInd), replace = T)
+  Is[Is==1]<-rpois(length(which(Is==1)), DiseaseDuration)
+  IStatus[1,]<-Is
+  
+  
+  #print(unique(BoxStatus[1,]))
+  
+  for(Time in 1:(N-1)){
+   # print(paste("Time:",Time))
+    if(Time == 1){
+      # For the first round, randomly place the players inside their respective arenas
+      for(Box in 1:nBoxes){
+        xpos[1,BoxStatus[1,]==Box]<-dx[1,BoxStatus[1,]==Box]<-runif(n = length(which(BoxStatus[1,]==Box)), min = lb[Box], max = ub[Box])
+        ypos[1,BoxStatus[1,]==Box]<-dy[1,BoxStatus[1,]==Box]<-runif(n = length(which(BoxStatus[1,]==Box)), min = lb[Box], max = ub[Box])
+      }
+    }
+    
+    
+    # Should we move any individuals?
+   # print("Dispersal")
+    for(Box in 1:nBoxes){
+      # sample how many individuals that disperse from Box, ensuring that we don't disperse more than are actually present
+      Dispersers = min(c(length(which(BoxStatus[Time,]==Box)),
+                         rpois(1, lambda = DispRate*sqrt(ub[Box]^2))))
+      # Sample target arena dependent on potential target areas, i.e. more likely to go to large patches than small patches
+      Target = sample(1:(nBoxes-1),Dispersers,prob = (ub[-Box]^2)/sum(ub[-Box]^2), replace = T)
+      BoxStatus[Time,sample(which(BoxStatus[Time,]==Box), Dispersers, replace = F)]<-Target
+    }
+    
+    
+   # print("Movement")
+    # Start looping
+    for(Ind in 1:sum(nInd)){
+      BoxStatus[Time+1,Ind]<-BoxStatus[Time,Ind]
+      if((xpos[Time,Ind] + dx[Time+1,Ind]) > ub[BoxStatus[Time,Ind]]){
+        xpos[Time+1,Ind] = ub[BoxStatus[Time,Ind]] # x above, move to upper boundary
+      }else{
+        if((xpos[Time,Ind] + dx[Time+1,Ind]) < lb[BoxStatus[Time,Ind]]){
+          xpos[Time+1,Ind] = lb[BoxStatus[Time,Ind]] # x below, move to lower boundary
+        }else{
+          xpos[Time+1,Ind] = xpos[Time,Ind] + dx[Time+1,Ind] # x within boundaries, move as planned
+          if((ypos[Time,Ind] + dy[Time+1,Ind]) > ub[BoxStatus[Time,Ind]]){
+            ypos[Time+1,Ind] = ub[BoxStatus[Time,Ind]] # y above, move to upper boundary
+          }else{
+            if((ypos[Time] + dy[Time + 1,Ind]) < lb[BoxStatus[Time,Ind]]){
+              dy[Time+1,Ind] = lb[BoxStatus[Time,Ind]] # y below, move to lower boundary
+            }else{
+              ypos[Time+1,Ind] = ypos[Time,Ind] + dy[Time+1,Ind]# y within boundaries, move as planned
+            }}}}
+      #}
+    }
+    
+    
+    # # Infection status
+   # print("Diseases")
+    for(Box in 1:nBoxes){
+      # First, ask if there are any sick individuals in the target arena
+      # And there should be more than one individual present in the arena
+      if(any(IStatus[Time,BoxStatus[Time,]==Box]>=Time) & length(which(BoxStatus[Time,]==Box))>1){
+        # Calculate among individual distances
+        tmp = as.matrix(dist(cbind(xpos[Time,BoxStatus[Time,]==Box],
+                                   ypos[Time,BoxStatus[Time,]==Box]), diag = T, upper = T))
+        
+        
+        # Who gets sick according to distance?
+        mat = inv.logit(2 - Virulence*tmp)
+        Infected = apply(as.matrix(mat), c(1,2), function(x){sample(1:0, 1, prob = c(x,1-x))})
+        # Does any get infected?
+        if(any(Infected[lower.tri(Infected)]>0)){
+          # extract the ones who gets infected this round, i.e. remove those who are sick from before
+          I2 = Infected[ which(IStatus[Time,BoxStatus[Time,]==Box]>=Time),]
+          if(any(I2)>0){
+            if(!is.null(dim(I2))){
+              NuSick = which(sapply(which(apply(I2, 2, function(x) any(x>0))),
+                                    function(x) !x %in% which(IStatus[Time,BoxStatus[Time,]==Box]>=Time)))
+            }else{
+              NuSick = which(sapply(which(I2>0),
+                                    function(x) !x %in% which(IStatus[Time,BoxStatus[Time,]==Box]>=Time)))
+            }
+            # Locate the ones who gets infected, and insert the time until they are well again
+            if(length(NuSick)>0){
+              IStatus[Time,which(BoxStatus[Time,]==Box)[NuSick]]<-Time + rpois(n = length(NuSick), DiseaseDuration)
+            }
+          }
+          
+          
+          
+        }
+      }
+    }
+    
+    # Move the infection statuses forward
+    IStatus[Time+1,]<-IStatus[Time,]
+    
+    
+  }
+  #print(unique(BoxStatus[1,]))
+  dt = rbindlist(lapply(1:sum(nInd), function(x){
+    dt = data.table(Ind = x, posX = xpos[,x], posY = ypos[,x], Box = BoxStatus[,x])
+    dt[,Time:=1:nrow(dt)]
+    dt[,lb:=lb[BoxStatus[,x]]][,ub:=ub[BoxStatus[,x]]][,Sick:=IStatus[,x]]
+    dt
+  }))
+  
+  dt[,SickNow:=ifelse(Time<=Sick,"Yes", "No")]
+  dt[,nInd:=uniqueN(Ind), c("Time", "Box")]
+  dt[,Prevalence:=length(which(.SD$SickNow=="Yes"))/nInd, c("Time", "Box")]
+  setorder(dt, Time, Ind)
+  return(dt)
+}
+
+
+tmp = DiseaseMotions(SimLength = 500, nBoxes = 4, DispRate = 0.00001)
+tmp2 = DiseaseMotions(SimLength = 500, nBoxes = 4, DispRate = 0.25)
+
+# ISSUES:
+# we sometimes loose arenas!
+  # is it because everyone moves away immediately?
+  #
+# and sometimes individuals tend to get lost in the south
+P1 = ggplot(data = tmp[,.SD[1], c("Time", "Box")], 
+       mapping = aes(x = Time, y = Prevalence))+
+  geom_line()+
+  facet_grid(.~Box)+
+  theme(axis.text.x = element_blank())
+
+S1 = ggplot(data = tmp, mapping = aes(x = posX, y = posY, col = factor(Ind),xmin = lb, ymin = lb, xmax = ub, ymax = ub))+
+  geom_point()+facet_grid(.~Box)+geom_rect(fill = NA, col = "black")+ theme(legend.position = "none")+
+  theme(axis.text.x = element_blank(), axis.ticks = element_blank()) + xlab("") + ylab("")
+
+
+P2 = ggplot(data = tmp2[,.SD[1], c("Time", "Box")], 
+            mapping = aes(x = Time, y = Prevalence))+
+  geom_line()+
+  facet_grid(.~Box)+
+  theme(axis.text.x = element_blank())
+
+S2 = ggplot(data = tmp2, mapping = aes(x = posX, y = posY, col = factor(Ind),xmin = lb, ymin = lb, xmax = ub, ymax = ub))+
+  geom_point()+facet_grid(.~Box)+geom_rect(fill = NA, col = "black")+ theme(legend.position = "none") + xlab("") + ylab("")
+
+
+plot_grid(S1, P1, S2, P2, byrow = F, nrow = 2)
+
+```
+
+Merk at figurene over autogenereres konstant. De øverste panelen viser plasseringen til de ulike individene til enhver tid (500 tidssteg), i de ulike bestandene. De nederste panelene viser hvor stor andel av delbestandene som er syk (prevalens) til enhver tid. Venstre kolonne viser med lav spredningsrate, høyre kolonne viser med høy spredningsrate. Ved lav spredningsrate så ser vi at viruset i stor grad forsvinner fra de enkelte bestandene, mens med høy spredningsrate kommer det stadig ny smitte inn i de enkelte delbestandene. 
+
+Her er det fortsatt noen bugs jeg må rette opp i: 
+  1) Noen ganger er det individ som bryter seg løs "sørover".
+  2) Noen ganger så forsvinner en delbestand uten at jeg vet hvorfor. Jeg tror det skjer når alle individene forsvinner samtidig. 
