@@ -5,8 +5,8 @@ description: |
 output_dir: "docs"
 navbar:
   right:
-    - text: "Home"
+    - text: "Hjem"
       href: index.html
-    - text: "About"
+    - text: "Om"
       href: about.html
 output: distill::distill_article
