@@ -4,6 +4,10 @@ description: |
   Jeg ville skrive noen tekster, derav denne blogg-greia. Det meste vil trolig være økologi-relatert, men kanskje det også dukker opp andre ting. Pedagogikken vil ikke alltid være i høysete, men får håpe at den er såpass at jeg skjønner mine egne tekster når jeg leser de igjen om noen år.  
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
-```
+# Instagram
+Her er [instagramen min](https://www.instagram.com/ego_3p/), nogenlunde like oppdatert som alt annet ved min netttilværelse. 
+
+**Linkinibios**
+
+  - https://www.oyposten.no/2021/12/11/skal-berga-unik-sumpskog-pa-kyrkjoy/
+  
