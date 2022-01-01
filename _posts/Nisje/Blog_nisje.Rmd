@@ -15,9 +15,9 @@ output:
 ---
 
 # Nisje
-Folk flest vet sånn noenlunde hva ordet *nisje* betyr. *Fundamental nisje* er den kombinasjoen av miljøvariabler som tillater en art å overleve. Veldig ofte vil temperatur være en viktig milljøvariabel. Det må som regel være passe varmt. Ikke for kaldt, men samtidig ikke for varmt. Videre så må det kanskje være tilgang på den og den andre typen mat, sommeren må være passe lang, og vinteren må innebære hvertfall en halv meter snø som ligger mer enn 3 måneder og bakken kan ikke ha for mye kalk i seg. Slik at i møte med omgivelsene (dvs. flere miljøvariabler) vil en art bare forekomme på de plassene som innfrir alle disse kravene (figur \@ref(fig:FIG1)). 
+Folk flest vet sånn noenlunde hva ordet *nisje* betyr. Innefor økologi skiller man mellom *fundamendal nisje* og *realisert nisje*.  *Fundamental nisje* er den kombinasjoen av miljøvariabler som tillater en art å overleve. Veldig ofte vil temperatur være en viktig milljøvariabel. Det må som regel være passe varmt. Ikke for kaldt, men samtidig ikke for varmt. Videre så må det kanskje være tilgang på den og den andre typen mat, sommeren må være passe lang, og vinteren må innebære hvertfall en halv meter snø som ligger mer enn 3 måneder og bakken kan ikke ha for mye kalk i seg. Slik at i møte med omgivelsene (dvs. flere miljøvariabler) vil en art bare forekomme på de plassene som innfrir alle disse kravene (figur \@ref(fig:FIG1)). 
 
-```{r FIG1, fig.height = 5, fig.width = 15, fig.align = "center", echo = F, fig.cap="En art finnes ikke overalt, bare hvor den kan overleve og reprodusere."}
+```{r FIG1, fig.height = 7, fig.width = 7, fig.align = "center", echo = F, fig.cap="En art finnes ikke overalt, bare hvor den kan overleve og reprodusere."}
 
 
 library(VGAM)
@@ -36,7 +36,7 @@ legend("bottomright", c("Fravær", "Art 1"), col = c("black", "red"), cex = 1.5,
 I møte med flere arter vil det også oppstå interaksjoner mellom artene som kan utvide eller begrense nisjen til en art (figur \@ref(fig:FIG2)). . Gjennom konkurranse kan en art fortrenge en annen. En snakker da om den *realiserte nisjen* til en art. 
 
 
-```{r FIG2, fig.height = 8, fig.width = 15, fig.align = "center", echo = F, fig.cap="En art finnes ikke overalt, bare hvor den kan overleve og reprodusere."}
+```{r FIG2, fig.height = 7, fig.width = 7, fig.align = "center", echo = F, fig.cap="En art finnes ikke overalt, bare hvor den kan overleve og reprodusere."}
 
 
 library(VGAM)
@@ -57,23 +57,22 @@ For at en art skal overleve må det være nok reproduksjon og overlevelse til at
 
 ```{r FIG3, fig.height = 8, fig.width = 15, fig.align = "center", echo = F, fig.cap="Fordel (blå), ulempe (rød) og nytte (grønn) knyttet til bruken av et miljø."}
 library(boot)
-library(boot)
 par(mfrow = c(1,3), bty = "L", omi = c(0,0,0,0), mar = c(4,5,0,0))
 curve(inv.logit(2+.35*x), from = -2, to = 2, ylim = c(0,1), col = "blue", xlab = "Miljøvariabel 1",
-      ylab = "Fordel/Ulempe", lwd = 2, cex.lab = 1.7, cex.axis = 1.3)
+      ylab = "Fordel/Ulempe", lwd = 2, cex.lab = 2.2, cex.axis = 1.7)
 abline(v = 0, lty = "dashed")
 curve(inv.logit(.25-2.5*x), from = -2, to = 2, add = T, col = "red", lwd = 2, cex.lab = 1.7, cex.axis = 1.3)
 curve((inv.logit(2+.35*x)*inv.logit(.25-2.5*x)), col = "green", add = T, lwd = 2, cex.lab = 1.7, cex.axis = 1.3)
 
 curve(inv.logit(.25+3.35*x), from = -2, to = 2, col = "blue", xlab = "Miljøvariabel 1",
-      ylab = "Fordel/Ulempe", lwd = 2, cex.lab = 1.7, cex.axis = 1.3)
+      ylab = "Fordel/Ulempe", lwd = 2, cex.lab = 2.2, cex.axis = 1.7)
 abline(v = 0, lty = "dashed")
 curve(inv.logit(.25+-4.5*x), from = -2, to = 2, add = T, col = "red", lwd = 2, cex.lab = 1.7, cex.axis = 1.3)
 curve((inv.logit(.25+-4.5*x)*inv.logit(.25+3.35*x)), col = "green", add = T, lwd = 2, cex.lab = 1.7, cex.axis = 1.3)
 
 
 curve(inv.logit(.25+3.35*x), from = -2, to = 2,  col = "blue", xlab = "Miljøvariabel 1",
-      ylab = "Fordel/Ulempe", lwd = 2, cex.lab = 1.7, cex.axis = 1.3)
+      ylab = "Fordel/Ulempe", lwd = 2, cex.lab = 2.2, cex.axis = 1.7)
 abline(v = 0, lty = "dashed")
 curve(inv.logit(.15-.5*x), from = -2, to = 2, add = T, col = "red", lwd = 2, cex.lab = 1.7, cex.axis = 1.3)
 curve((inv.logit(.25+3.35*x)*inv.logit(.15-.5*x)), col = "green", add = T, lwd = 2, cex.lab = 1.7, cex.axis = 1.3)
@@ -102,5 +101,3 @@ Lavere tilgjengelighet av habitat innebærer som regel lengre avstand mellom hab
 
 # Location, location, location
 Alt er en plass. Dyr har en preferanse for noen habitat som de velger, men de må også komme seg til de habitatene. @johnson1980comparison beskriver habitatvalg som hierarki av valg på ulike skalaer. Første-ordens er valg av artens geografiske utbredelse; andre-ordens valget er individets valg av hjemmeområde; tredje-ordens valget er habitatvalget innad i hjemmeområdet; og det fjerde-ordens valget er valget av matgjenstander (den busken, det skjellet osv.). De ulike romlige skalene vil også ha reflektere tidsskalaen ; snaker man om habitatvalg over et helt liv? Ett år? Ett døgn? Forskjeller i habitatvalg på ulike skala reflektere avveininger mellom ulike livshistorietrekk. @rettie2000hierarchical har foreslått at individ tilpasser seg de miljøvariablene som begrenser overlevelse og reproduksjon mest på de større skalaene (første- eller andre-ordens valg), slik at konsekvensene av habitatvalg for overlevelse og reproduksjon blir mindre og mindre jo lavere skale en ser på.
-
-Dette har også likheter med øybiogeografi (@macarthur2016theory).
