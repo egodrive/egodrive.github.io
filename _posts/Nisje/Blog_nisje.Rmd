@@ -1,8 +1,8 @@
 ---
-title: "Nisjeteori: Location, location, location"
+title: "Nisje: Location, location, location"
 description: > 
   Og hvor er min plass i dette n-dimensjonale hypervolumet?
-draft: true
+draft: false
 author:
   - name: Endre Grüner Ofstad
     affiliation_url: https://github.com/egodrive

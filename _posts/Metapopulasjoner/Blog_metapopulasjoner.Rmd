@@ -1,0 +1,426 @@
+---
+title: "Metapopulasjoner"
+description: > 
+  For vi er legion.
+draft: true
+author:
+  - name: Endre Grüner Ofstad
+    affiliation_url: https://github.com/egodrive
+bibliography: bibliography.bib
+categories:
+  - Økologi
+  - Økosystem
+output:
+  distill::distill_article:
+    self_contained: false
+    code_folding: true
+
+
+---
+
+
+En bestand er sjeldent alene. Man finner ofte flere små bestander av samme art spredt utover landskaper. Noen bestander er store, andre små. Noen som ligger tett sammen, andre som ligger mer isolert. Felles kalles disse bestandene (populasjon) for en *metapopulasjon* (@levins1969some, @levin1970community), eller 'populasjon av populasjoner'. Hvor landskapet mellom bestandene blir omtalt som 'matrisen'. 
+ 
+
+Hvis en betrakter $N$ bestander som kan finnes på *T* forskjellige steder blir $x$ bestander utryddet hvert år (utryddelsesrate), men $m'$ nye områder for tilførsel av nye individ hvert år (immigrasjonsrate). Endring i antall bestander hvert år ($t$) kan da beskrives som
+
+\begin{equation}
+\frac{dN}{dt} = m'N(T-N)-XN (\#eq:EQ1)
+\end{equation}
+
+Hvis en så setter $p = N/T$ hvor *p* er andelen av områder med en bestand , og $m = m'T$, vil gjøre likningen over til 
+
+\begin{equation}
+\frac{dp}{dt} = mp(1-p) - xp (\#eq:EQ2)
+\end{equation}
+
+som beskriver endringen in andel av områder med en bestand per år. Hvis endringen er 0, altså systemet er stabilt, vil andelen bebodde habitat være:  
+
+\begin{equation}
+\hat{p} = 1-x/m (\#eq:EQ3)
+\end{equation}
+
+Disse likningene er lik logistisisk vekst hvor likning \@ref(eq:EQ3) tilsvarer bæreevnen i logistisk vekst. 
+
+## Øyer
+Matrisen, området mellom bestandene, kan også være havet og områdene vi ser på være faktiske øyer. Og vi ser ikke på om et området har en bestand eller ikke, men hvor mange arter som finnes der. Vi snakker da om øybiogeografi (@macarthur2016theory). I øybiogeografi er antall arter på en øy avhengig av 
+
+-   Avstand til fastlandet (hvor en antar at alle aktuelle arter finnes): jo lengre unna øye er dess færre arter
+
+-   Størrelsen på øya: jo større øya er dess flere arter
+
+-   Tid isolert: jo kortere tid øya har vært isolert fra fastlandet dess flere arter er det. 
+
+```{r, echo = T, fig.cap="Hvordan antall inndvandringer og utvandringer er avhengig av avstand til fastland og arealet."}
+plot(seq(0, 20, by = 2), type = "l", lty = 2, xlab = "Antall arter", ylab = "Innvandringer/Utryddelser", col = "turquoise")
+lines(seq(0, 8, by = .8), col = "turquoise")
+lines(seq(8, 0, by = -.8), col = "coral")
+lines(seq(18, 0, by = -1.8), lty = 2, col = "coral")
+text(x = 2, y = 8, "Fjernt")
+text(x = 3, y = 16, "Nært")
+text(x = 9, y = 8, "Stor øy")
+text(x = 8, y = 16, "Liten øy")
+
+```
+
+Hvis en kan velge blant $P$ arter på fastlandet vil en øy på et gitt tidspunkt *t* ha *S* antall arter (gitt invasjonsrate $i_{\alpha}$ og utryddelsesrate $e_{\alpha}$ for art $\alpha$, @simberloff1970experimental). 
+
+$$
+S(t) = \sum_{\alpha = 1}^{P} \frac{i_{\alpha}}{i_{\alpha} + e_{\alpha}}(1-e^{-(i_{\alpha}+e_{\alpha})t}) 
+$$
+Per år så vil antall arter på en øy ($S_{s}$) kunne forandre seg ut fra $$\frac{dS_s}{dt} = i(P - S_s) - eS_s $$
+
+En vil så kunne se hvordan immigrasjon- og utryddelsesraten (hhv. $I(t)$ og $E(t)$) endrer seg. 
+
+$$
+I(t) = \sum_{\alpha = 1}^{P} i_{\alpha}- \frac{i_{\alpha}^{2}}{i_{\alpha} + e_{\alpha}}(1-e^{-(i_{\alpha}+e_{\alpha})t}) =  \sum_{\alpha = 1}^{P} i_{\alpha}  - i_{\alpha}S_{\alpha}(t)
+$$
+
+$$
+E(t) = \sum_{\alpha = 1}^{P} i_{\alpha}- \frac{i_{\alpha}e_{\alpha}}{i_{\alpha} + e_{\alpha}}(1-e^{-(i_{\alpha}+e_{\alpha})t}) =  \sum_{\alpha = 1}^{P} e_{\alpha}S_{\alpha}(t)
+$$
+Hvor $S_{\alpha}(t)$ er lik 1 hvis arten $\alpha$ er tilstede på øya ved tidspunkt $t$, og 0 ellers. 
+
+```{r, echo = T, cache = T, fig.height=7, fig.cap="Hvordan systemet vil konvergere til stabile verdier over tid."}
+# install package from http://cran.nexr.com/web/packages/island/index.html
+i_rates = rexp(n = 10, rate = 1.2)
+e_rates = rexp(n = 10, rate = .9)
+
+idx = seq(from = 0, to = 5, by = .1)
+Ss = sapply(idx, function(x){
+  sum((i_rates/(i_rates+e_rates))*(1 - exp(-(i_rates+e_rates)*x)))
+})
+It = sapply(idx, function(x){
+  sum(i_rates-(i_rates^2/(i_rates+e_rates))*(1 - exp(-(i_rates+e_rates)*x)))
+})
+
+Et = sapply(idx, function(x){
+  sum(((i_rates*e_rates)/(i_rates+e_rates))*(1 - exp(-(i_rates+e_rates)*x)))
+})
+
+par(mfrow = c(3,1), omi = c(0,0,0,0), mar = c(5,5,0,0), bty = "L")
+plot(It~idx, xlab = "Tidssteg", ylab = "Antall nye arter per tidssted", type = "l")
+plot(Et~idx, xlab = "Tidssteg", ylab = "Antall tapte arter per tidssteg", type = "l")
+plot(Ss~idx, xlab = "Tidssteg", ylab = "Antall arter på øya", type = "l")
+
+
+```
+
+
+
+
+
+## Alt er en plass
+@levin1970community antok at 1) alle habitat er like og derfor lik migrasjonsrater til og fra alle habitat, og 2) at habitat er enten bebodd eller ubebodd. Men alle habitat er ikke like: noen er små, store gode, dårlige, nærme eller fjernt unna. @hanski1994practical viser hvordan vi kan ta hensyn til dette (kan også anbefale å lese @hanski2000metapopulation). Der blir utryddelsesraten satt til å synke dess større habitatet er, $E_{i} = \frac{e}{A_{i}^{x}}$. Mens immigrasjonsraten ($S_{i}$) er en funksjon av størrelsen ($A_{j}$) og avstanden ($d_{ij}$) til habitatene rundt og hvorvidt det er individ der ($p_{j}$): $S_{i} = c \sum_{j  = 1}^{N} = p_{j}A_{j}e^{(-\alpha d_{ij})}$^[Vi antar stort antall øyer, og at Allee-effekten er neglisjerbar og ser bort fra $y^2$, @hanski1994practical].
+
+
+Den virkelige verden er ikke et tilfeldig utvalg. Den har kanskje kommet dit som en rekke av tilfeldige hendelser, men hvor den stopper er ikke tilfeldig.
+
+Trykk her for å se koden hvor vi leter fram til fornuftige utvalg av parameterverdier å velge blant. 
+
+```{r METAROM PARAMETER TESTING, eval = F}
+library(ggplot2);library(ggExtra);library(data.table)
+ParameterSpace = expand.grid(nIterations = 1:3,
+                             RangeØyer = seq(40,60,length.out = 1),
+                             RangeStartProp = seq(.2,.4,length.out = 3),
+                             RangeLandskap = seq(3.1,3.7,length.out = 3),
+                             RangeKonstantC = seq(.45,.75,length.out =  3),
+                             RangeKonstantE = seq(75,100,length.out = 5))
+ParameterSpace$SnittPrevalens = NA
+ParameterSpace$SdPrevalens = NA
+
+for(i in 1:nrow(ParameterSpace)){
+  print(paste(i , "av", nrow(ParameterSpace)))
+  # Antall øyer/habitat i systemet
+  nØyer = ParameterSpace$RangeØyer[i] #i
+  
+  # lengde på tidsserie
+  tmax = 25
+  
+  # Sett et frø for utgangspunkt
+  #set.seed(999)
+  # Tilfeldig antall øyer er bebodd, og tilfeldig hvilken av disse
+  #AntallBebodd = sample(1:nØyer,1)
+  AntallBebodd = ParameterSpace$RangeStartProp[i]*nØyer #i
+  Bebodd = sample(1:nØyer,AntallBebodd)
+  
+  Tilstede = rep(0, nØyer)
+  Tilstede[Bebodd]<-1
+  TidsserieTilstede = matrix(rep(rep(NA, nØyer), tmax), ncol = nØyer)
+  TidsserieTilstede[1,]<-Tilstede
+  
+  TidsserieKoloniseringsrater = matrix(rep(rep(NA, nØyer), tmax), ncol = nØyer)
+  TidsserieKoloniseringsrater[1,]<-0
+  
+  # tilfeldig plassering av øyene
+  ArenaStørrelse = ParameterSpace$RangeLandskap[i]
+  xPos = runif(n = nØyer, min = 0, max = ArenaStørrelse)
+  yPos = runif(n = nØyer, min = 0, max = ArenaStørrelse)
+  # Tilfeldig størrelse
+  ØyStr = rlnorm(n = nØyer, meanlog = .1, sdlog = .1) #Ai
+  
+  # Regn ut mellom-øy avstand
+  MellomØyAvstand = dist(cbind(xPos, yPos), diag = T, upper = T) # dij
+  Alpha = -1#1/mean(MellomØyAvstand)
+  
+  # Konstanter
+  c_konstant = ParameterSpace$RangeKonstantC[i]
+  e_konstant = ParameterSpace$RangeKonstantE[i]
+  
+  # Utryddelsesrater er konstant over tid
+  UtryddelsesRateØy_i = e_konstant/ØyStr
+  
+  # fra Hanski, Ilkka, et al. "The quantitative incidence function model and persistence of an endangered butterfly metapopulation." Conservation Biology 10.2 (1996): 578-590.
+  ØystrEffekt = 0.952
+  muTick = 0.158
+  
+  AjAi = sapply(ØyStr, function(x) x*ØyStr)
+  mij = exp(-Alpha*as.matrix(MellomØyAvstand))*AjAi # number of immigrants
+ 
+  # Tidssteg 
+  t = 2
+  
+  while(t<tmax){
+    KoloniseringsRateØy_i = sapply(1:nØyer, function(i){
+      c_konstant*sum(Tilstede[-i]*ØyStr[-i]*
+                       exp(-Alpha*as.matrix(MellomØyAvstand)[-i,i]))}) # Si
+    
+    TidsserieKoloniseringsrater[t,]<-KoloniseringsRateØy_i
+    
+    # Sannsynligheten for bebodd øy
+    Pi = KoloniseringsRateØy_i/(KoloniseringsRateØy_i + UtryddelsesRateØy_i) # Også kjent som Ji
+    #Pi = 1/(1+(muTick/(KoloniseringsRateØy_i*ØyStr^ØystrEffekt)))
+    Kolonisert = sapply(Pi, function(x) sample(0:1, 1, prob = c(1-x,x)))
+    
+    # Oppdater bebodd-status
+    Tilstede<-Kolonisert
+    TidsserieTilstede[t,]<-Tilstede
+    # Oppdater tidssteg
+    t = t+1
+  }
+  
+  
+  
+  ParameterSpace$SnittPrevalens[i] = median(rowMeans(TidsserieTilstede), na.rm = T)
+  ParameterSpace$SdPrevalens[i] = sd(rowMeans(TidsserieTilstede), na.rm = T)
+}
+
+# library(ggplot2);library(ggExtra);library(gridExtra)
+p1 = ggplot()+
+  geom_point(mapping = aes(x = xPos, y = yPos, size = ØyStr), pch = 21, show.legend = FALSE)+
+  ggtitle(paste("Utgangstetthet:", mean(TidsserieTilstede[1,])))
+p2 = ggplot()+
+  geom_line(mapping = aes(x = 1:tmax, y = rowMeans(TidsserieTilstede)))+
+ ylab("Andel bebodde") + ylab("Tidssteg")
+grid.arrange(p1, p2, nrow = 2)
+
+```
+
+For pedagogikkens skyld så viser vi i figur \@ref(fig:METAROM) et system av habitat med noegnlunde stabile dynamikker, men dette er ikke alltid tilfelle.
+
+```{r METAROM, echo = F, cache = T, fig.width=7, fig.height=8, fig.cap="Populasjonene er spredt utover landskapet, og migrasjonen mellom de er avengig av arealet og avstanden til populasjonene rundt. Trykk `Show code` over for parameterverdier for simuleringen."}
+library(ggplot2);library(ggExtra);library(data.table)
+
+# Antall øyer/habitat i systemet
+nØyer = 40 #i
+
+# lengde på tidsserie
+tmax = 500
+
+# Sett et frø for utgangspunkt
+#set.seed(999)
+# Tilfeldig antall øyer er bebodd, og tilfeldig hvilken av disse
+#AntallBebodd = sample(1:nØyer,1)
+AntallBebodd = ceiling(nØyer*.2)
+Bebodd = sample(1:nØyer,AntallBebodd)
+
+Tilstede = rep(0, nØyer)
+Tilstede[Bebodd]<-1
+TidsserieTilstede = matrix(rep(rep(NA, nØyer), tmax), ncol = nØyer)
+TidsserieTilstede[1,]<-Tilstede
+
+TidsserieKoloniseringsrater = matrix(rep(rep(NA, nØyer), tmax), ncol = nØyer)
+TidsserieKoloniseringsrater[1,]<-0
+
+
+# tilfeldig plassering av øyene
+ArenaStørrelse = 3.4
+xPos = runif(n = nØyer, min = 0, max = ArenaStørrelse)
+yPos = runif(n = nØyer, min = 0, max = ArenaStørrelse)
+# Tilfeldig størrelse
+ØyStr = rlnorm(n = nØyer, meanlog = .1, sdlog = .1) #Ai
+
+# Regn ut mellom-øy avstand
+MellomØyAvstand = dist(cbind(xPos, yPos), diag = T, upper = T) # dij
+Alpha = -1#1/mean(MellomØyAvstand)
+
+# Konstanter
+c_konstant = .6
+e_konstant = 87
+
+# Utryddelsesrater er konstant over tid
+UtryddelsesRateØy_i = e_konstant/ØyStr
+
+# fra Hanski, Ilkka, et al. "The quantitative incidence function model and persistence of an endangered butterfly metapopulation." Conservation Biology 10.2 (1996): 578-590.
+ØystrEffekt = 0.952
+muTick = 0.158
+
+AjAi = sapply(ØyStr, function(x) x*ØyStr)
+mij = exp(-Alpha*as.matrix(MellomØyAvstand))*AjAi # number of immigrants
+#print(eigen(mij)$values[1])
+
+# Tidssteg 
+t = 2
+
+while(t<tmax){
+  KoloniseringsRateØy_i = sapply(1:nØyer, function(i){
+    c_konstant*sum(Tilstede[-i]*ØyStr[-i]*
+                     exp(-Alpha*as.matrix(MellomØyAvstand)[-i,i]))
+  }) # Si
+  
+  TidsserieKoloniseringsrater[t,]<-KoloniseringsRateØy_i
+  
+  # Sannsynligheten for bebodd øy
+  Pi = KoloniseringsRateØy_i/(KoloniseringsRateØy_i + UtryddelsesRateØy_i) # Også kjent som Ji
+  #Pi = 1/(1+(muTick/(KoloniseringsRateØy_i*ØyStr^ØystrEffekt)))
+  Kolonisert = sapply(Pi, function(x) sample(0:1, 1, prob = c(1-x,x)))
+  
+  # Oppdater bebodd-status
+  Tilstede<-Kolonisert
+  TidsserieTilstede[t,]<-Tilstede
+  # Oppdater tidssteg
+  t = t+1
+}
+
+
+library(ggplot2);library(ggExtra);library(gridExtra)
+p1 = ggplot()+xlab("Koordinat x")+ylab("Koordinat y")+
+  geom_point(mapping = aes(x = xPos, y = yPos, fill = colMeans(TidsserieTilstede, na.rm = T), size = ØyStr), pch = 21, show.legend = F)
+p2 = ggplot()+
+  geom_line(mapping = aes(x = 1:tmax, y = rowMeans(TidsserieTilstede)))+
+  ylab("Andel bebodde habitat")+xlab("Tidssteg")
+grid.arrange(p1, p2, nrow = 3, 
+             layout_matrix = cbind(c(1,1,1,1,2,2), c(1,1,1,1,2,2)))
+
+
+
+
+
+```
+
+Dette systemet er blitt brukt til å finne ut hvordan bestander av sommerfuglen prikkrutevinge (*Melitaea cinxia*) på øyene i Åland svinger fra år til år (@hanski1996quantitative). Her beveger den seg mellom øyer og mellom de tørre blomsterengene som den trives i. 
+
+## I gode og onde dager
+I den virkelige verden finnes det også gode og dårlige år. Slike tilfeldigheter (som skjer innenfor et visst omfang) kalles for *miljøstokastisitet*. Miljøstokastisitet rammer alle bestander like mye - store bestander vil riktignok kunne tåle det bedre enn mindre bestander. Habitatstørrelsen $A_{j}$ i forrige del kan også tolkes som habitatkvalitet. Gode og dårlige år kan derfor simuleres ved å lage en normalfordeling rundt 0 hvor en trekker en verdi for hvert år, som så legges til alle habitatstørrelser. Økende stokastisitet vil tilsi at en øker variansen normalfordelingen man trekker ifra. Økende varians vil derfor medføre at en vil få enda bedre gode år, men tilsvarende også enda verre dårlige år (figur \@ref(fig:MILJOSTOK)).   
+
+
+```{r MILJOSTOK, cache = T, fig.align = "center", fig.width=8, fig.height=11, echo = F, fig.cap="Stokastisitet reduserer minimum og gjennomsnittlige andelen av habitat som over tid har en bestand, samt det reduserer veksten av bebodde habitat. "}
+ParameterSpace = expand.grid(nIterations = 1:50,
+                             RangeØyer = seq(40,60,length.out = 1),
+                             RangeStartProp = seq(.35,.6,length.out = 1),
+                             RangeLandskap = seq(3.4,3.7,length.out = 1),
+                             RangeKonstantC = seq(.4,.75,length.out =  1),
+                             RangeKonstantE = seq(240,100,length.out = 1),
+                             eNoise = seq(0,3,length.out = 4))
+ParameterSpace$SnittPrevalens = NA
+ParameterSpace$SdPrevalens = NA
+ParameterSpace$MinPrevalens = NA
+ParameterSpace$AndelUtvikling = NA
+for(i in 1:nrow(ParameterSpace)){
+  #print(paste(i , "av", nrow(ParameterSpace)))
+  # Antall øyer/habitat i systemet
+  nØyer = ParameterSpace$RangeØyer[i] #i
+  
+  # lengde på tidsserie
+  tmax = 100
+  
+  # Sett et frø for utgangspunkt
+  #set.seed(999)
+  # Tilfeldig antall øyer er bebodd, og tilfeldig hvilken av disse
+  #AntallBebodd = sample(1:nØyer,1)
+  AntallBebodd = ParameterSpace$RangeStartProp[i]*nØyer #i
+  Bebodd = sample(1:nØyer,AntallBebodd)
+  
+  Tilstede = rep(0, nØyer)
+  Tilstede[Bebodd]<-1
+  TidsserieTilstede = matrix(rep(rep(NA, nØyer), tmax), ncol = nØyer)
+  TidsserieTilstede[1,]<-Tilstede
+  TidsArray = array(rep(TidsserieTilstede, tmax), dim = c(nØyer, tmax, max(ParameterSpace$nIterations)))
+  dim(TidsArray)
+  
+  
+  TidsserieKoloniseringsrater = matrix(rep(rep(NA, nØyer), tmax), ncol = nØyer)
+  TidsserieKoloniseringsrater[1,]<-0
+  
+  # tilfeldig plassering av øyene
+  ArenaStørrelse = ParameterSpace$RangeLandskap[i]
+  xPos = runif(n = nØyer, min = 0, max = ArenaStørrelse)
+  yPos = runif(n = nØyer, min = 0, max = ArenaStørrelse)
+  # Tilfeldig størrelse
+  ØyStr = rlnorm(n = nØyer, meanlog = .1, sdlog = .2) #Ai
+  
+  # Regn ut mellom-øy avstand
+  MellomØyAvstand = dist(cbind(xPos, yPos), diag = T, upper = T) # dij
+  Alpha = -1#1/mean(MellomØyAvstand)
+  
+  # Konstanter
+  c_konstant = ParameterSpace$RangeKonstantC[i]
+  e_konstant = ParameterSpace$RangeKonstantE[i]
+  
+  eNoise = ParameterSpace$eNoise[i]
+  # Utryddelsesrater er konstant over tid
+  UtryddelsesRateØy_i = e_konstant/ØyStr
+  
+  # fra Hanski, Ilkka, et al. "The quantitative incidence function model and persistence of an endangered butterfly metapopulation." Conservation Biology 10.2 (1996): 578-590.
+  ØystrEffekt = 0.952
+  muTick = 0.158
+  
+  AjAi = sapply(ØyStr, function(x) x*ØyStr)
+  mij = exp(-Alpha*as.matrix(MellomØyAvstand))*AjAi # number of immigrants
+  
+  # Tidssteg 
+  t = 2
+  NoiseE = rnorm(n = tmax, sd = eNoise)
+  while(t<tmax){
+    
+    KoloniseringsRateØy_i = sapply(1:nØyer, function(i){
+      Aj = ØyStr[-i]
+      Aj = Aj +NoiseE
+      c_konstant*sum(Tilstede[-i]*Aj*
+                       exp(-Alpha*as.matrix(MellomØyAvstand)[-i,i]))}) # Si
+    
+    TidsserieKoloniseringsrater[t,]<-KoloniseringsRateØy_i
+    
+    # Sannsynligheten for bebodd øy
+    Pi = KoloniseringsRateØy_i/(KoloniseringsRateØy_i + UtryddelsesRateØy_i) # Også kjent som Ji
+    Pi = ifelse(Pi>1,1,ifelse(Pi<0,0,Pi))
+    
+    Kolonisert = sapply(Pi, function(x) sample(0:1, 1, prob = c(1-x,x)))
+    
+    # Oppdater bebodd-status
+    Tilstede<-Kolonisert
+    TidsserieTilstede[t,]<-Tilstede
+    # Oppdater tidssteg
+    t = t+1
+  }
+  
+  ParameterSpace$SnittPrevalens[i] = median(rowMeans(TidsserieTilstede), na.rm = T)
+  ParameterSpace$SdPrevalens[i] = sd(rowMeans(TidsserieTilstede), na.rm = T)
+  ParameterSpace$MinPrevalens[i] = min(rowMeans(TidsserieTilstede), na.rm = T)
+  ParameterSpace$AndelUtvikling[i] = coef(lm(rowMeans(TidsserieTilstede)~I(1:length(rowMeans(TidsserieTilstede)))))[2]
+}
+
+library(ggplot2);library(cowplot);library(scales)
+p1 = ggplot(data = ParameterSpace, aes(y = MinPrevalens, x = eNoise, group = factor(eNoise)))+geom_boxplot()+theme_cowplot()+
+  theme(axis.title.x = element_blank(), axis.text.x = element_blank())+ylab("Andel (minimum)")
+p2 = ggplot(data = ParameterSpace, aes(y = SnittPrevalens, x = eNoise, group = factor(eNoise)))+geom_boxplot()+theme_cowplot()+
+  theme(axis.title.x = element_blank(), axis.text.x = element_blank())+ylab("Andel (gj.snitt)")
+
+p3 = ggplot(data = ParameterSpace, aes(y = AndelUtvikling*200, x = eNoise, group = factor(eNoise)))+geom_hline(yintercept = 0, linetype="dashed")+theme_cowplot()+
+  geom_boxplot()+ylab("Endring per år x 200") + xlab("Miljøstokastisitet")#+
+  #scale_y_continuous(breaks = seq(-.2,.2,.1))+coord_cartesian(ylim = c(-0.1,0.1))
+
+grid.arrange(p1,p2,p3)
+
+```
+
