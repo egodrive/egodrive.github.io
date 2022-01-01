@@ -1,0 +1,107 @@
+---
+title: "Nisjeteori: Location, location, location"
+description: > 
+  Og hvor er min plass i dette n-dimensjonale hypervolumet?
+draft: true
+author:
+  - name: Endre Grüner Ofstad
+    affiliation_url: https://github.com/egodrive
+bibliography: bibliography.bib
+categories:
+  - Økologi
+  - Økosystem
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+# Nisje
+*Fundamental nisje* er den kombinasjoen av miljøvariabler som tillater at en art å overleve. Veldig ofte vil temperatur være en viktig variabel. Det må som regel være passe varmt. Ikke for kaldt, men samtidig ikke for varmt. Videre så må det være tilgang på den og den maten, sommeren må være passe lang, og vinteren må innebære hvertfall en halv meter snø som ligger mer enn 3 måneder og bakken kan ikke ha for mye kalk i seg. 
+Slik at i møte med flere miljøvariabler vil en art bare forekomme i et begrenset omfang (figur \@ref(fig:FIG1)). 
+
+```{r FIG1, fig.height = 5, fig.width = 15, fig.align = "center", echo = F, fig.cap="En art finnes ikke overalt, bare hvor den kan overleve og reprodusere."}
+
+
+library(VGAM)
+tmp = rbinorm(n=200,      mean1 = 0, mean2 = 0, var1 = 1, var2 = 1, cov12 = 0)
+tmp2 = rbinorm(n=100,      mean1 = 0, mean2 = 0, var1 = .2, var2 = .2, cov12 = .1)
+tmp3 = rbinorm(n=100,      mean1 = 0.72, mean2 = 0.5, var1 = .2, var2 = .2, cov12 = -.1)
+
+plot(tmp[,1], tmp[,2], pch = 19, cex = 1.5, xlab = "Miljøvariabel 1", ylab= "Miljøvariabel 2")
+points(tmp2[,1], tmp2[,2], col = "red", pch = 19, cex = 1.5)
+
+legend("bottomright", c("Fravær", "Art 1"), col = c("black", "red"), cex = 1.5, pch = 19)
+
+
+```
+I møte med flere arter vil det også oppstå interaksjoner som kan utvide eller begrense nisjen til en art (figur \@ref(fig:FIG2)). . Gjennom konkurranse kan en art fortrenge en annen. En snakker da om den *realiserte nisjen* til en art. 
+
+
+```{r FIG2, fig.height = 5, fig.width = 15, fig.align = "center", echo = F, fig.cap="En art finnes ikke overalt, bare hvor den kan overleve og reprodusere."}
+
+
+library(VGAM)
+tmp3 = rbinorm(n=100,      mean1 = 0.72, mean2 = 0.5, var1 = .2, var2 = .2, cov12 = -.1)
+
+plot(tmp[,1], tmp[,2], pch = 19, cex = 1.5, xlab = "Miljøvariabel 1", ylab= "Miljøvariabel 2")
+points(tmp2[,1], tmp2[,2], col = "red", pch = 19, cex = 1.5)
+points(tmp3[,1], tmp3[,2], col = "blue", pch = 19, cex = 1.5)
+
+legend("bottomright", c("Fravær", "Art 1", "Art 2"), col = c("black", "red", "blue"), cex = 1.5, pch = 19)
+```
+*Biotop* er når en utvider habitatkonseptet til flere arter (@Whittaker1973). Hvor art 1 og 2 i figuren utgjør sammen med den den delen av miljøvariabelen de befinner seg på et biotop. Dette er et system som også går igjen i naturtype-systemet i Norge: [Natur i Norge (NiN)](https://www.artsdatabanken.no/NiN). Hvor såkalte *lokale komplekse miljøvariabler* (forferdelig lite pedagogisk navn) tilsvarer en miljøvariabel som for eksempel kalkinnhold. Her vil f.eks. fastmarksskogsmark bli kalt for et *hovedtypegruppe* (også kalt for et økosystem i @halvorsen2020), men en skog med gitt kalkinnhold og uttørkingsfare kan være [kalklågurt-skog](https://www.artsdatabanken.no/Pages/171923/Fastmarksskogsmark). Kalklågurt-skog vil være en *naturtype*, men også en biotop for den karakteriseres av de artene man finner innenfor gitte miljøparametre. Dette er basert på det [generaliserte artslistedatasett](https://artsdatabanken.no/Pages/200275).  
+
+## Hvorfor starter og slutter nisjen?
+Det meste i livet består av avveininger. Som nevnt over så er det viktig at det er passe varmt. Er det for kaldt så vil ikke kroppen kunne lage nok varme og vi vil fryse i hjel, og ved for varmt vil ikke kroppen kunne kjøle seg nok ned og en vil dø av overoppheting. I noen tilfeller kan avveiningen også skje på grunn av samspill med andre arter, eller fordelene kan inntreffe på en del av livet og kostnadene i en annen del. For en rekke arter vil det være gunstig å bruke visse deler av habitatet fordi der er det mye bra mat tilgjengelig som igjen fører til at de kan vokse seg store, få unger og fø opp disse. Men dette er jo også noe rovdyrene lærer slik at å tilbringe for mye tid der kan innebære en økt sannsynlighet for å bli spist. Så hvor mye tid skal man tilbringe der?
+
+For at en art skal overleve må det være nok reproduksjon og overlevelse til at en på lang sikt minimum går i null. Dette kan igjen knyttes til miljøet. Hvis en følger eksempelet over for art 1. La oss si at jo mer du øker miljøvariabel 1 dess flere avkom får du, men det reduserer hvor lenge du vil leve. På en årlig basis så kan en si at en øker sannsynligheten for å få et avkom, men en reduserer sannsynligheten for at du overlever til neste år. Over tid vil disse to faktorene - overlevelse og reproduksjon - bestemmer hvor mange avkom ett individ vil få iløpet av livet (*lifetime reproductive success*). Den optimale strategien (*nytte* hvis man bruker ressursøkonomiske begreper) kan vi da finne ved å se på ved å multiplisere disse to funksjonene med hverandre (figur \@ref(fig:FIG3)). Dette kommer også frem av [denne studien](https://besjournals.onlinelibrary.wiley.com/doi/10.1111/1365-2656.13221) (*snikskryt*). 
+
+```{r FIG3, fig.height = 5, fig.width = 15, fig.align = "center", echo = F, fig.cap="Fordel (blå), ulempe (rød) og nytte (grønn) knyttet til bruken av et miljø."}
+library(boot)
+library(boot)
+par(mfrow = c(1,3), bty = "L", omi = c(0,0,0,0), mar = c(4,5,0,0))
+curve(inv.logit(2+.35*x), from = -2, to = 2, ylim = c(0,1), col = "blue", xlab = "Miljøvariabel 1",
+      ylab = "Fordel/Ulempe", lwd = 2, cex.lab = 1.7, cex.axis = 1.3)
+abline(v = 0, lty = "dashed")
+curve(inv.logit(.25-2.5*x), from = -2, to = 2, add = T, col = "red", lwd = 2, cex.lab = 1.7, cex.axis = 1.3)
+curve((inv.logit(2+.35*x)*inv.logit(.25-2.5*x)), col = "green", add = T, lwd = 2, cex.lab = 1.7, cex.axis = 1.3)
+
+curve(inv.logit(.25+3.35*x), from = -2, to = 2, col = "blue", xlab = "Miljøvariabel 1",
+      ylab = "Fordel/Ulempe", lwd = 2, cex.lab = 1.7, cex.axis = 1.3)
+abline(v = 0, lty = "dashed")
+curve(inv.logit(.25+-4.5*x), from = -2, to = 2, add = T, col = "red", lwd = 2, cex.lab = 1.7, cex.axis = 1.3)
+curve((inv.logit(.25+-4.5*x)*inv.logit(.25+3.35*x)), col = "green", add = T, lwd = 2, cex.lab = 1.7, cex.axis = 1.3)
+
+
+curve(inv.logit(.25+3.35*x), from = -2, to = 2,  col = "blue", xlab = "Miljøvariabel 1",
+      ylab = "Fordel/Ulempe", lwd = 2, cex.lab = 1.7, cex.axis = 1.3)
+abline(v = 0, lty = "dashed")
+curve(inv.logit(.15-.5*x), from = -2, to = 2, add = T, col = "red", lwd = 2, cex.lab = 1.7, cex.axis = 1.3)
+curve((inv.logit(.25+3.35*x)*inv.logit(.15-.5*x)), col = "green", add = T, lwd = 2, cex.lab = 1.7, cex.axis = 1.3)
+#legend("bottomright", c("Fordel", "Ulempe","Nytte"), c("blue", "red", "green"), lwd = 2)
+```
+
+Den største trusselen mot arter i Norge er habitatendringer - det være seg tap eller forringing av habitat. Ved forvaltningsavgjørelser kan en ofte bli møtt av påstanden "Men den arten finnes jo også *der* og *der*, så vi kan bygge ned her." Når her er den plassen det finnes mest av en art så er det en grunn til det. 
+
+Selv om en art kan bruke to områder så vil det som regel velge et fremfor det andre. Dette reflektere at et område har 1) økt energiopptak per mat-gjenstand, men også 2) mindre tid på å fordøye hver mat-gjenstand (macarthur1966optimal). Valg av føde kan derfor føre til både *mer* og *bedre* mat, og en multiplikativ økning i energiopptaket (*multiplier effect*, white1983foraging). Det ble tidlig anerkjent at områder tilgjengelig for en art sjelden ble brukt i den grad de var tilgjengelig, noen områder ble brukt forholdsmessig ofte: "[dyret] spiser ved et tydelig valg" (@hardy1924herring). Når områdebruken ikke er proporsjonal med tilgjengeligheten sier man at bruken er selektiv og at det foregår *habitatvalg* (*habitat selection*, @johnson1980comparison). Valg skjer enten ved at man tilbringer lengre tid eller vender oftere tilbake til områder med høyere nytte (@bastille2010inference). Man ser at større valg ofte er assosiert med økt overlevelse eller reproduksjon (@allen2017habitat, @mcloughlin2006lifetime, @losier2015adjustments).
+
+
+
+## Hvor starter og slutter en nisje?
+Hvor starter og slutter nisjen til en art? Grovt sett vil den jo finnes i det området hvor den kan overleve og reprodusere, jf. arealet under den grønne linjen i figur \@ref(fig:FIG3). Men muligheten til å kunne tallfeste dette kan fortelle oss hvor vi kan finne skadedyr, høstbare arter, eller sjeldne arter. Slik at dette er et viktig tema som har fått mye oppmerksom siden 1990-tallet og frem til idag. Habitatseleksjon gjør at vi kan knytte ulike habitat og områder til arter sin reproduksjon og overlevelse (@boyce1999relating). For eksempel kan to hjorter tilbringe 40 % av tiden sin i løvskog (bruken kalles ofte U[x], *use distribution*), men en hjort holder til i et områder med 30 % tilgjengelig løvskog, mens den andre i et området med 40 % tilgjenglig løvskog (kjent som A[x], *availability distribution*). Å sammenligne bruken deres vil derfor ikke reflektere i hvor stor grad dyret vil *velge* løvskog når det har muligheten til det. Hvis man ser på graden av valg ('selection ratio'/SR) vil vise at det første dyret vil i mindre grad velge løvskog enn det andre dyret (SR[x] = U[x]/A[x]; 40/30 = 1.33 vs 40/10 = 4.00). 
+
+I systemet nevnt over, Natur i Norge (NiN) så bruker man [ordinasjonsteknikker](https://www.sciencedirect.com/topics/agricultural-and-biological-sciences/ordination-techniques). Man kan lese mer om dette i @halvorsen2020. Dette har mye til felles med en rekke andre statistiske metoder som alle faller inn under paraply-begrepet *inhomogene Poisson-prosesser*. Hvor man ganske enkelt sammenligner med tilstedeværelse (eller antall) og fravær av arter/individ i ulike miljø. Fravær er like viktig som tilstedeværelse, derav alle de svarte prikkene i figurene øverst.
+
+Se figur \@ref(fig:FIG3)
+
+Den interesserte leser anbefales sterkt å fordype seg i @aarts2013quantifying, @aarts2012comparative og @lele2013selection.
+
+## Når tilgjengeligheten av habitat forandrer seg
+Når tilgjengeligheten av habitat forandrer seg så kan også nytten av å bruke den forandre seg, og derfor også habitatvalget. En snakker om en *funksjonell respons i habitatvalg* (@mysterud1999habitat). Funksjonell respons kan skyldes avveininger mellom ulike atferder (@beyer2010interpretation), fysiologiske begrensninger (@melin2014moose), eller variere med hvordan dyr oppfatter habitatene de velger blant (@van2013inferring). For eksempel vil hjortedyr ofte velge åpne enger eller åkre ved lav tilgjengelighet, men redusere valget av det med økende tilgjengelighet. Dette kan f.eks. skyldes at å velge åpne enger hele tiden vil innebære en for stor risiko for rovdyr, eller at de må ha en mer balansert diet som også inkluderer annen føde. 
+
+Lavere tilgjengelighet av habitat innebærer som regel lengre avstand mellom habitat, som spising må kompensere for. Dess lengre man må forflytte seg mellom habitat, jo mer må habitatet utnyttes for å kompensere for bevegelseskostnadene ('*marginal value theorem*', @charnov1976optimal). Dette innebærer at ikke bare tilgjengeligheten i seg selv, men også hvordan den er fordelt i landskapet påvirker kost-nytten ved habitatvalg. Avslutningsvis vil også tilgjengeligheten være avhengig av bestandstettheten. Med økende tetthet vil en forvente at nytten av å bruke et habitat vil bli mindre ('*ideal free distribution*', @fretwell1969territorial, @morris1987spatial)
+
+# Location, location, location
+Alt er en plass. Dyr har en preferanse for noen habitat som de velger, men de må også komme seg til de habitatene. @johnson1980comparison beskriver habitatvalg som hierarki av valg på ulike skalaer. Første-ordens er valg av artens geografiske utbredelse; andre-ordens valget er individets valg av hjemmeområde; tredje-ordens valget er habitatvalget innad i hjemmeområdet; og det fjerde-ordens valget er valget av matgjenstander (den busken, det skjellet osv.). De ulike romlige skalene vil også ha reflektere tidsskalaen ; snaker man om habitatvalg over et helt liv? Ett år? Ett døgn? Forskjeller i habitatvalg på ulike skala reflektere avveininger mellom ulike livshistorietrekk. @rettie2000hierarchical har foreslått at individ tilpasser seg de miljøvariablene som begrenser overlevelse og reproduksjon mest på de større skalaene (første- eller andre-ordens valg), slik at konsekvensene av habitatvalg for overlevelse og reproduksjon blir mindre og mindre jo lavere skale en ser på.
+
+Dette har også likheter med øybiogeografi (@macarthur2016theory).

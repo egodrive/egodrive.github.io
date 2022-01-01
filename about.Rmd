@@ -1,7 +1,7 @@
 ---
-title: "About this blog"
+title: "Om bloggen"
 description: |
-  Some additional details about the blog
+  Her kommer det sikkert noe mer fornuftig til neste gang. 
 ---
 
 ```{r setup, include=FALSE}
