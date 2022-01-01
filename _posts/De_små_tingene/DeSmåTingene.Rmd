@@ -2,6 +2,7 @@
 title: "De små tingene"
 description: > 
   Hvis jeg gjør det jeg kan på mitt kontor, og du på ditt så må vi vel alle bli fornøyde med samfunnet?
+draft: true
 author:
   - name: Endre Grüner Ofstad
 bibliography: bibliography.bib

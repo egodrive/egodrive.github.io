@@ -16,8 +16,7 @@ output:
 ---
 
 # Nisje
-*Fundamental nisje* er den kombinasjoen av miljøvariabler som tillater at en art å overleve. Veldig ofte vil temperatur være en viktig variabel. Det må som regel være passe varmt. Ikke for kaldt, men samtidig ikke for varmt. Videre så må det være tilgang på den og den maten, sommeren må være passe lang, og vinteren må innebære hvertfall en halv meter snø som ligger mer enn 3 måneder og bakken kan ikke ha for mye kalk i seg. 
-Slik at i møte med flere miljøvariabler vil en art bare forekomme i et begrenset omfang (figur \@ref(fig:FIG1)). 
+*Fundamental nisje* er den kombinasjoen av miljøvariabler som tillater en art å overleve. Veldig ofte vil temperatur være en viktig variabel. Det må som regel være passe varmt. Ikke for kaldt, men samtidig ikke for varmt. Videre så må det være tilgang på den og den maten, sommeren må være passe lang, og vinteren må innebære hvertfall en halv meter snø som ligger mer enn 3 måneder og bakken kan ikke ha for mye kalk i seg. Slik at i møte med omgivelsene (dvs. flere miljøvariabler) vil en art bare forekomme i et begrenset omfang (figur \@ref(fig:FIG1)). 
 
 ```{r FIG1, fig.height = 5, fig.width = 15, fig.align = "center", echo = F, fig.cap="En art finnes ikke overalt, bare hvor den kan overleve og reprodusere."}
 
@@ -34,7 +33,8 @@ legend("bottomright", c("Fravær", "Art 1"), col = c("black", "red"), cex = 1.5,
 
 
 ```
-I møte med flere arter vil det også oppstå interaksjoner som kan utvide eller begrense nisjen til en art (figur \@ref(fig:FIG2)). . Gjennom konkurranse kan en art fortrenge en annen. En snakker da om den *realiserte nisjen* til en art. 
+
+I møte med flere arter vil det også oppstå interaksjoner mellom artene som kan utvide eller begrense nisjen til en art (figur \@ref(fig:FIG2)). . Gjennom konkurranse kan en art fortrenge en annen. En snakker da om den *realiserte nisjen* til en art. 
 
 
 ```{r FIG2, fig.height = 5, fig.width = 15, fig.align = "center", echo = F, fig.cap="En art finnes ikke overalt, bare hvor den kan overleve og reprodusere."}
@@ -81,7 +81,7 @@ curve((inv.logit(.25+3.35*x)*inv.logit(.15-.5*x)), col = "green", add = T, lwd =
 #legend("bottomright", c("Fordel", "Ulempe","Nytte"), c("blue", "red", "green"), lwd = 2)
 ```
 
-Den største trusselen mot arter i Norge er habitatendringer - det være seg tap eller forringing av habitat. Ved forvaltningsavgjørelser kan en ofte bli møtt av påstanden "Men den arten finnes jo også *der* og *der*, så vi kan bygge ned her." Når her er den plassen det finnes mest av en art så er det en grunn til det. 
+Den største trusselen mot arter i Norge er habitatendringer - det være seg tap eller forringing av habitat. Ved forvaltningsavgjørelser kan en ofte bli møtt av påstanden "Men den arten finnes jo også *der* og *der*, så vi kan bygge ned her." Når *her* er den plassen det finnes mest av en art så er det en grunn til det. 
 
 Selv om en art kan bruke to områder så vil det som regel velge et fremfor det andre. Dette reflektere at et område har 1) økt energiopptak per mat-gjenstand, men også 2) mindre tid på å fordøye hver mat-gjenstand (macarthur1966optimal). Valg av føde kan derfor føre til både *mer* og *bedre* mat, og en multiplikativ økning i energiopptaket (*multiplier effect*, white1983foraging). Det ble tidlig anerkjent at områder tilgjengelig for en art sjelden ble brukt i den grad de var tilgjengelig, noen områder ble brukt forholdsmessig ofte: "[dyret] spiser ved et tydelig valg" (@hardy1924herring). Når områdebruken ikke er proporsjonal med tilgjengeligheten sier man at bruken er selektiv og at det foregår *habitatvalg* (*habitat selection*, @johnson1980comparison). Valg skjer enten ved at man tilbringer lengre tid eller vender oftere tilbake til områder med høyere nytte (@bastille2010inference). Man ser at større valg ofte er assosiert med økt overlevelse eller reproduksjon (@allen2017habitat, @mcloughlin2006lifetime, @losier2015adjustments).
 

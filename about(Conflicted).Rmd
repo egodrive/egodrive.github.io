@@ -1,0 +1,9 @@
+---
+title: "Om bloggen"
+description: |
+  Her kommer det sikkert noe mer fornuftig til neste gang. 
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
