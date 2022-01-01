@@ -5,7 +5,6 @@ description: >
 draft: false
 author:
   - name: Endre Grüner Ofstad
-    affiliation_url: https://github.com/egodrive
 bibliography: bibliography.bib
 categories:
   - Økologi
@@ -16,7 +15,7 @@ output:
 ---
 
 # Nisje
-*Fundamental nisje* er den kombinasjoen av miljøvariabler som tillater en art å overleve. Veldig ofte vil temperatur være en viktig variabel. Det må som regel være passe varmt. Ikke for kaldt, men samtidig ikke for varmt. Videre så må det være tilgang på den og den maten, sommeren må være passe lang, og vinteren må innebære hvertfall en halv meter snø som ligger mer enn 3 måneder og bakken kan ikke ha for mye kalk i seg. Slik at i møte med omgivelsene (dvs. flere miljøvariabler) vil en art bare forekomme i et begrenset omfang (figur \@ref(fig:FIG1)). 
+Folk flest vet sånn noenlunde hva ordet *nisje* betyr. *Fundamental nisje* er den kombinasjoen av miljøvariabler som tillater en art å overleve. Veldig ofte vil temperatur være en viktig milljøvariabel. Det må som regel være passe varmt. Ikke for kaldt, men samtidig ikke for varmt. Videre så må det kanskje være tilgang på den og den andre typen mat, sommeren må være passe lang, og vinteren må innebære hvertfall en halv meter snø som ligger mer enn 3 måneder og bakken kan ikke ha for mye kalk i seg. Slik at i møte med omgivelsene (dvs. flere miljøvariabler) vil en art bare forekomme på de plassene som innfrir alle disse kravene (figur \@ref(fig:FIG1)). 
 
 ```{r FIG1, fig.height = 5, fig.width = 15, fig.align = "center", echo = F, fig.cap="En art finnes ikke overalt, bare hvor den kan overleve og reprodusere."}
 
@@ -37,7 +36,7 @@ legend("bottomright", c("Fravær", "Art 1"), col = c("black", "red"), cex = 1.5,
 I møte med flere arter vil det også oppstå interaksjoner mellom artene som kan utvide eller begrense nisjen til en art (figur \@ref(fig:FIG2)). . Gjennom konkurranse kan en art fortrenge en annen. En snakker da om den *realiserte nisjen* til en art. 
 
 
-```{r FIG2, fig.height = 5, fig.width = 15, fig.align = "center", echo = F, fig.cap="En art finnes ikke overalt, bare hvor den kan overleve og reprodusere."}
+```{r FIG2, fig.height = 8, fig.width = 15, fig.align = "center", echo = F, fig.cap="En art finnes ikke overalt, bare hvor den kan overleve og reprodusere."}
 
 
 library(VGAM)
@@ -56,7 +55,7 @@ Det meste i livet består av avveininger. Som nevnt over så er det viktig at de
 
 For at en art skal overleve må det være nok reproduksjon og overlevelse til at en på lang sikt minimum går i null. Dette kan igjen knyttes til miljøet. Hvis en følger eksempelet over for art 1. La oss si at jo mer du øker miljøvariabel 1 dess flere avkom får du, men det reduserer hvor lenge du vil leve. På en årlig basis så kan en si at en øker sannsynligheten for å få et avkom, men en reduserer sannsynligheten for at du overlever til neste år. Over tid vil disse to faktorene - overlevelse og reproduksjon - bestemmer hvor mange avkom ett individ vil få iløpet av livet (*lifetime reproductive success*). Den optimale strategien (*nytte* hvis man bruker ressursøkonomiske begreper) kan vi da finne ved å se på ved å multiplisere disse to funksjonene med hverandre (figur \@ref(fig:FIG3)). Dette kommer også frem av [denne studien](https://besjournals.onlinelibrary.wiley.com/doi/10.1111/1365-2656.13221) (*snikskryt*). 
 
-```{r FIG3, fig.height = 5, fig.width = 15, fig.align = "center", echo = F, fig.cap="Fordel (blå), ulempe (rød) og nytte (grønn) knyttet til bruken av et miljø."}
+```{r FIG3, fig.height = 8, fig.width = 15, fig.align = "center", echo = F, fig.cap="Fordel (blå), ulempe (rød) og nytte (grønn) knyttet til bruken av et miljø."}
 library(boot)
 library(boot)
 par(mfrow = c(1,3), bty = "L", omi = c(0,0,0,0), mar = c(4,5,0,0))
