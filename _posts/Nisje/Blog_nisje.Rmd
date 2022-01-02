@@ -12,13 +12,9 @@ categories:
 output:
   distill::distill_article:
     self_contained: false
+    code_folding: true
+
 ---
-
-```{r, setup, echo = F}
-options(rgl.useNULL = TRUE) # Suppress the separate window.
-library(rgl)
-```
-
 
 
 # Nisje
@@ -40,6 +36,8 @@ library(rgl)
 library(geometry)
 library(gridExtra)
 library(cowplot)
+
+
 data(iris)
 df=iris[,c(1,2,5)]
 df$Species = factor(df$Species, labels = c("Art 1", "Art 2", "Art 3"))
@@ -83,6 +81,9 @@ grid.arrange(p1, p2, nrow = 3,
 
 
 ```{r FIG2, fig.height = 7.1, fig.width = 7.1, fig.align = "center", echo = F, fig.cap="En art finnes ikke overalt, bare hvor den kan overleve og reprodusere."}
+options(rgl.useNULL = TRUE) # Suppress the separate window.
+library(rgl)
+
 data(iris)
 df=iris[,c(1,2,3,5)]
 names(df)<-c("Miljø 1", "Miljø 2", "Miljø 3", "Art")
