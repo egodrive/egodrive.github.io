@@ -11,3 +11,16 @@ Her er [instagram'en min](https://www.instagram.com/ego_3p/), nogenlunde like op
 
   - https://www.oyposten.no/2021/12/11/skal-berga-unik-sumpskog-pa-kyrkjoy/
   
+# Oppskrift for denne siden
+Kjapp oppskrift for å lage en slik side:
+
+  1. Les dette om [Rstudio og distill](https://rstudio.github.io/distill/blog.html)
+  
+  2. Lag en github, min er [her](https://github.com/egodrive)
+  
+  3. I Rstudio, lag et prosjekt med versjon-kontroll som knyttes til en [github-repository med samme navn som Github-brukeren din](https://github.com/egodrive/egodrive.github.io)
+  
+  4. I Rstudio-prosjektet, installer distill-pakken og bruk 'create_blog()', som man setter opp for bruk med Github Pages.
+  
+  5. Skriv ivei. 
+  

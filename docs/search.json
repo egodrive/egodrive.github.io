@@ -5,8 +5,8 @@
       "title": "Om bloggen",
       "description": "Jeg ville skrive noen tekster, derav denne blogg-greia. Basert på SNL sin definisjon av ego (mine initialer):\"Ego, betegner innen psykoanalytisk terminologi den delen av personligheten som er i bevisst kontakt med omverdenens realiteter, og som hele tiden forsøker å forene ytre krav med på den ene siden egne lyster og drifter (id) og på den annen side egne moralske forestillinger og oppfatninger (superego)\" så kan jo dette love godt. Det meste vil trolig være økologi-relatert, men kanskje det også dukker opp andre ting. Pedagogikken vil ikke alltid være i høysete, men får håpe at den er såpass at jeg skjønner mine egne tekster når jeg leser de igjen om noen år.",
       "author": [],
-      "contents": "\r\nInstagram\r\nHer er instagram’en min, nogenlunde like oppdatert som alt annet ved min netttilværelse.\r\nLinkinibio\r\nhttps://www.oyposten.no/2021/12/11/skal-berga-unik-sumpskog-pa-kyrkjoy/\r\n\r\n\r\n\r\n",
-      "last_modified": "2022-01-02T20:11:05+01:00"
+      "contents": "\r\nInstagram\r\nHer er instagram’en min, nogenlunde like oppdatert som alt annet ved min netttilværelse.\r\nLinkinibio\r\nhttps://www.oyposten.no/2021/12/11/skal-berga-unik-sumpskog-pa-kyrkjoy/\r\nOppskrift for denne siden\r\nKjapp oppskrift for å lage en slik side:\r\nLes dette om Rstudio og distill\r\nLag en github, min er her\r\nI Rstudio, lag et prosjekt med versjon-kontroll som knyttes til en github-repository med samme navn som Github-brukeren din\r\nI Rstudio-prosjektet, installer distill-pakken og bruk ‘create_blog()’, som man setter opp for bruk med Github Pages.\r\nSkriv ivei.\r\n\r\n\r\n\r\n",
+      "last_modified": "2022-01-02T20:20:54+01:00"
     },
     {
       "path": "index.html",
