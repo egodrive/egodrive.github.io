@@ -1,7 +1,7 @@
 name: "Blogg"
-title: "tankesurreri"
+title: "tankesurreri fra ego"
 description: |
-  tankesurreri
+  tankesurreri fra ego
 output_dir: "docs"
 navbar:
   right:
