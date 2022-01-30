@@ -2,10 +2,9 @@
 title: "Metapopulasjoner"
 description: > 
   For vi er legion.
-draft: true
+draft: false
 author:
   - name: Endre Grüner Ofstad
-    affiliation_url: https://github.com/egodrive
 bibliography: bibliography.bib
 categories:
   - Økologi
@@ -14,15 +13,23 @@ output:
   distill::distill_article:
     self_contained: false
     code_folding: true
-
-
 ---
 
 
-En bestand er sjeldent alene. Man finner ofte flere små bestander av samme art spredt utover landskaper. Noen bestander er store, andre små. Noen som ligger tett sammen, andre som ligger mer isolert. Felles kalles disse bestandene (populasjonene) for en *metapopulasjon* (@levins1969some, @levin1970community), eller 'populasjon av populasjoner'. Hvor landskapet mellom bestandene blir omtalt som 'matrisen'. 
- 
+En bestand er sjeldent alene. Man finner ofte flere bestander av samme art spredt utover landskapet. Noen bestander er store, andre små. Noen ligger tett sammen, andre ligger mer isolert. Felles kalles disse bestandene (populasjonene) for en *metapopulasjon* (@levins1969some, @levin1970community), eller 'populasjon av populasjoner'. Hvor landskapet mellom bestandene blir omtalt som 'matrisen'. 
 
-Hvis en ser $N$ bestander som kan finnes på $T$ forskjellige steder i landskapet vil $x$ bestander bli utryddet hvert år (utryddelsesrate), men $m'$ nye bestander etableres hvert år (immigrasjonsrate). Endring i antall bestander hvert år ($t$) kan da beskrives som
+```{r FIG0, cache = T, fig.width=8, fig.height=8, fig.cap = "Øyene langs kysten av Lovund i Nordland er habitat hvor fastlandsarter som vånd vil kunne danne bevege seg mellom og danne bestander. Antallet og hvor man finner individ vil variere med arealet og avstanden mellom øyene "}
+library(ggmap)
+library(mapproj)
+library(cowplot)
+aa = ggmap(get_map(c(left = 12.43, right = 12.55,bottom = 66.35, top = 66.40)))+
+  xlab("Lengdegrad")+ ylab("Breddegrad")+theme_cowplot()
+aa
+``` 
+
+Hvis en ser $N$ bestander som kan finnes på $T$ forskjellige steder (habitat) i landskapet så vil $x$ antall av bestandene bli utryddet hvert år (utryddelsesrate), mens $m'$ nye bestander etableres hvert år (immigrasjonsrate). Noen habitat har bestander hvert år, mens andre habitat har mer flyktige bestander som opptrer bare noen år om annen. 
+
+Endring i antall bestander hvert år ($t$) kan da beskrives som
 
 \begin{equation}
 \frac{dN}{dt} = m'N(T-N)-XN (\#eq:EQ1)
@@ -40,7 +47,7 @@ som beskriver endringen i andelen av områder med en bestand per år. Hvis endri
 \hat{p} = 1-x/m (\#eq:EQ3)
 \end{equation}
 
-Disse likningene er lik logistisisk vekst hvor likning \@ref(eq:EQ3) tilsvarer bæreevnen i logistisk vekst. 
+Disse formlene er lik noen av formlene man også bruker for å beskrive bestandsvekst (logistisk vekst) hvor formel \@ref(eq:EQ3) tilsvarer bæreevnen i logistisk vekst. 
 
 ## Øyer
 Matrisen, området mellom bestandene, kan også være havet og områdene vi ser på være faktiske øyer. Og vi ser ikke på om et området har en bestand eller ikke, men hvor mange arter som finnes der. Vi snakker da om øybiogeografi (@macarthur2016theory). I øybiogeografi er antall arter på en øy avhengig av:
@@ -51,7 +58,7 @@ Matrisen, området mellom bestandene, kan også være havet og områdene vi ser 
 
 -   Tid isolert: jo kortere tid øya har vært isolert fra fastlandet dess flere arter har den.  
 
-```{r FIG1, echo = T, fig.cap="Hvordan antall inndvandringer og utvandringer er avhengig av avstand til fastland og arealet."}
+```{r FIG1, fig.width=8, fig.height=8, echo = T, fig.cap="Hvordan antall inndvandringer og utvandringer er avhengig av avstand til fastland og arealet."}
 plot(seq(0, 20, by = 2), type = "l", lty = 2, xlab = "Antall arter", ylab = "Innvandringer/Utryddelser", col = "turquoise")
 lines(seq(0, 8, by = .8), col = "turquoise")
 lines(seq(8, 0, by = -.8), col = "coral")
@@ -106,17 +113,14 @@ plot(Ss~idx, xlab = "Tidssteg", ylab = "Antall arter på øya", type = "l")
 
 ```
 
-
-
-
-
 ## Alt er en plass
-@levin1970community antok at 1) alle habitat er like og derfor lik migrasjonsrater til og fra alle habitat, og 2) at habitat er enten bebodd eller ubebodd. Men alle habitat er ikke like: noen er små, store gode, dårlige, nærme eller fjernt unna. Dette vil igjen påvirke hvor *mange* individ som migrerer mellom habitat. @hanski1994practical viser hvordan vi kan ta hensyn til dette (kan også anbefale å lese @hanski2000metapopulation). Der blir utryddelsesraten satt til å synke dess større habitatet er, $E_{i} = \frac{e}{A_{i}^{x}}$. Mens immigrasjonsraten ($S_{i}$) er avhengig av hvorvidt det er individ der ($p_{j}$), og øker med størrelsen ($A_{j}$) til habitatene rundt, men synker med økende avstand ($d_{ij}$) til de: $S_{i} = c \sum_{j  = 1}^{N} = p_{j}A_{j}e^{(-\alpha d_{ij})}$^[Vi antar stort antall øyer, og at Allee-effekten er neglisjerbar og ser bort fra $y^2$, @hanski1994practical].
+@levin1970community antok at 1) alle habitat er like og derfor lik migrasjonsrater til og fra alle habitat, og 2) at habitat er enten bebodd eller ubebodd. Men alle habitat er ikke like: noen er små, store gode, dårlige, nærme eller fjernt unna. Dette vil igjen påvirke hvor *mange* individ som migrerer mellom habitat, ikke bare hvorvidt en øy er bebodd eller ikke. @hanski1994practical viser hvordan vi kan ta hensyn til dette (kan også anbefale å lese @hanski2000metapopulation). 
 
+Man antar utryddelsesraten synker dess større habitatet er, $E_{i} = \frac{e}{A_{i}^{x}}$. Mindre habitat har mindre bestander som lettere kan bli utryddet av rovdyr eller andre tilfeldigheter. Mens immigrasjonsraten ($S_{i}$) er avhengig av habitatene omkring. Immigrasjonsrate er avheging av om det er individ der ($p_{j}$), og øker med størrelsen ($A_{j}$) til habitatene rundt, men synker med økende avstand ($d_{ij}$) til de: $S_{i} = c \sum_{j  = 1}^{N} = p_{j}A_{j}e^{(-\alpha d_{ij})}$^[Vi antar stort antall øyer, og at Allee-effekten er neglisjerbar og ser bort fra $y^2$, @hanski1994practical]. Med det utgangspunktet så kan vi se på hvordan en metapopulasjon oppfører seg. 
 
-Den virkelige verden er ikke et tilfeldig utvalg. Den har kanskje kommet dit som en rekke av tilfeldige hendelser, men hvor den stopper er ikke tilfeldig. Slik at en kan ikke velge hva som helst av verdier for øystørrelse, avstander og forvent at systemet vil eksistere over tid. Som er det hva vi ser rundt oss mesteparten av tiden. Slik at jeg måtte leke litt rundt for å finne ut hvilke verdier vi må jobbe med. Trykk her for å se koden hvor vi leter fram til fornuftige utvalg av parameterverdier å velge blant. 
+Den virkelige verden er ikke et tilfeldig utvalg. Den har kanskje kommet dit som en rekke av tilfeldige hendelser, men hvor den stopper er ikke tilfeldig. Slik at en kan ikke velge hva som helst av verdier for øystørrelse, avstander og forvente at metapopulasjonen vil eksistere over tid. Som er hva vi ser rundt oss mesteparten av tiden. Slik at jeg måtte leke litt rundt for å finne ut hvilke verdier vi må jobbe med. Trykk 'Show code' for å se koden hvor vi leter fram til "fornuftige" utvalg av parameterverdier å velge blant. 
 
-```{r METAROM PARAMETER TESTING, eval = F}
+```{r METAROM PARAMETER TESTING, eval = F, cache = T}
 library(ggplot2);library(ggExtra);library(data.table)
 ParameterSpace = expand.grid(nIterations = 1:3,
                              RangeØyer = seq(40,60,length.out = 1),
@@ -293,10 +297,10 @@ while(t<tmax){
 
 library(ggplot2);library(ggExtra);library(gridExtra)
 p1 = ggplot()+xlab("Koordinat x")+ylab("Koordinat y")+
-  geom_point(mapping = aes(x = xPos, y = yPos, fill = colMeans(TidsserieTilstede, na.rm = T), size = ØyStr), pch = 21, show.legend = F)
+  geom_point(mapping = aes(x = xPos, y = yPos, fill = colMeans(TidsserieTilstede, na.rm = T), size = ØyStr), pch = 21, show.legend = F)+theme_cowplot()
 p2 = ggplot()+
   geom_line(mapping = aes(x = 1:tmax, y = rowMeans(TidsserieTilstede)))+
-  ylab("Andel bebodde habitat")+xlab("Tidssteg")
+  ylab("Andel bebodde habitat")+xlab("Tidssteg")+theme_cowplot()
 grid.arrange(p1, p2, nrow = 3, 
              layout_matrix = cbind(c(1,1,1,1,2,2), c(1,1,1,1,2,2)))
 
@@ -309,17 +313,22 @@ grid.arrange(p1, p2, nrow = 3,
 Metapopuasjonsteori er blitt brukt til å finne ut hvordan bestander av sommerfuglen prikkrutevinge (*Melitaea cinxia*) på øyene i Åland svinger fra år til år (@hanski1996quantitative). Her beveger den seg mellom øyer og mellom de tørre blomsterengene som den trives i. 
 
 ## I gode og onde dager
-I den virkelige verden finnes det også gode og dårlige år. Slike tilfeldigheter (som skjer innenfor et visst omfang) kalles for *miljøstokastisitet*. Miljøstokastisitet rammer alle bestander like mye - store bestander vil riktignok kunne tåle det bedre enn mindre bestander. Habitatstørrelsen $A_{j}$ i forrige del kan også tolkes som habitatkvalitet. Gode og dårlige år kan derfor simuleres ved å lage en normalfordeling rundt 0 hvor en trekker en verdi for hvert år, som så legges til alle habitatstørrelser. Gode år vil være positive verdier og øke habitatstørrelsen, mens dårlige år vil være negative verdier som reduserer habitatstørrelsen. Økende stokastisitet vil tilsi at en øker variansen på normalfordelingen man trekker ifra. Økende varians vil derfor medføre at en vil få enda bedre gode år, men tilsvarende også enda verre dårlige år (figur \@ref(fig:MILJOSTOK)). Stokastisitet har som regel negative konsekvenser for langsiktig vekst for bestander, men ikke alle bestander og arter er like utsatt (@lande2003stochastic).   
+I den virkelige verden finnes det også gode og dårlige år. Slike tilfeldigheter (som skjer innenfor et visst omfang) kalles  *miljøstokastisitet*. Miljøstokastisitet rammer alle bestander like mye - store bestander vil riktignok kunne tåle det bedre enn mindre bestander. 
+
+Habitatstørrelsen $A_{j}$ i forrige del kan også tolkes som habitatkvalitet. Gode og dårlige år kan derfor simuleres ved å lage en normalfordeling rundt 0 hvor en trekker en verdi for hvert år, som så legges til alle habitatstørrelser. Gode år vil være positive verdier og øke habitatstørrelsen, mens dårlige år vil være negative verdier som reduserer habitatstørrelsen. Økende stokastisitet vil tilsi at en øker variansen på normalfordelingen man trekker ifra. Økende varians betyr at en vil få enda bedre gode år, men tilsvarende også enda verre dårlige år (figur \@ref(fig:MILJOSTOK)). 
+
+På lang sikt har stokastisitet som regel negative konsekvenser for den langsiktig veksten for bestander. Og ja, klimaendringer med økende frekvens av ekstremvær betyr at det vil bli mer stokastisitet. Økende stokastisitet kan føre til at bestander går fra å være i vekst til å være i nedgang (figur \@ref(fig:MILJOSTOK)).
 
 
-```{r MILJOSTOK, cache = T, fig.align = "center", fig.width=8, fig.height=11, echo = F, fig.cap="Stokastisitet reduserer minimum og gjennomsnittlige andelen av habitat som over tid har en bestand, samt det reduserer veksten av bebodde habitat. "}
+```{r MILJOSTOK, cache = T, fig.align = "center", fig.width=8, fig.height=11, echo = F, fig.cap="Stokastisitet reduserer minimum og gjennomsnittlige andelen av habitat som over tid har en bestand, og kan forårsake negativ veksten i bebodde habitat. Den negative  veksten vil til slutt føre til at metapopulasjonen vil dø ut."}
+library(data.table)
 nSimulations = 100
 ParameterSpace = expand.grid(nIterations = 1:nSimulations,
-                             RangeØyer = seq(40,60,length.out = 1),
+                             #RangeØyer = seq(40,60,length.out = 1),
                              RangeStartProp = seq(.35,.6,length.out = 1),
                              RangeLandskap = seq(3.4,3.7,length.out = 1),
-                             RangeKonstantC = seq(.25,.75,length.out =  1),
-                             RangeKonstantE = seq(325,100,length.out = 1),
+                             RangeKonstantC = seq(.24,.75,length.out =  1),# .23->.24
+                             RangeKonstantE = seq(150,100,length.out = 1),# 60->120
                              eNoise = seq(0,3,length.out = 4))
 setorder(ParameterSpace, nIterations)
 
@@ -329,21 +338,30 @@ ParameterSpace$MinPrevalens = NA
 ParameterSpace$AndelUtvikling = NA
 iteration = 0
 
+RangeØyer = 40
+nØyer = RangeØyer # ParameterSpace$RangeØyer[i] #i
 
+TidsArray = array(rep(0, tmax*nØyer), 
+                  dim = c(tmax, nØyer,  nrow(ParameterSpace)))
+
+TidsserieKoloniseringsrater = array(rep(0, tmax*nØyer), 
+                                    dim = c(tmax, nØyer, nrow(ParameterSpace)))
+
+GeografiArray = array(rep(NA, 3*nØyer),
+                      dim = c(3, nØyer, nrow(ParameterSpace)))
 
 
 for(i in 1:nrow(ParameterSpace)){
   #print(paste(i , "av", nrow(ParameterSpace)))
   # Antall øyer/habitat i systemet
-  nØyer = ParameterSpace$RangeØyer[i] #i
   
   # lengde på tidsserie
-  tmax = 200
+  tmax = 100
   
   iteration <- ParameterSpace$nIterations[i]
-  set.seed(iteration) # slik at ulike miljøstøy-nivå vil testes på de samme øy-konfigurasjonene
   
   AntallBebodd = ParameterSpace$RangeStartProp[i]*nØyer #i
+  set.seed(iteration) # slik at ulike miljøstøy-nivå vil testes på de samme øy-konfigurasjonene
   Bebodd = sample(1:nØyer,AntallBebodd)
   
   
@@ -352,21 +370,22 @@ for(i in 1:nrow(ParameterSpace)){
   
   TidsserieTilstede = matrix(rep(rep(NA, nØyer), tmax), ncol = nØyer)
   TidsserieTilstede[1,]<-Tilstede
-  TidsArray = array(rep(0, tmax*nØyer), 
-                                      dim = c(tmax, nØyer, max(ParameterSpace$nIterations)))
-  TidsArray[1,,iteration]<-Tilstede
   
-  TidsserieKoloniseringsrater = array(rep(0, tmax*nØyer), 
-                                      dim = c(tmax, nØyer, max(ParameterSpace$nIterations)))
+  TidsArray[1,,iteration]<-Tilstede
   TidsserieKoloniseringsrater[1,,iteration]<-Tilstede
   
   # tilfeldig plassering av øyene
   ArenaStørrelse = ParameterSpace$RangeLandskap[i]
+  set.seed(iteration) # slik at ulike miljøstøy-nivå vil testes på de samme øy-konfigurasjonene
   xPos = runif(n = nØyer, min = 0, max = ArenaStørrelse)
+  set.seed(-iteration) # slik at ulike miljøstøy-nivå vil testes på de samme øy-konfigurasjonene
   yPos = runif(n = nØyer, min = 0, max = ArenaStørrelse)
+  
   # Tilfeldig størrelse
+  set.seed(iteration) # slik at ulike miljøstøy-nivå vil testes på de samme øy-konfigurasjonene
   ØyStr = rlnorm(n = nØyer, meanlog = .1, sdlog = .2) #Ai
   
+  GeografiArray[,,i]<-rbind(ØyStr, xPos, yPos)
   # Regn ut mellom-øy avstand
   MellomØyAvstand = dist(cbind(xPos, yPos), diag = T, upper = T) # dij
   Alpha = -1#1/mean(MellomØyAvstand)
@@ -380,11 +399,11 @@ for(i in 1:nrow(ParameterSpace)){
   UtryddelsesRateØy_i = e_konstant/ØyStr
   
   # fra Hanski, Ilkka, et al. "The quantitative incidence function model and persistence of an endangered butterfly metapopulation." Conservation Biology 10.2 (1996): 578-590.
-  ØystrEffekt = 0.952
-  muTick = 0.158
+  # ØystrEffekt = 0.952
+  # muTick = 0.158
   
-  AjAi = sapply(ØyStr, function(x) x*ØyStr)
-  mij = exp(-Alpha*as.matrix(MellomØyAvstand))*AjAi # number of immigrants
+  # AjAi = sapply(ØyStr, function(x) x*ØyStr)
+  # mij = exp(-Alpha*as.matrix(MellomØyAvstand))*AjAi # number of immigrants
   
   # Tidssteg 
   t = 2
@@ -398,7 +417,7 @@ for(i in 1:nrow(ParameterSpace)){
                        exp(-Alpha*as.matrix(MellomØyAvstand)[-i,i]))}) # Si
     
     
-    TidsserieKoloniseringsrater[t,,iteration]<-KoloniseringsRateØy_i
+    TidsserieKoloniseringsrater[t,,i]<-KoloniseringsRateØy_i
     
     
     # Sannsynligheten for bebodd øy
@@ -410,7 +429,7 @@ for(i in 1:nrow(ParameterSpace)){
     # Oppdater bebodd-status
     Tilstede<-Kolonisert
     TidsserieTilstede[t,]<-Tilstede
-    TidsArray[t,,iteration]<-Tilstede
+    TidsArray[t,,i]<-Tilstede
     
     # Oppdater tidssteg
     t = t+1
@@ -420,20 +439,29 @@ for(i in 1:nrow(ParameterSpace)){
   ParameterSpace$SdPrevalens[i] = sd(rowMeans(TidsserieTilstede), na.rm = T)
   ParameterSpace$MinPrevalens[i] = min(rowMeans(TidsserieTilstede), na.rm = T)
   ParameterSpace$AndelUtvikling[i] = coef(lm(rowMeans(TidsserieTilstede)~I(1:length(rowMeans(TidsserieTilstede)))))[2]
+  if(i==nrow(ParameterSpace)){
+    saveRDS(list(ParameterSpace = ParameterSpace,
+             Geografi = GeografiArray,
+             TidsArray = TidsArray,
+             TidsserieKoloniseringsrater = TidsserieKoloniseringsrater),
+        "ParameterSpace_MetaPopStoch.rds")
+  }
 }
 
-library(ggplot2);library(cowplot);library(scales)
+
+
+library(ggplot2);library(cowplot);library(scales);library(gridExtra)
 p1 = ggplot(data = ParameterSpace, aes(y = MinPrevalens, x = eNoise, group = factor(eNoise)))+geom_boxplot()+theme_cowplot()+
-  theme(axis.title.x = element_blank(), axis.text.x = element_blank())+ylab("Andel (minimum)")
+  theme(axis.title.x = element_blank(), axis.text.x = element_blank())+ylab("Andel\n(minimum)")
 p2 = ggplot(data = ParameterSpace, aes(y = SnittPrevalens, x = eNoise, group = factor(eNoise)))+geom_boxplot()+theme_cowplot()+
-  theme(axis.title.x = element_blank(), axis.text.x = element_blank())+ylab("Andel (gj.snitt)")
+  theme(axis.title.x = element_blank(), axis.text.x = element_blank())+ylab("Andel\n(gj.snitt)")
 
 p3 = ggplot(data = ParameterSpace, aes(y = AndelUtvikling*200, x = eNoise, group = factor(eNoise)))+geom_hline(yintercept = 0, linetype="dashed")+theme_cowplot()+
-  geom_boxplot()+ylab("Andelsvekst per år x 200") + xlab("Miljøstokastisitet")#+
+  geom_boxplot()+ylab("Vekst \n (andel endring per år x 200)") + xlab("Miljøstokastisitet")#+
 #scale_y_continuous(breaks = seq(-.2,.2,.1))+coord_cartesian(ylim = c(-0.1,0.1))
 
 grid.arrange(p1,p2,p3)
 
 ```
 
-Men hvilke øyer er viktige? Og hva kan vi gjøre for å styrke metapopulasjonen? Det er spørsmål vi får gyve løs på senere. 
+Men hvilke habitat er viktige? Og hva kan vi gjøre for å styrke metapopulasjonen? Det er spørsmålet får vi gyve løs på senere. 

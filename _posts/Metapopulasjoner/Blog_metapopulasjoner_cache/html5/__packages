@@ -1,6 +1,9 @@
 ggplot2
+ggmap
+maps
+mapproj
+cowplot
 ggExtra
 data.table
 gridExtra
-cowplot
 scales

@@ -1,0 +1,308 @@
+---
+title: "Marginalverditeoremet"
+description: > 
+  Eller hvor mye skal jeg handle når jeg handler på nærbutikken?
+draft: true
+
+author:
+  - name: Endre Grüner Ofstad
+bibliography: bibliography.bib
+categories:
+  - Forvaltning
+  - Økosystem
+output:
+  distill::distill_article:
+    self_contained: false
+    code_folding: true
+
+fig_width: 8 
+fig_height: 4
+---
+Vi har tidligere pratet om hvordan landskapet oppfattes som en matrise hvor bare noen øyer består av gunstig habitat, og individ beveger seg mellom øyene. Men hvor lenge skal man være på en øy?
+
+```{r setup}
+  library(stringr)
+  library(data.table)
+library(ggplot2)
+  library(cowplot)
+
+
+```
+
+```{r start, fig.width = 8, fig.height= 8, fig.cap = "Dyr beveger seg rundt i landskapet. Noen steder oppholder de seg lengre enn andre. Hvorfor det?"}
+
+alpha=2
+n=1000
+x=rep(0,n)
+y=rep(0,n)
+
+for (i in 2:n){
+   theta=runif(1)*2*pi
+   f=runif(1)^(-1/alpha)
+   x[i]=x[i-1]+f*cos(theta)
+   y[i]=y[i-1]+f*sin(theta)
+}
+
+qplot(data = data.frame(x = x, y = y) ,y = y, x = x, geom = "path")+theme_cowplot()+theme(axis.text=element_blank(),axis.title=element_blank(),legend.position = "none")
+```
+
+
+```{r pressure, echo=FALSE, fig.align='center', fig.height=8, fig.width=8, fig.cap = "sda"}
+knitr::opts_chunk$set(fig.width=12, fig.height=8) 
+MVT = function(BetaTimeSpent=c(.15,.30),x.values = Times){
+  library(stringr)
+  library(data.table)
+  library(ggplot2)
+  x = x.values
+  lists =  lapply(BetaTimeSpent, function(i){
+    fx = deriv(expr = y~x^i,"x")
+    bs = eval(fx)
+    y = bs[seq_along(x)]
+    tangents = attr(bs,"grad")
+    ints = y -tangents*x
+    return(data.table(x, y, Slope = tangents, Intercept = ints))})
+  datas =    rbindlist(lists)
+  names(datas)[3]="Tangent"
+  names(datas)[4]="xIntercept"
+  betas = rep(BetaTimeSpent, each=length(x))
+  datas[,TimeBetas:=betas]
+  
+  datas[,TravelTime := abs((0-xIntercept)/Tangent)]
+  datas = datas[is.finite(Tangent) & is.finite(TravelTime) ]
+  
+  library(RColorBrewer)
+  set =  row.names(subset(brewer.pal.info,colorblind==TRUE & category=="qual" & maxcolors>length(BetaTimeSpent)))[1]
+  cols =  brewer.pal(length(BetaTimeSpent), set)
+  cols = if(length(BetaTimeSpent)<3){cols[c(1,length(cols))]}else{cols}
+  datas[,colr:=cols[as.numeric(as.factor(TimeBetas))]]
+  # So, what are we doing here?
+  d = table(cut(datas$TravelTime,seq(min(datas$TravelTime),max(datas$TravelTime),.5)),
+            datas$TimeBetas)
+  # For which intervals do we have estimates for all betas?
+  d =(apply(d, c(1,2),sign))
+  names(which(rowSums(d)>=length(BetaTimeSpent))[1])
+  c = as.numeric(unlist(str_split(gsub("\\(|\\]","",
+                                       names(which(rowSums(d)>=length(BetaTimeSpent))[1])),",")))
+  c = datas[TravelTime>=c[1] & TravelTime<=c[2]]
+  
+  # Relationship btw cummulative gain, travel time and time spent in patch
+  #par(mfrow=c(1,2))
+  layout(matrix(c(1,1,2,3), 2, 2, byrow = TRUE))
+  # gain function
+  par(mar=c(0, 4.1, 1, 2.1))
+  with(datas,
+       plot(c(1:5),c(1:5),xaxt="n",
+            xlim = c(-(c$TravelTime[1] +20),max(x)),
+            #xlim=c(-max(TravelTime),max(x)),
+            ylim=c(0,max(y)),type="n",
+            ylab = "", xlab ="TravelTime/TimeSpentInPatch"))
+  mtext(cex=2, side = 2, text = "Opptak (kcal/tid)", line =2)
+  legend("topleft", legend = BetaTimeSpent, lty = c(1,1), col = cols,cex = 1.5, lwd = 2)
+  
+  text(-42, 2.47, expression(paste("Gain = ", Time^beta, sep = '')), pos = 2,cex=2)
+  
+  abline(v = 0, lty="dashed")
+  
+  for(i in 1:nrow(datas)){
+    try(
+      with(datas,abline(b = Tangent[i], a =xIntercept[i],
+                        col= colr[i],lwd =2))
+      ,silent=F)
+  }
+  
+
+  # Illustrating how residence time with increasing quality for a given travel time
+  par(mar=c(5.1, 4.25, 1, 2.1))
+  with(c,
+       plot(c(1:5),c(1:5), xlim=c(-max(TravelTime),max(x)+2),ylim=c(0,max(y)),type="n",
+            ylab = "",
+            xlab ="",
+            xaxt="n"))
+  mtext(cex=2, side = 2, text = "Opptak (kcal/tid)", line =2)
+  mtext(cex=1.5, side = 1, text = "Reisetid/Oppholdstid", line =2.5)
+  axis(side = 1, at = round(seq(-max(c$TravelTime),(max(x)+2), by = 10)), labels = abs(round(seq(-max(c$TravelTime),(max(x)+2), by = 10))))
+  
+  abline(v = 0, lty="dashed")
+  for(i in seq_along(BetaTimeSpent)){
+    print(i)
+    curve(x^BetaTimeSpent[i], from = 0, to = max(x),add = T, col = cols[i],lwd =2)
+    with(c[TimeBetas==BetaTimeSpent[i]],
+         abline(a = xIntercept, b = Tangent, col = colr,lwd =2))
+    with(c[TimeBetas==BetaTimeSpent[i]],
+         abline(v = x, col = colr,lwd =2))
+  }
+  
+  #abline(a = 0, b = mean(datas$Tangent),lty="dashed")
+  # Relationship between travel time and patch time
+  par(mar=c(5.1, 4.4, 1, 2.1))
+  with(datas,plot(log(x)~log(TravelTime), type="n",
+                  ylab = "", xlab="",
+                  ylim=c(min(log(x)), max(log(x))), xlim=range(na.omit(log(TravelTime)))))
+  for(i in seq_along(BetaTimeSpent)){
+    with(datas[TimeBetas==BetaTimeSpent[i]],
+         lines(y = log(x), x = log(TravelTime), col = colr,lwd =2))     }
+  mtext(cex=2, side = 2, text = "Oppholdstid (ln)", line =2)
+  mtext(cex=1.5, side = 1, text = "Reisetid (ln)", line =2.5)
+  
+  par(mfrow=c(1,1))
+  return(datas)
+}
+Times = seq(.5,10,.5)
+a = MVT(BetaTimeSpent = c(.15,.3), x.values = Times)
+
+```
+
+```{r}
+
+MVT_1 = function(Method = "Standard", Asymptote = c(.5,1), Rate = c(0.5,1), HalfTime = 4, Intercept = 0, HandlingTime = seq(0,10,.25)){
+  # Asymptote = c(.5,1); Rate = c(0.5,1.2); Intercept = 0; HandlingTime = seq(0,10,.25);HalfTime = 4;Method = "Standard"
+  library(gridExtra);library(data.table)
+  
+  df = CJ(Asymptote = Asymptote,
+          Rate = Rate,
+          Intercept = Intercept, HandlingTime = HandlingTime)
+  
+  # To find the tangents
+  # Computes the derivatives
+  x = df$HandlingTime
+  df$x = x
+  if(Method == "Standard"){
+    GainFunction = deriv(~Asymptote +(Intercept - Asymptote)*exp(-exp(Rate)*x),"x")
+  }
+  if(Method == "CharnovParker1995"){
+    #Asymptote: Gm = .5 # Proportionate to patch size
+    #
+    #Rate: 
+    #     g = .55 # Constant reflecting initial capture rate of prey
+    #     c = g/Gm # rate of prey capture
+    # Handling Time = t
+    # GeneralGainForm = function(Gmax, c, t){  Gmax*(1-exp(-c*t))}
+    
+    GainFunction = deriv(~Asymptote*(1-exp(-Rate*x)),"x")
+  }
+  if(Method=="Aastrom_1"){
+    # Asymptote = si = Patch size
+    # Rate = k1
+    # Handling time = Thi
+    # Gain = si*(1-(1/(1+(k1*Thi)))) # Eq. 1 in the paper)
+    
+    GainFunction = deriv(~Asymptote*(1-(1/(1+Rate*x))),"x") # Original
+    GainFunction = deriv(~Asymptote -(Asymptote/(1+Rate*x)),"x") # Omskrevet
+    
+  }
+  if(Method=="Aastrom_2"){
+    # Asymptote = si = Patch size
+    # Rate = k1
+    # Handling time = Thi
+    # Gain = si*(1-(1/(1+((k1*Thi)/si)))) # Eq. 2 in the paper)
+    
+    GainFunction = deriv(~Asymptote*(1-(1/(1+(Rate*x/Asymptote)))),"x") # original fra paper
+    GainFunction = deriv(~Asymptote - (Asymptote^2)/(Asymptote+Rate*x),"x") # omskrevet
+    
+  }
+  if(Method=="LogLog"){
+    if(any(Rate)>1){
+      print("Stop. Can not handle exponentially increasing gain curves, as this would imply infinte residence time.")
+    }
+    GainFunction = deriv(expr = ~exp(Intercept)*x^Rate,"x")
+  }
+  if(Method=="Sigmoid"){
+    # Gompertz
+    # Asymptote = 1 # asympmtote, opprinnelig a
+    # b: half-way, x displacement
+    # Rate: c
+    #HalfWay = mean(HandlingTime)
+    # print("Set halftime of the function to be equal to mean of handling times under consideration")
+    # Logistic function
+    # Asymptote/(1 + exp(-Rate*(x-HalfTime)))
+    
+    GainFunction = deriv(~Asymptote/(1 + exp(-Rate*(x-HalfTime))),"x")
+    
+  }
+  
+  # The y - values along the x-values
+  bsG = eval(GainFunction, envir = df)
+  df$Gain = bsG[seq_along(x)]
+  
+  # The derivatives
+  df$TangentG = c(attr(bsG,"grad"))
+  # Second derivative
+  df[,SecDer:= c(NA,diff(TangentG)), c("Rate", "Asymptote")]
+  
+  # And where the tangent line crosses the x-axis
+  df$xInterceptG = with(df, Gain -TangentG*HandlingTime)
+  
+  df$TravelTimeG = with(df, abs((0-xInterceptG)/TangentG))
+  
+  
+  ### PLOTS
+  df = data.table(df)
+  df[,Rate := as.factor(Rate)]
+  df[,Asymptote := as.factor(Asymptote)]
+  df[,Intercept := as.factor(Intercept)]
+  
+  lsize =  2
+  library(ggpubr)
+  library(cowplot)
+  
+  p1 = ggplot(data = df, aes(x = HandlingTime , y = Gain, col = interaction(Rate, Intercept), linetype = Asymptote, group = interaction(Rate, Asymptote, Intercept))) +
+    xlab("Oppholdstid") + ylab("Opptak") +
+    geom_line(size = lsize)+theme_classic() + theme(text = element_text(size = 20)) 
+  
+  p2 = ggplot(data = df, aes(x = HandlingTime , y = TangentG, col = interaction(Rate, Intercept), linetype = Asymptote, group = interaction(Rate, Asymptote, Intercept)))+
+    xlab("Oppholdstid") + ylab("Funksjonell respons") +
+    geom_line(size = lsize)+theme_classic() + theme(text = element_text(size = 20)) 
+  
+  
+  p3 = ggplot(data = df, aes(x = TravelTimeG , y = HandlingTime, col = interaction(Rate, Intercept), linetype = Asymptote, group = interaction(Rate, Asymptote, Intercept))) + ylab("Oppholdstid") + xlab("Reisetid")+
+    geom_line(size = lsize)+theme_classic() + theme(text = element_text(size = 20)) 
+  
+  p4 = ggplot(data = df, aes(x = log(TravelTimeG) , y = log(HandlingTime), col = Rate, linetype = Asymptote, group = interaction(Rate, Asymptote, Intercept)))  + ylab("Oppholdstid (log)") + xlab("Reisetid (log)")+
+    geom_line(size = lsize)+theme_classic() + theme(text = element_text(size = 20)) 
+  
+  print(ggarrange(p1, p3, p4, ncol=3, nrow=1, common.legend = TRUE, legend="bottom"))
+  return(as.data.table(df))
+
+}
+```
+
+Noen slik nytte-funksjoner har bedret matobjekt-kvaliteten ved å heve nyttefunksjonen oppover, uten at dette har påvirket hvor lenge et individ bør oppholde seg der (Charnov and Parker 1995; Ranta et al. 1995; Livoreil and Giraldeau 1997). 
+
+
+\begin{equation}
+F(t) = Matobjekt - \frac{Matobjekt}{1 + Rate\cdot t} (\#eq:EQ1)
+\end{equation}
+
+```{r}
+a = MVT_1(HandlingTime = seq(0,3,.05), Rate = c(0.75,.9), Intercept = c(0,1), HalfTime = 1.5, Method = "Aastrom_1")
+```
+
+
+\begin{equation}
+F(t) = Matobjekt - \frac{Matobjekt^2}{Matobjekt + Rate\cdot t} (\#eq:EQ2)
+\end{equation}
+
+
+Forskjeller mellom disse er at likning \@ref(eq:EQ1) antar at prosent opptak av matobjektet er konstant når du øker størrelsen på matobjektet. Det vil si at en elg vil spise opp 20 % av en tre på 1 minutt, uavhengig om treet er 1 eller 10 meter høyt.  
+
+
+Now, an increasein si(for a given k2)still means an
+increasein total available biomass but the asymptote is approachedwith a decreasedrate,
+i.e. the initial rate of intake is approximately the same for various si(Fig. 1b). 
+
+An increase in si now corresponds to increasing total available biomass with unchanged density. The
+meaning ofkl and k2is the samein both eqns (1) and (2). 
+
+However, eqn (2) differsfromeqn (1) in two respects. 
+First, for a given handling time and kl, eqn (1) gives the same proportional consumption for a small and largepatch (i.e. small and largesi,respectively). This is not the case for eqn (2) where for a given handling time (and k2)the proportional
+consumption of a largepatch is smallerthan of a small patch. 
+### denne kan knyttes til funksjonell respons
+
+Second, for a given kl or k2, the initial rate of gain differs between patches of different sizes in eqn (1) but not in eqn (2
+
+
+```{r}
+a = MVT_1(HandlingTime = seq(0,3,.05), Rate = c(0.75,.9), Intercept = c(0,1), HalfTime = 1.5, Method = "Aastrom_2")
+
+```
+
