@@ -16,7 +16,7 @@ ParameterSpace$MinPrevalens = NA
 ParameterSpace$AndelUtvikling = NA
 iteration = 0
 
-RangeØyer = 40
+RangeØyer = 8
 nØyer = RangeØyer # ParameterSpace$RangeØyer[i] #i
 
 TidsArray = array(rep(0, tmax*nØyer), 
@@ -83,7 +83,8 @@ for(i in 1:nrow(ParameterSpace)){
   # mij = exp(-Alpha*as.matrix(MellomØyAvstand))*AjAi # number of immigrants
   
   # Tidssteg 
-  t = dij
+  t = 1
+  
   NoiseE = rnorm(n = tmax, sd = eNoise)
   while(t<tmax){
     
@@ -143,12 +144,15 @@ library(ggplot2);library(cowplot);library(scales);library(gridExtra)
 Geografi = GeografiArray#aa$Geografi
 TidsArray = TidsArray#aa$TidsArray
 TidsserieKoloniseringsrater = TidsserieKoloniseringsrater#aa$TidsserieKoloniseringsrater
+
 #### Centrality ####
 # Eigenvector centrality er et mål på hvor mange noder som peker til deg. 
 # Per parametersetting
-Centrality = lapply(1:dim(Geografi)[3], function(x){
+Centrality = lapply(1:nrow(Geografi), function(x){
+  print(x)
   # Per landskap
   dij = as.matrix(dist(cbind(Geografi[2,,x], Geografi[3,,x]), diag = T, upper = T))
+  
   Centrality = sapply(1:nrow(dij), function(i){
     js = sapply(1:ncol(dij), function(j){
       exp(dij[i,j])*Geografi[1,i,x]*Geografi[1,j,x]
@@ -209,7 +213,7 @@ ggplot()+
 ParameterSpace = as.data.table(ParameterSpace)
 ParameterSpace[,AverageConnectivity:=colMeans(Connectivities)]
 
-plot(ParameterSpace[,6:12])
+#plot(ParameterSpace[,6:12])
 
 # Hettemåke foraging flight 4.6-11.8 km flight range # https://onlinelibrary.wiley.com/doi/full/10.1002/ece3.6291
 # sildemåke 30.9 #https://www.researchgate.net/publication/306119852_Terrestrial_and_Marine_Foraging_Strategies_of_an_Opportunistic_Seabird_Species_Breeding_in_the_Wadden_Sea/link/57b2ef8508aeaf239baefb27/download
@@ -222,9 +226,6 @@ ggplot(mapping = aes(x = colMeans(Connectivity[[1]])*df$Areal, y = colMeans(Tids
   stat_smooth(method="lm")
 
 with(df, sum(Connectivity*Areal)/(sum(Areal)))
-
-
-
 
 
 ### Konkretiser ####
@@ -299,7 +300,9 @@ p1_c = ggplot()+
                            size = scale(Centrality(Geografi = VOgeo1)$Centrality),
                            col = scale(Centrality(Geografi = VOgeo1)$Centrality)))+
   theme(legend.position = "none")+
-  geom_point(data = as.data.frame(tail(VOgeo1,1)), mapping = aes(x = PosX, y = PosY), col = "red")
+  geom_point(data = as.data.frame(tail(VOgeo1,1)), 
+             mapping = aes(x = PosX, y = PosY),
+             col = "red")
 
 p2_c = ggplot()+
   geom_point(mapping = aes(x = VOgeo2[,2], y = VOgeo2[,3],
@@ -410,3 +413,418 @@ grid.arrange(Plotting(VOgeo)+coord_fixed(),
              Plotting(VOgeo1, AntallNye = 1)+coord_fixed(),
              Plotting(VOgeo2, AntallNye = 1)+coord_fixed(),
              Plotting(VOgeo3, AntallNye = 2)+coord_fixed())
+
+
+### Konkretiser ####
+library(data.table)
+a = read.csv("Verneområder_centroider.csv", encoding = "UTF-8")
+VO = as.data.table(a)
+
+#VO = VO[-1,]
+#Mosvatnet
+#531039,61; N: 6539879 Ø: 310963
+# Klostervågen
+#847287,21; N: 6556056 Ø: 304732
+
+Geografi = VOgeo = as.matrix(VO[,c("Areal", "PosX", "PosY")])
+VOgeo1 = rbind(VOgeo, c(847287.21, 304732, 6556056)) # Klostervågen
+VOgeo2 = rbind(VOgeo, c(531039.61, 310963, 6539879)) # Mosvatnet
+VOgeo3 = rbind(VOgeo2, c(847287.21, 304732, 6556056)) # Begge to
+
+VOGeo4 = rbind(VOgeo3, c(847287.21, 304532, 6556256)) # Fiktiv
+VOGeo4 = cbind(VOGeo4, Ny = c(rep(0,nrow(VOgeo)), rep(1,3)))
+
+
+
+Measures = Centrality(Geografi = VOgeo)
+
+cor(Measures$Centrality, log(Measures$Eigenvectors))
+library(ggplot2)
+# p0_c = ggplot()+
+#   geom_point(mapping = aes(x = VO$PosX, y = VO$PosY,
+#                            size = Centrality(Geografi = VOgeo)$Centrality,
+#                            col =Centrality(Geografi = VOgeo)$Centrality))+
+#   theme(legend.title = element_blank(),legend.position = "none")
+# 
+# p1_c = ggplot()+
+#   geom_point(mapping = aes(x = VOgeo1[,2], y = VOgeo1[,3],
+#                            size = scale(Centrality(Geografi = VOgeo1)$Centrality),
+#                            col = scale(Centrality(Geografi = VOgeo1)$Centrality)))+
+#   theme(legend.title = element_blank(),legend.position = "none")+
+#   geom_point(data = as.data.frame(tail(VOgeo1,1)), mapping = aes(x = PosX, y = PosY), col = "red")
+# 
+# p2_c = ggplot()+
+#   geom_point(mapping = aes(x = VOgeo2[,2], y = VOgeo2[,3],
+#                            size = scale(Centrality(Geografi = VOgeo2)$Centrality),
+#                            col = scale(Centrality(Geografi = VOgeo2)$Centrality)))+
+#   theme(legend.title = element_blank(),legend.position = "none")+
+#   geom_point(data = as.data.frame(tail(VOgeo2,1)), mapping = aes(x = PosX, y = PosY), col = "red")
+# 
+# p3_c = ggplot()+
+#   geom_point(mapping = aes(x = VOgeo3[,2], y = VOgeo3[,3],
+#                            size = scale(Centrality(Geografi = VOgeo3)$Centrality),
+#                            col = scale(Centrality(Geografi = VOgeo3)$Centrality)))+
+#   theme(legend.title = element_blank(),legend.position = "none")+
+#   geom_point(data = as.data.frame(tail(VOgeo3,2)), mapping = aes(x = PosX, y = PosY), col = "red")
+# 
+# library(gridExtra);library(cowplot)
+# grid.arrange(p0_c, p1_c, p2_c, p3_c)
+# 
+# EIGENVECTORS
+p0_c = ggplot()+
+  geom_point(mapping = aes(x = VO$PosX, y = VO$PosY,
+                           size = log(Centrality(Geografi = VOgeo)$Eigenvectors),
+                           col =log(Centrality(Geografi = VOgeo)$Eigenvectors)))+
+  geom_label(mapping = aes(x = min(VOgeo3[,2]), y = max(VOgeo3[,3]),
+                           label = paste("Metapopulasjonskapasitet = ",
+                                         round(Centrality(Geografi = VOgeo)$EigenValue,2))), fontface = "bold", fill = alpha("white",0.5), hjust = -.1)
+
+p1_c = ggplot()+
+  geom_point(mapping = aes(x = VOgeo1[,2], y = VOgeo1[,3],
+                           size = log(Centrality(Geografi = VOgeo1)$Eigenvectors),
+                           col = log(Centrality(Geografi = VOgeo1)$Eigenvectors)))+
+  geom_point(data = as.data.frame(tail(VOgeo1,1)), mapping = aes(x = PosX, y = PosY), col = "red")+
+  geom_label(mapping = aes(x = min(VOgeo1[,2]), y = max(VOgeo1[,3]), 
+                           label = paste("Metapopulasjonskapasitet = ",
+                                         round(Centrality(Geografi = VOgeo1)$EigenValue,2))), fontface = "bold", fill = alpha("white",0.5), hjust = -.1)
+
+p2_c = ggplot()+
+  geom_point(mapping = aes(x = VOgeo2[,2], y = VOgeo2[,3],
+                           size = log(Centrality(Geografi = VOgeo2)$Eigenvectors),
+                           col = log(Centrality(Geografi = VOgeo2)$Eigenvectors)))+
+  geom_point(data = as.data.frame(tail(VOgeo2,1)), mapping = aes(x = PosX, y = PosY), col = "red")+
+  geom_label(mapping = aes(x = min(VOgeo2[,2]), y = max(VOgeo2[,3]),
+                           label = paste("Metapopulasjonskapasitet = ",
+                                         round(Centrality(Geografi = VOgeo2)$EigenValue,2))), fontface = "bold", fill = alpha("white",0.5), hjust = -.1)
+
+p3_c = ggplot()+
+  geom_point(mapping = aes(x = VOgeo3[,2], y = VOgeo3[,3],
+                           size = log(Centrality(Geografi = VOgeo3)$Eigenvectors),
+                           col = log(Centrality(Geografi = VOgeo3)$Eigenvectors)))+
+  geom_point(data = as.data.frame(tail(VOgeo3,2)), mapping = aes(x = PosX, y = PosY), col = "red")+
+  geom_label(mapping = aes(x = min(VOgeo3[,2]), y = max(VOgeo3[,3]),
+                           label = paste("Metapopulasjonskapasitet = ",
+                                         round(Centrality(Geografi = VOgeo3)$EigenValue,2))), fontface = "bold", fill = alpha("white",0.5), hjust = -.1)
+
+th = theme_cowplot()+theme(axis.text=element_blank(),axis.title=element_blank(),legend.position = "none")
+library(gridExtra)
+grid.arrange(p0_c+th, p1_c+th, p2_c+th, p3_c+th)
+
+library(ggmap)
+library(mapproj)
+library(cowplot)
+library(splancs)
+
+Plotting = function(Geografi = VOGeo4, AntallNye = 1:2, Iterer = T){
+  
+  InputData = as.data.frame(Geografi)
+  
+  bb = bbox(SpatialPoints(coords = InputData[,2:3], 
+                          proj4string = CRS("+init=epsg:32632")))
+  
+  Results = rbindlist(lapply(AntallNye, function(i){
+    
+    aa = combn(1:nrow(InputData[InputData$Ny==1,]),m = i)
+    Results = rbindlist(lapply(1:ncol(aa), function(ii) {
+      InputData2 = rbind(InputData[InputData$Ny==0,],
+                         InputData[InputData$Ny==1,][aa[,ii],])
+      VOs = data.frame(coordinates(spTransform(SpatialPoints(coords = InputData2[,2:3], 
+                                                             proj4string = CRS("+init=epsg:32632")),
+                                               CRS("+init=epsg:4326"))))
+      VOs$EV = log(Centrality(Geografi = InputData2)$Eigenvectors)
+      
+      Results = data.frame(t(aa[,ii]),Centrality = round(Centrality(Geografi = 
+                                                                      InputData2)$EigenValue,2))
+      names(Results)[1:length(unique(aa[,ii]))]<-unique(aa[,ii])
+      Results[1:length(unique(aa[,ii]))]<-"X"
+      data.table(Results)
+    }), fill = T, use.names = T)
+    
+  }), use.names = T)
+  Results[,nNye:=apply(as.matrix(Results),1, function(x){length(unique(which(x=="X")))})]
+  Results = cbind(Results[,-"Centrality"]
+                  ,Results[,"Centrality"])
+  setorder(Results, -Centrality)
+  Results
+  
+  ## Plot kartet
+  InputData[]
+  
+  GEOS0 = rbind(InputData[InputData$Ny==0,],
+                InputData[InputData$Ny==1,][as.numeric(names(Results)[which(Results[1,]=="X")]),])
+  
+  GEOS = data.frame(coordinates(spTransform(SpatialPoints(coords = GEOS0[,2:3], 
+                                                          proj4string = CRS("+init=epsg:32632")),
+                                            CRS("+init=epsg:4326"))))
+  
+  GEOS$EV = log(Centrality(Geografi = GEOS0)$Eigenvectors)
+  
+  
+  aaa = get_map(c(left = min(GEOS[,1])-.2, 
+                  right = max(GEOS[,1])+.2,
+                  bottom = min(GEOS[,2])-.2, 
+                  top = max(GEOS[,2])+.2))
+  
+  Labs = data.frame(Y = max(VOs$PosY),#as.numeric(attr(aaa, "bb")[3]),
+                    X = min(VOs$PosX),#as.numeric(attr(aaa, "bb")[2]), 
+                    MC = paste("Metapopulasjonskapasitet = ",
+                               round(Centrality(Geografi = 
+                                                  InputData)$EigenValue,2)))
+  
+  ggmap(aaa)+
+    xlab("Lengdegrad")+ ylab("Breddegrad")+theme_cowplot()+
+    
+    geom_point(data= GEOS, 
+               mapping = aes(x = PosX, y = PosY,
+                             size = EV, col = EV))+
+    geom_point(data = as.data.frame(tail(GEOS,length(which(Results[1,]=="X")))),
+               mapping = aes(x = PosX, y = PosY), col = "red")+
+    geom_label(data = Labs, 
+               mapping = aes(y = Y, x = X,
+                             label = MC),
+               fontface = "bold", 
+               fill = alpha("white",0.5), 
+               hjust = 0.05, vjust = -.7)+
+    th
+  list(Results,GEOS)
+}
+
+aa = Plotting(VOGeo4, AntallNye = 3)
+
+
+### DRAGEHODE #####
+#install.packages("rgbif")
+library(rgbif)
+#library(scrubr)
+library(maps)
+library(data.table)
+library(sp)
+library(raster)
+library(ggplot2)
+library(cowplot)
+
+myspecies <- c("Meligethes norvegicus","Dracocephalum ruyschiana")
+gbif_data <- occ_data(scientificName = myspecies, 
+                      hasCoordinate = TRUE,
+                      country = "NO", 
+                      limit = 20000)
+
+Host = data.table( gbif_data$`Dracocephalum ruyschiana`$data)
+Beetle = data.table(gbif_data$`Meligethes norvegicus`$data)
+
+Joint = rbind(Beetle, Host, fill = T)
+
+Joint = cbind(data.table(coordinates(spTransform(
+  SpatialPoints(coords = Joint[,c("decimalLongitude", "decimalLatitude")],
+                proj4string = CRS("+init=epsg:4326")),
+  CRS("+init=epsg:32632"))))
+  , Joint)
+names(Joint)[1:2]<-c("UTMx", "UTMy")
+DispDistanceM = 1500
+
+# Create clusters, aka. populations
+ssp = Joint[,c(1:2)]
+chc <- hclust(dist(ssp), method="complete")
+
+# Distance with a 1500 threshold  
+chc.d <- cutree(chc, h=DispDistanceM) 
+Joint[,Populasjon:=chc.d]
+
+# Lage et grid (kan brukes til å definere populasjon)
+Joint[,c("gridY", "gridX"):=list(cut(UTMy, seq(from = min(Joint$UTMy, na.rm = T),
+                                               to  = max(Joint$UTMy, na.rm = T),
+                                               by = DispDistanceM)),
+                                 cut(UTMx, seq(from = min(Joint$UTMx, na.rm = T),
+                                               to  = min(Joint$UTMx, na.rm = T),
+                                               by = DispDistanceM)))]
+# Finne sentrum hvor hver populasjon
+Joint[,c("centrY", "centrX"):=list(mean(UTMy, na.rm = T),
+                                   mean(UTMx, na.rm = T)),
+      c("Populasjon")]
+
+Joint[,nHost := (max(.SD[species=="Dracocephalum ruyschiana"]$individualCount, na.rm = T)),
+      c("centrY", "centrX")]
+
+Joint = Joint[decimalLatitude>0 & decimalLongitude>10 & 
+                decimalLongitude<11]
+setorder(Joint, species)
+
+ggplot(data = Joint[nHost>0],
+       aes(y = centrY, x = centrX, size = nHost,  col = species))+
+  geom_point()+
+  labs(xlab="UTM (km)")
+
+Joint[,BeetlePresent:=uniqueN(species)-1, c("centrX", "centrY")]
+
+tmp = (Joint[nHost>0,.SD[which.max(nHost)], 
+             c("species", "centrX", "centrY", "nHost")
+][,c("centrX", "centrY", "nHost","BeetlePresent")]
+)
+
+# Erstatter rene tilstedeværelse 
+#(dvs nHost = 1, med det laveste observerte ikke-1-verdi)
+
+tmp[,nHost:=ifelse(nHost==1,min(.SD[nHost>1]$nHost), nHost)]
+tmp[,3]<-log(tmp[,3])
+table(tmp$BeetlePresent)
+
+Centrality = function(Geografi, DispersalDistance = 1.5, Alpha = NULL, unitAreal = "km2", unitDistance = "m"){
+  # Geografi = dataramme med areal, x og y koordinate
+  if(ncol(Geografi)>2){
+    Areal = (Geografi[,3])
+  }else{
+    Geografi = cbind(Geografi,1)
+    Areal = (Geografi[,3])
+  }
+  
+  if(unitAreal=="m2"){
+    Areal = Areal/1000000
+  }
+  
+  dij = as.matrix(dist(cbind(Geografi[,1], Geografi[,2]), diag = T, upper = T))
+  
+  if(unitDistance == "m"){
+    dij = dij/1000# transform from meter to kilometer
+    
+  }
+  Alpha = 1/DispersalDistance
+  
+  Si = sapply(1:nrow(Geografi), function(i){
+    Geo = sum(exp(-Alpha*dij[i,-i])*Geografi[-i,3]) 
+  })
+  
+  M = sapply(seq_along(Areal), function(i){
+    sapply(seq_along(Areal), function(j){
+      exp(-Alpha*dij[i,j])*Areal[i]*Areal[j]
+    })
+  })
+  
+  diag(M)<-0
+  
+  ev = eigen(M)$vectors[,1]^2
+  ev = ev/(sum(ev))
+  we = ev*eigen(M)$value[1]
+  
+  
+  list(Centrality = Si,
+       EigenValue = eigen(M)$value[1],
+       Eigenvectors = we)
+  
+}
+
+library(ggmap)
+library(mapproj)
+library(cowplot)
+library(splancs)
+
+Plotting = function(Geografi = tmp[,1:3], Nye = tmp[,4], AntallNye = 1, Iterer = T){
+  
+  InputData = as.data.frame(cbind(Geografi, Ny = Nye))
+  InputData$Id = 1:nrow(InputData)
+  bb = bbox(SpatialPoints(coords = InputData[,2:3], 
+                          proj4string = CRS("+init=epsg:32632")))
+  
+  Results = rbindlist(lapply(AntallNye, function(i){
+    aa = combn(1:nrow(InputData[InputData$Ny==1,]),m = i)
+    
+    Results = rbindlist(lapply(1:ncol(aa), function(ii) {
+      print(paste(ii,ncol(aa), sep = " av "))
+      
+      InputData2 = rbind(InputData[InputData$Ny==0,],
+                         InputData[InputData$Ny==1,][aa[,ii],])
+      
+      #VOs = data.frame(coordinates(
+      #  spTransform(SpatialPoints(coords = InputData2[,2:3],
+      #                            proj4string = CRS("+init=epsg:32632")),
+      #              CRS("+init=epsg:4326"))))
+      #VOs$EV = log(Centrality(Geografi = InputData2)$Eigenvectors)
+      
+      Results = data.frame(t(aa[,ii]),
+                           Centrality = round(Centrality(Geografi = 
+                                                           InputData2)$EigenValue,2))
+      names(Results)[1:length(unique(aa[,ii]))]<-unique(aa[,ii])
+      Results[1:length(unique(aa[,ii]))]<-"X"
+      data.table(Results)
+    }), fill = T, use.names = T)
+  }), use.names = T)
+  
+  Results[,nNye:=apply(as.matrix(Results),1, function(x){length(unique(which(x=="X")))})]
+  
+  
+  NullModell = round(Centrality(Geografi = InputData[InputData[,4]==0,1:3])$EigenValue,2)
+  
+  Results = cbind(Results[,-"Centrality"]
+                  ,Results[,"Centrality"])
+  
+  setorder(Results, -Centrality)
+  Results$Centrality<- Results$Centrality-NullModell
+  Results
+  
+  # hvilke nye områder er inkludert?
+  as.numeric(names(Results)[which(Results[1,]=="X")])
+  
+  ## Plot kartet
+  GEOS0 = rbind(InputData[InputData$Ny==0,],
+                InputData[InputData$Ny==1,
+                ][as.numeric(names(Results
+                )[which(Results[1,]=="X")]),])
+  
+  GEOS = data.frame(coordinates(
+    spTransform(SpatialPoints(coords = GEOS0[,c("centrX", "centrY")],
+                              proj4string = CRS("+init=epsg:32632")),
+                CRS("+init=epsg:4326"))))
+  
+  GEOS$EV = log(Centrality(Geografi = GEOS0)$Eigenvectors)
+  names(GEOS)[1:2]<-c("PosX", "PosY")
+  
+  GEOS$Bille<-GEOS0[,4]
+  # Alle lokaliteter
+  aaa = get_map(c(left = min(GEOS[,1])-.2, 
+                  right = max(GEOS[,1])+.2,
+                  bottom = min(GEOS[,2])-.2, 
+                  top = max(GEOS[,2])+.2))
+  
+  # Området akkurat rundt den nye lokaliteten
+  aaaSub = get_map(c(left = tail(GEOS,1)[,1]-.3, 
+                     right = tail(GEOS,1)[,1]+.3,
+                     bottom = tail(GEOS,1)[,2]-.3, 
+                     top = tail(GEOS,1)[,2]+.3))
+  
+  #ggmap(aaaSub)
+  
+  Labs = data.frame(Y = max(GEOS$PosY),#as.numeric(attr(aaa, "bb")[3]),
+                    X = min(GEOS$PosX),#as.numeric(attr(aaa, "bb")[2]), 
+                    MC = paste("Metapopulasjonskapasitet = ",
+                               round(Centrality(Geografi = 
+                                                  InputData)$EigenValue,2)))
+  FinPlot = ggmap(aaaSub)+
+    xlab("Lengdegrad")+ ylab("Breddegrad")+theme_cowplot()+
+    
+    geom_point(data= GEOS, 
+               mapping = aes(x = PosX, y = PosY,
+                             size = EV, col = EV))+
+    geom_point(data = as.data.frame(tail(GEOS,length(which(Results[1,]=="X")))),
+               mapping = aes(x = PosX, y = PosY), col = "red")+
+    geom_label(data = Labs, 
+               mapping = aes(y = Y, x = X,
+                             label = MC),
+               fontface = "bold", 
+               fill = alpha("white",0.5), 
+               hjust = 0.05, vjust = -.7)+
+    th
+  
+  list(Inputs = GEOS, Ranking = Results, Plot = FinPlot)
+}
+
+Results = Plotting(AntallNye = 1)
+Results[[2]]
+
+# Man har funnet at centrality-målet korresponderer bra 
+# med sannsynligheten for forekomst. 
+names(Results)[which(Results[,1]=="X")]
+
+Results$Plot
+
+ggmap(aaa)+geom_path(data = GEOS[c((combn(1:42,2))),], mapping = aes(x = PosX, y = PosY))
+
+
