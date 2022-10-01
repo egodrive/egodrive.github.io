@@ -18,7 +18,7 @@ output:
 
 En bestand er sjeldent alene. Man finner ofte flere bestander av samme art spredt utover landskapet. Noen bestander er store, andre små. Noen ligger tett sammen, andre ligger mer isolert. Felles kalles disse bestandene (populasjonene) for en *metapopulasjon* (@levins1969some, @levin1970community), eller 'populasjon av populasjoner'. Hvor landskapet mellom bestandene blir omtalt som 'matrisen'. 
 
-```{r FIG0, cache = T, fig.width=8, fig.height=8, fig.cap = "Øyene langs kysten av Lovund i Nordland er habitat hvor fastlandsarter som vånd vil kunne danne bevege seg mellom og danne bestander. Antallet og hvor man finner individ vil variere med arealet og avstanden mellom øyene "}
+```{r FIG0, cache = T, fig.width=8, fig.height=8, fig.cap = "Øyene langs kysten av Lovund i Nordland er habitat hvor fastlandsarter som vånd vil kunne danne bevege seg mellom og danne bestander. Antallet og hvor man finner individ vil variere med arealet og avstanden mellom øyene. "}
 library(ggmap)
 library(mapproj)
 library(cowplot)

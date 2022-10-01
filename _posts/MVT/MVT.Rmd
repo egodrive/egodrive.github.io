@@ -3,7 +3,6 @@ title: "Marginalverditeoremet"
 description: > 
   Eller hvor mye skal jeg handle når jeg handler på nærbutikken?
 draft: true
-
 author:
   - name: Endre Grüner Ofstad
 bibliography: bibliography.bib
@@ -18,18 +17,15 @@ output:
 fig_width: 8 
 fig_height: 4
 ---
-Vi har tidligere pratet om hvordan landskapet oppfattes som en matrise hvor bare noen øyer består av gunstig habitat, og individ beveger seg mellom øyene. Men hvor lenge skal man være på en øy?
+Vi har tidligere pratet om hvordan landskapet oppfattes som en matrise hvor bare noen øyer består av gunstig habitat, og individ beveger seg mellom øyene. Men hvor lenge skal man være på en øy? Eller habitat da. Eller 'patch' som det kan kalles på engelsk. 
 
-```{r setup}
-  library(stringr)
-  library(data.table)
+
+```{r FIG0, fig.width = 8, fig.height= 8, fig.cap = "Dyr beveger seg rundt i landskapet. Noen steder oppholder de seg lengre enn andre. Hvorfor det?"}
+
+library(stringr)
+library(data.table)
 library(ggplot2)
-  library(cowplot)
-
-
-```
-
-```{r start, fig.width = 8, fig.height= 8, fig.cap = "Dyr beveger seg rundt i landskapet. Noen steder oppholder de seg lengre enn andre. Hvorfor det?"}
+library(cowplot)
 
 alpha=2
 n=1000
@@ -43,11 +39,15 @@ for (i in 2:n){
    y[i]=y[i-1]+f*sin(theta)
 }
 
-qplot(data = data.frame(x = x, y = y) ,y = y, x = x, geom = "path")+theme_cowplot()+theme(axis.text=element_blank(),axis.title=element_blank(),legend.position = "none")
+qplot(data = data.frame(x = x, y = y) ,y = y, x = x, geom = "path")+
+  theme_cowplot()+
+  theme(axis.text=element_blank(),axis.title=element_blank(),legend.position = "none")
 ```
+Ved ankomst til habitatet så finner man innledningsvis ny mat ganske lett. Etterhvert som tiden går så blir det mindre og mindre mat igjen, og nytten av å være der øker ikke like raskt som det gjorde innledningsvis. Nytten man oppnår for hvert ekstra tidssteg, altså den marginale nytten, avtar ( se \@ref(fig:FIG1)a).
 
+Hvis man har brukt lang tid på å komme til habitatet må man oppholde seg der lengre for å veie opp for reisekostnadene. Men hvor mye lengre kommer an på nyttefunksjonen. I \@ref(fig:FIG1)a viser vi to nyttefunksjoner. Den optimale oppholdstiden kan løses grafisk ved å trekke en linje fra reisetidspunktet (på venstresiden av y-aksen, negative x-verdier) til tangenten av den aktuelle nyttefunksjonen. Den optimale oppholdstiden kan da leses av på x-aksen (vertikale linjer i figur \@ref(fig:FIG1)b). Slik at jo lengre man reiser dess lengre opphold bør man ha (figur \@ref(fig:FIG1)c.) 
 
-```{r pressure, echo=FALSE, fig.align='center', fig.height=8, fig.width=8, fig.cap = "sda"}
+```{r FIG1, echo = T, cache = T, fig.width=8, fig.height=8, fig.cap = "Næringsopptak minker som regel jo lengre man er i habitatet. Hvor lenge et individ bør oppholde seg der er også avhenig av hvor lang tid man brukte på å reise til habitatet. "}
 knitr::opts_chunk$set(fig.width=12, fig.height=8) 
 MVT = function(BetaTimeSpent=c(.15,.30),x.values = Times){
   library(stringr)
@@ -97,8 +97,8 @@ MVT = function(BetaTimeSpent=c(.15,.30),x.values = Times){
             ylim=c(0,max(y)),type="n",
             ylab = "", xlab ="TravelTime/TimeSpentInPatch"))
   mtext(cex=2, side = 2, text = "Opptak (kcal/tid)", line =2)
-  legend("topleft", legend = BetaTimeSpent, lty = c(1,1), col = cols,cex = 1.5, lwd = 2)
-  
+  legend("topleft", "a)", cex = 1.5, bty="n")
+
   text(-42, 2.47, expression(paste("Gain = ", Time^beta, sep = '')), pos = 2,cex=2)
   
   abline(v = 0, lty="dashed")
@@ -109,7 +109,6 @@ MVT = function(BetaTimeSpent=c(.15,.30),x.values = Times){
                         col= colr[i],lwd =2))
       ,silent=F)
   }
-  
 
   # Illustrating how residence time with increasing quality for a given travel time
   par(mar=c(5.1, 4.25, 1, 2.1))
@@ -118,6 +117,7 @@ MVT = function(BetaTimeSpent=c(.15,.30),x.values = Times){
             ylab = "",
             xlab ="",
             xaxt="n"))
+  legend("topleft", "b)", cex = 1.5, bty="n")
   mtext(cex=2, side = 2, text = "Opptak (kcal/tid)", line =2)
   mtext(cex=1.5, side = 1, text = "Reisetid/Oppholdstid", line =2.5)
   axis(side = 1, at = round(seq(-max(c$TravelTime),(max(x)+2), by = 10)), labels = abs(round(seq(-max(c$TravelTime),(max(x)+2), by = 10))))
@@ -143,7 +143,9 @@ MVT = function(BetaTimeSpent=c(.15,.30),x.values = Times){
          lines(y = log(x), x = log(TravelTime), col = colr,lwd =2))     }
   mtext(cex=2, side = 2, text = "Oppholdstid (ln)", line =2)
   mtext(cex=1.5, side = 1, text = "Reisetid (ln)", line =2.5)
-  
+  legend("topleft", "c)", cex = 1.5, bty="n")
+  legend("bottomright", legend = BetaTimeSpent, lty = c(1,1), col = cols,cex = 1.5, lwd = 2, bty="n")
+
   par(mfrow=c(1,1))
   return(datas)
 }
@@ -202,9 +204,9 @@ MVT_1 = function(Method = "Standard", Asymptote = c(.5,1), Rate = c(0.5,1), Half
   }
   if(Method=="LogLog"){
     if(any(Rate)>1){
-      print("Stop. Can not handle exponentially increasing gain curves, as this would imply infinte residence time.")
+      print("Stop. Can not handle exponentially increasing gain curves, as this would imply infinite residence time.")
     }
-    GainFunction = deriv(expr = ~exp(Intercept)*x^Rate,"x")
+    GainFunction = deriv(expr = ~exp(Intercept)*x^Rate*Asymptote,"x")
   }
   if(Method=="Sigmoid"){
     # Gompertz
@@ -226,13 +228,14 @@ MVT_1 = function(Method = "Standard", Asymptote = c(.5,1), Rate = c(0.5,1), Half
   
   # The derivatives
   df$TangentG = c(attr(bsG,"grad"))
+  # And where the tangent line crosses the x-axis
+  df$xInterceptG = with(df, Gain -TangentG*HandlingTime)
+  # Gives us then enough information to find the optimal travel time
+  df$TravelTimeG = with(df, abs((0-xInterceptG)/TangentG))
   # Second derivative
   df[,SecDer:= c(NA,diff(TangentG)), c("Rate", "Asymptote")]
   
-  # And where the tangent line crosses the x-axis
-  df$xInterceptG = with(df, Gain -TangentG*HandlingTime)
   
-  df$TravelTimeG = with(df, abs((0-xInterceptG)/TangentG))
   
   
   ### PLOTS
@@ -245,64 +248,205 @@ MVT_1 = function(Method = "Standard", Asymptote = c(.5,1), Rate = c(0.5,1), Half
   library(ggpubr)
   library(cowplot)
   
-  p1 = ggplot(data = df, aes(x = HandlingTime , y = Gain, col = interaction(Rate, Intercept), linetype = Asymptote, group = interaction(Rate, Asymptote, Intercept))) +
+  p1 = ggplot(data = df, aes(x = HandlingTime , y = Gain, 
+                             col = Rate, 
+                             linetype = Asymptote, 
+                             group = interaction(Rate, Asymptote, Intercept))) +
     xlab("Oppholdstid") + ylab("Opptak") +
     geom_line(size = lsize)+theme_classic() + theme(text = element_text(size = 20)) 
+  # 
+  # p2 = ggplot(data = df, aes(x = HandlingTime , y = TangentG, col = interaction(Rate, Intercept), linetype = Asymptote, group = interaction(Rate, Asymptote, Intercept)))+
+  #   xlab("Oppholdstid") + ylab("Funksjonell respons") +
+  #   geom_line(size = lsize)+theme_classic() + theme(text = element_text(size = 20)) 
   
-  p2 = ggplot(data = df, aes(x = HandlingTime , y = TangentG, col = interaction(Rate, Intercept), linetype = Asymptote, group = interaction(Rate, Asymptote, Intercept)))+
-    xlab("Oppholdstid") + ylab("Funksjonell respons") +
+  
+  p3 = ggplot(data = df, aes(x = TravelTimeG , y = HandlingTime, 
+                             col = Rate,
+                             linetype = Asymptote, 
+                             group = interaction(Rate, Asymptote, Intercept))) + ylab("Oppholdstid") + xlab("Reisetid")+
     geom_line(size = lsize)+theme_classic() + theme(text = element_text(size = 20)) 
   
-  
-  p3 = ggplot(data = df, aes(x = TravelTimeG , y = HandlingTime, col = interaction(Rate, Intercept), linetype = Asymptote, group = interaction(Rate, Asymptote, Intercept))) + ylab("Oppholdstid") + xlab("Reisetid")+
+  p4 = ggplot(data = df, aes(x = log(TravelTimeG) , y = log(HandlingTime), 
+                             col = Rate, 
+                             linetype = Asymptote, 
+                             group = interaction(Rate, Asymptote, Intercept)))  +
+    ylab("Oppholdstid (log)") + xlab("Reisetid (log)")+
     geom_line(size = lsize)+theme_classic() + theme(text = element_text(size = 20)) 
   
-  p4 = ggplot(data = df, aes(x = log(TravelTimeG) , y = log(HandlingTime), col = Rate, linetype = Asymptote, group = interaction(Rate, Asymptote, Intercept)))  + ylab("Oppholdstid (log)") + xlab("Reisetid (log)")+
-    geom_line(size = lsize)+theme_classic() + theme(text = element_text(size = 20)) 
-  
-  print(ggarrange(p1, p3, p4, ncol=3, nrow=1, common.legend = TRUE, legend="bottom"))
+  print(ggarrange(p1, p3, p4, ncol=3, nrow=1, common.legend = TRUE, legend="bottom", labels = "auto"))
   return(as.data.table(df))
 
 }
 ```
+Nyttefunksjoner kan utformes på svært mange måter, men i praksis så ser man at de fleste er avtagende (dvs. deakkselererende eller konveks). I praksis vil man ofte være interessert i hva skjer om en bedrer habitat for arten. Noen slik nytte-funksjoner har bedret habitatkvaliteten ved å øke asymptoten (se likning \#eq:EQ1). Dette kan sammenlignes med å f.eks. doble mengden mat i habitatet. Men da har man sett at dette, i teorien, ikke har påvirket hvor lenge et individ bør oppholde seg der (Charnov and Parker 1995; Ranta et al. 1995; Livoreil and Giraldeau 1997). 
 
-Noen slik nytte-funksjoner har bedret matobjekt-kvaliteten ved å heve nyttefunksjonen oppover, uten at dette har påvirket hvor lenge et individ bør oppholde seg der (Charnov and Parker 1995; Ranta et al. 1995; Livoreil and Giraldeau 1997). 
 
-
-\begin{equation}
-F(t) = Matobjekt - \frac{Matobjekt}{1 + Rate\cdot t} (\#eq:EQ1)
-\end{equation}
+$$
+F(t) = Asymptote - \frac{Asymptote}{1 + Rate\cdot t} (\#eq:EQ1)
+$$
 
 ```{r}
 a = MVT_1(HandlingTime = seq(0,3,.05), Rate = c(0.75,.9), Intercept = c(0,1), HalfTime = 1.5, Method = "Aastrom_1")
 ```
 
 
-\begin{equation}
-F(t) = Matobjekt - \frac{Matobjekt^2}{Matobjekt + Rate\cdot t} (\#eq:EQ2)
-\end{equation}
+$$
+F(t) = Habitat - \frac{Habitat^2}{Habitat + Rate\cdot t} (\#eq:EQ2)
+$$
 
 
-Forskjeller mellom disse er at likning \@ref(eq:EQ1) antar at prosent opptak av matobjektet er konstant når du øker størrelsen på matobjektet. Det vil si at en elg vil spise opp 20 % av en tre på 1 minutt, uavhengig om treet er 1 eller 10 meter høyt.  
+Forskjeller mellom disse er at likning \@ref(eq:EQ1) antar at prosent opptak er uavhengig av størrelsen på habitatet. Det vil si at en elg vil spise opp 20 % av en treklyngen på 10 minutt, uavhengig om treklyngen består av 10 eller 40 trær. Og det henger jo nøvendigvis ikke helt på greip. I likning \@ref(eq:EQ2) vil håndteringstiden øke med habitatstørrelsen, dvs. kurven blir flatere, og for de 10 minuttene så vil elgen ha spist en mindre andel av en stor klynge enn en liten klynge. 
+
+Videre vil opptaket i starten være variere habitatstørrelsen i \@ref(eq:EQ1), men ikke i \@ref(eq:EQ2). 
 
 
-Now, an increasein si(for a given k2)still means an
-increasein total available biomass but the asymptote is approachedwith a decreasedrate,
-i.e. the initial rate of intake is approximately the same for various si(Fig. 1b). 
 
-An increase in si now corresponds to increasing total available biomass with unchanged density. The
-meaning ofkl and k2is the samein both eqns (1) and (2). 
-
-However, eqn (2) differsfromeqn (1) in two respects. 
-First, for a given handling time and kl, eqn (1) gives the same proportional consumption for a small and largepatch (i.e. small and largesi,respectively). This is not the case for eqn (2) where for a given handling time (and k2)the proportional
-consumption of a largepatch is smallerthan of a small patch. 
 ### denne kan knyttes til funksjonell respons
-
-Second, for a given kl or k2, the initial rate of gain differs between patches of different sizes in eqn (1) but not in eqn (2
-
 
 ```{r}
 a = MVT_1(HandlingTime = seq(0,3,.05), Rate = c(0.75,.9), Intercept = c(0,1), HalfTime = 1.5, Method = "Aastrom_2")
 
 ```
+
+En annen måte å skrive det vil være å se på det som et log-log-forhold. 
+
+Antall enheter inntak kan beskrives som Poisson-fordeling. Poisson kan brukes til modellere *proportional hazard*-modeller^[McCullagh, Peter, and John A. Nelder. Generalized linear models. Routledge, 2000.] Som er brukt til å modellere hvor lenge individ skal være i et område ^[Wajnberg, Eric, Xavier Fauvergue, and Odile Pons. "Patch leaving decision rules and the Marginal Value Theorem: an experimental analysis and a simulation model." Behavioral Ecology 11.6 (2000): 577-586]. Ved å legge til log-tid responsen tolkes som en rate. I MVT antar en avtagende utbytte, slik at $\beta_{Time}<1$. 
+
+
+I studier som går på habitatbruk legger man ofte til areal tilgjengelig habitat som offset for å se på hvordan bruken avviker fra tilgjengelighet, altså *habitatvalg*. Tilsvarende kan man også gjøre her. 
+
+$log(Opptak) = \beta_{Rate} * log(Area) + \beta_{Time}*log(Time)$
+
+
+Ved å legge til $log(Areal)$ vil det endelige uttrykket være $Opptak = Areal^{\beta_{areal}}*Tid^{\beta_{tid}}$. Og hvis areal er lagt til som en offset vil $\beta_{areal}=1$, slik at $Opptak = Areal*Tid^{\beta_{tid}}$
+
+
+
+
+# Utledninger
+## Generell løsning
+1) Man har for oppholdstid t* så vil funksjonen $G(t)$ har stigningstall/tangent lik $\delta G/\delta t$
+2) Punktet hvor tangenten $\delta G/\delta t$ skjærer i x-aksen er reisetid $T_s$. 
+3) Tangenten er jo en rett linje som kan beskrives med stigningstll $b$ og skjæringspunkt $a$, slik at $T_s = -a/b$. 
+ Hvor $a = G(t = t*) - \delta G/\delta t$, og $b = \delta G/\delta t$.  
+
+4) Generell løsning.  $\delta t^*$ vil være kortform for den $\delta G/\delta t$ ved punkt $t^*$.
+$$
+T_s = -a/b
+$$
+$$
+T_s = -(\frac{G(t = t^*) - \delta G/\delta t}{\delta t^*})
+$$
+$$
+-T_s = t^* - \frac{G(t = t^*)}{\delta t^*}
+$$
+$$
+-T_s = -t^* + \frac{G(t = t^*)}{\delta t^*} 
+$$
+$$
+T_s = t^* - \frac{G(t = t^*)}{\delta t^*}
+$$
+
+6. Dette vil så kunne løses for gitte nyttefunksjoner $G(t)$. 
+
+## log-log
+7. For log-log-funksjonen vi så over hvor $log(G(t)) = \beta log(t)$.
+$$
+G(t) = t^\beta
+$$
+og 
+$$
+\frac{\delta G}{\delta t} = \beta t^{\beta-1}
+$$
+Vi setter dette inn i det generelle løsningen over. 
+$$
+T_s = t^*- \frac{t^{*\beta}}{\beta t^{*\beta - 1}}
+$$
+Som forenkles til
+$$
+T_s = t^*- \frac{t^{*}}{\beta}
+$$
+
+$$
+T_s = t^* (1 - \frac{1}{\beta})
+$$
+$$
+\frac{T_s}{1-\frac{1}{\beta}} = t^*
+$$
+
+Man kan også legge til areal 
+$$ log(G(t)) = \beta log(t) + \gamma log(A)$$
+$$G(t) = t^{\beta}A^{\gamma}$$
+$$L_s = t^* - \frac{t^{\beta}A^{\gamma}}{A^{\gamma}\beta t^{\beta-1}}$$
+$$ L_s = t - \frac{t}{b}$$
+$$ t = \frac{bT}{b-1}$$
+## Åström mfl 1990 likn. 1
+8. For liking 1 fra Åström mfl. 1990
+
+$$ G(t) = S_i(1 - \frac{1}{1 + kt}) $$ 
+
+og
+$$ \frac{\delta G}{\delta t} = \frac{ks}{(1 + kt)^2}$$
+
+Vi setter dette inn i det generelle løsningen over. 
+$$ T_s = t^*- \frac{s(1-\frac{1}{1 + kt})}{\frac{ks}{(1 + kt)^2}}$$
+
+$$ T_s = t^*- \frac{((1-kt)^2)(s - \frac{s}{1 - kt})}{ks} $$
+$$ T_s = t^* - t^*(kt^*-1) $$
+$$ T_s = t^* - kt^{*2} - t $$
+
+$$ T_s = kt^{*2} $$
+$$ \sqrt{\frac{T_s}{k}} = t^* $$
+
+## Åström mfl 1990 likn. 2
+9. For likning 2 fra Åström mfl. 1990
+
+$$ 
+G(t) = S_i(1 - \frac{1}{1 + \frac{kt}{S_i}}) = S - \frac{S{_i}^2 }{S_i + kt}
+$$
+og
+$$ 
+\frac{\delta G}{\delta t} = \frac{kS_{i}^2}{(kt + S_i)^2}
+$$
+
+Vi setter dette inn i det generelle løsningen over. 
+
+$$
+T_s = t - \frac{S - \frac{S{_i}^2 }{S_i + kt}}{\frac{kS_{i}^2}{(kt + S_i)^2}}
+$$
+Og forenkler denne til
+$$
+T_s = \frac{(-1)kt^2}{S}
+
+$$
+
+$$-\frac{S_{i}T_{s}}{k} = t^2 $$
+
+Alternativt, ved å gå tilbake til den generelleløsningen så kan $b$ også skrives som $b = G(t)/[t^* + T_s]$.
+
+
+
+Hvis man bruker den, så vil 
+$T_s = T_s + t$
+
+$t = T_s/2$
+
+## SIH 1980
+
+$$G(t) = \frac{G_{max}t}{d + t}$$
+I denne studien har vi byttet ut $c$ med $d$, da $d$ er invers av hvordan vi har tolket raten tidligere. 
+
+$$\frac{\delta}{\delta t} = \frac{dG}{(d+t)^2}$$
+
+$$T_s = t - \frac{\frac{G_{max}t}{d + t}}{\frac{dG}{(d+t)^2}}$$
+
+$$T_s = t - \frac{t(d+t)}{d}$$
+$$ t = \sqrt{dT_s}$$
+$$ T_s = \frac{t^2}{d}$$
+### SIH 1980 alt
+$$G(t) = \frac{G_{max}t}{dG_{max} + t}$$
+$$\frac{\delta}{\delta t} = \frac{dG^2}{(dG+t)^2}$$
+$$T_s = t - \frac{t(dG_{max}+t)}{G_{max}d}$$
+
+
 

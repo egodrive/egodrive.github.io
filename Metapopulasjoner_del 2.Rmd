@@ -5,7 +5,6 @@ description: >
 draft: false
 author:
   - name: Endre Grüner Ofstad
-bibliography: bibliography.bib
 categories:
   - Økologi
   - Økosystem
@@ -245,7 +244,7 @@ ggplot(data = ParameterSpace,
 
 La oss nå se på et mer konkret eksempel.
 
-```{r, cache = T, eval = T,  message=FALSE, echo=FALSE}
+```{r, cache = T,eval = T,  message=FALSE, echo=FALSE}
 library(data.table)
 library(sf)
 library(ggmap)
@@ -346,16 +345,15 @@ Plotting = function(Geografi = VOgeo3, AntallNye = 0){
     th
 
   }
-th  = th + theme(plot.margin = unit(c(2, 0, 1, 0), "pt"))
-grid.arrange(Plotting(VOgeo)+th,
+
+#grid.arrange(
+  Plotting(VOgeo)+coord_fixed()#,
              Plotting(VOgeo1, 
-                      AntallNye = 1) + th,
+                      AntallNye = 1)+coord_fixed()#,
              Plotting(VOgeo2, 
-                      AntallNye = 1) + th,
+                      AntallNye = 1)+coord_fixed()#,
              Plotting(VOgeo3, 
-                      AntallNye = 2) + th,
-             ncol = 4, nrow = 1)
+                      AntallNye = 2)+coord_fixed()#, ncol = 4, nrow = 1)
 ```
 
-
-test 2
+  
