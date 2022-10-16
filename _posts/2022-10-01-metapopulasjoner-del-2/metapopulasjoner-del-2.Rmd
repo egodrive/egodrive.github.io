@@ -20,16 +20,17 @@ output:
 I en [metapopulasjon](https://egodrive.github.io/posts/Metapopulasjoner/) så betyr det noe hvor bestandene er. Og hvilke som ligger hvor - ikke alle bestander er skapt like. 
 
 # Hvilke områder kan gjøre nettverket sterkere?
-I en tidligere post om [metapopulasjoner](https://egodrive.github.io/posts/Metapopulasjoner/) skrev vi om hvordan konnektivitet ($S_{i}$) i en metapopulasjon kan "enkelt" skildres basert på avstanden mellom delområdene ($d_{ij}$) og størrelsen av delområdene ($A_{i}A_{j}$). Større konnektivitet er ofte assosiert med høyere sannsynlighet for tilstedeværelse av en bestand (@ranius2014metapopulation). Endringene i andelen bebodde habitat (eller bestander), $p$, kan beskrives med utvekslingene mellom områdene $i$ og $j$: $m_{ij} = e^{-\alpha d_{ij}}A_{i}A_{j}$.
+I en tidligere post om [metapopulasjoner](https://egodrive.github.io/posts/Metapopulasjoner/) skrev vi om hvordan konnektivitet ($S_{i}$) i en metapopulasjon kan "enkelt" skildres basert på avstanden mellom delområdene ($d_{ij}$) og størrelsen av delområdene ($A_{i}A_{j}$). Større konnektivitet er ofte assosiert med høyere sannsynlighet for tilstedeværelse av en bestand (@ranius2014metapopulation). Endringene i andelen bebodde område (eller bestander), $p$, kan beskrives med utvekslingene mellom områdene $i$ og $j$: $m_{ij} = e^{-\alpha d_{ij}}A_{i}A_{j}$.
 
-Man kan beskrive bevegelsen mellom alle områdene (dvs. for hele metapopulasjonen) med en kvadratisk matrise **M** hvor lengden (og bredden) er lik antall habitat og fyller den med verdiene $m_{ij}$. For denne matrisen så finner vi eigenverdien $\lambda_{M}$. $\lambda_{M}$ kalles også for *metapopulasjonens kapasitet*. Eigenverdien tilsvarer andel bebodde habitat ($h$ i modellene til  @levins1969some, @levin1970community; også tilsvarende $p$ i [likning 3 her](https://egodrive.github.io/posts/Metapopulasjoner/)). 
+Man kan beskrive bevegelsen mellom alle områdene (dvs. for hele metapopulasjonen) med en kvadratisk matrise **M** hvor lengden (og bredden) er lik antall områder og fyller den med verdiene $m_{ij}$. For denne matrisen så finner vi eigenverdien $\lambda_{M}$. $\lambda_{M}$ kalles også for *metapopulasjonens kapasitet*. Eigenverdien tilsvarer andel bebodde områder ($h$ i modellene til  @levins1969some, @levin1970community; også tilsvarende $p$ i [likning 3 her](https://egodrive.github.io/posts/Metapopulasjoner/)). 
 
-Parametrene som inngår i lambda M er teoretisk knyttet til bestandens overlevelse. Når $\lambda_{M}>E/C$ så vil bestanden være levedyktig i det lange løp. $C$ - koloniseringsrate (hvor mange individ som forlater et habitat i retning av alle andre habitat). Noe som også er bekreftet eksperimentelt (@molofsky2005extinction, @govindan2015intermediate) og i felt (@bulman2007minimum). 
+Parametrene som inngår i lambda M er teoretisk knyttet til bestandens overlevelse. Når $\lambda_{M}>E/C$ så vil bestanden være levedyktig i det lange løp. $C$ - koloniseringsrate (hvor mange individ som forlater et områder i retning av alle andre områder). Noe som også er bekreftet eksperimentelt (@molofsky2005extinction, @govindan2015intermediate) og i felt (@bulman2007minimum). 
 
 
-Metapopulasjonskapasitet samsvarer i stor grad med rødlistevurderingene (@schnell2013estimating, @schnell2013quantitative, @huang2020using). IUCN har laget rammeverket for rødlistevurderingene som brukes både nasjonalt og internasjonalt. I dette rammeverket så blir bestander som er fordelt over flere små habitat ('several small') vurdert til å være i en mer kritisk tilstand enn bestander som er samlet i færre større habitat ('single large'). 
+Metapopulasjonskapasitet samsvarer i stor grad med rødlistevurderingene (@schnell2013estimating, @schnell2013quantitative, @huang2020using). IUCN har laget rammeverket for rødlistevurderingene som brukes både nasjonalt og internasjonalt. I dette rammeverket så blir bestander som er fordelt over flere små områder ('several small') vurdert til å være i en mer kritisk tilstand enn bestander som er samlet i færre større områder ('single large'). 
 
-En av antagelsen ved modellen over er at spredning øker med arealet til bestanden. Dette medfører blant annet at en økning av arealet til en bestand sitt område øker metapopulasjonskapasiteten. Altså et stort område er bedre enn mange små. Men det er ikke alltid tilfelle at spredning øker med arealet (@wang2019metapopulations). Hos noen arter, slik som gresshoppen vortebiter kan antallet som sprer seg bli mindre med økende områdestørrelse (Hjermann, D. 2000. Spatial ecology of the bush-cricket Decticus verrucivorus: Movement, metapopulation dynamics and genetic variation in patchy and linear habitats. ). Hos slike arter anbefales at man forsøker å ivareta mange små habitat.  
+En av antagelsen ved modellen over er at spredning øker med arealet til bestanden. Dette medfører blant annet at en økning av arealet til en bestand sitt område øker metapopulasjonskapasiteten. Altså et stort område er bedre enn mange små. Men det er ikke alltid tilfelle at spredning øker med arealet (@wang2019metapopulations). Hos noen arter, slik som gresshoppen vortebiter kan antallet som sprer seg bli mindre med økende områdestørrelse. Hos slike arter anbefales at man forsøker å ivareta mange små habitat. 
+
 
 Slike forhold, og antagelsene om positive forhold mellom areal og immigrasjon og uttryddelsesrate kan bakes inn i forholdene gitt over (@ovaskainen2002long), ved at økende areal kan ha en negativ eller positiv effekt på $m_i{ij}$ ved å justere eksponenten $\theta$. 
 
@@ -249,7 +250,7 @@ ParameterSpace[,AverageConnectivity:=colMeans(Connectivities)]
 
 
 ```
-```{r AndelVekst, cache = T, fig.cap="Gjennomsnittlig vekst i andel bebodde habitat med økende metapopulasjonskapasitet. Linjen viser en lineær regresjon. "}
+```{r AndelVekst, cache = T, fig.cap="Gjennomsnittlig vekst i andel bebodde områder med økende metapopulasjonskapasitet. Linjen viser en lineær regresjon. "}
 # Øyer som har bedre tilknytning har bedre vekst
 ggplot(data = ParameterSpace,
        mapping = aes(x = (EigenvalueCentrality), 
@@ -257,13 +258,13 @@ ggplot(data = ParameterSpace,
   geom_point()+
   geom_smooth(method = "lm", se=FALSE)+
   xlab("Metapopulasjonkapasitet")+
-  ylab("Vekst i andel\n bebodde habitat") +
+  ylab("Vekst i andel\n bebodde områder") +
   coord_cartesian(ylim = quantile(ParameterSpace$AndelUtvikling,c(.1,.9))) 
 
 
 ```
 
-```{r AndelBebodde, cache = T, fig.cap="Gjennomsnittlig andel bebodde habitat med økende metapopulasjonskapasitet. Linjen viser en logistisk regresjon."}
+```{r AndelBebodde, cache = T, fig.cap="Gjennomsnittlig andel bebodde områder med økende metapopulasjonskapasitet. Linjen viser en logistisk regresjon."}
 ggplot(data = ParameterSpace,
        mapping = aes(x = (EigenvalueCentrality), 
                      y = SnittPrevalens))+
@@ -272,7 +273,7 @@ ggplot(data = ParameterSpace,
               method.args = list(family = "binomial"), 
               se = FALSE)+
   xlab("Metapopulasjonkapasitet")+
-  ylab("Andel bebodde habitat \n (gj.snitt)")+
+  ylab("Andel bebodde områder \n (gj.snitt)")+
   coord_cartesian(ylim = quantile(ParameterSpace$SnittPrevalens
                                   ,c(.1,.9))) 
 ```
