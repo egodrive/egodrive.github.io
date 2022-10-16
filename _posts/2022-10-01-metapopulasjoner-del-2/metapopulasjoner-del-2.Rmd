@@ -432,7 +432,6 @@ For disse artene så brukes det mye tid og penger på tiltak. Metapopulasjonsteo
 Vi henter data fra GBIF (Artskart) for disse to artene. Og antar at dragehodeglansbille har en gjennomsnittlig spredningsdistanse på ca. 1500 meter. Vi kjører først en algoritme som grupperer forekomstene slik at de som er innenfor 1500 m fra hverandre blir gruppert sammen og utgjør en "bestand". Slik at bevelse innenfor denne avstanden er "normal" bevegelse, mens bevegelse utover dette er "spredning". 
 
 ```{r GBIF prepping, cache = T}
-### DRAGEHODE #####
 #install.packages("rgbif")
 library(rgbif)
 #library(scrubr)
@@ -446,7 +445,7 @@ library(adehabitatHR)
 
 myspecies <- c("Meligethes norvegicus","Dracocephalum ruyschiana")
 
-if(!file.exists("G:/egodrive.github.io/_posts/2022-10-01-metapopulasjoner-del-2/gbif_data.csv")){
+if(!file.exists("C:/Users/endre/OneDrive/Tekster/egodrive.github.io/_posts/2022-10-01-metapopulasjoner-del-2/gbif_data.csv")){
 gbif_data <- occ_data(scientificName = myspecies, 
                       hasCoordinate = TRUE,
                       country = "NO", 
@@ -457,9 +456,9 @@ Beetle = data.table(gbif_data$`Meligethes norvegicus`$data)
 
 Joint = rbind(Beetle, Host, fill = T)
 Joint$networkKeys<-NULL
-fwrite(Joint,"G:/egodrive.github.io/_posts/2022-10-01-metapopulasjoner-del-2/gbif_data.csv")
+fwrite(Joint,"C:/Users/endre/OneDrive/Tekster/egodrive.github.io/_posts/2022-10-01-metapopulasjoner-del-2/gbif_data.csv")
 }
-Joint = fread("G:/egodrive.github.io/_posts/2022-10-01-metapopulasjoner-del-2/gbif_data.csv")
+Joint = fread("C:/Users/endre/OneDrive/Tekster/egodrive.github.io/_posts/2022-10-01-metapopulasjoner-del-2/gbif_data.csv")
 
 Joint = cbind(data.table(coordinates(spTransform(
   SpatialPoints(coords = Joint[,c("decimalLongitude", "decimalLatitude")],
@@ -509,21 +508,20 @@ if("metapop" %in% installed.packages()[,1]){
 d = dist(Joint[centrY>0,.SD[1], c("Populasjon")][,c("centrX", "centrY")])
 Ar = as.numeric(Joint[centrY>0,.SD[1], c("Populasjon")]$Areal)
 iD = 1/DispDistanceM
-
-
 ```
-```{r Dragehode, cache = T, fig.cap="Utbredelsen av bestandene med dragehode, hvor størrelsen reflekterer EV, verdien bestanden har for metapopulasjonen."}
+
+
+```{r, fig.cap="Forholdet mellom antall dragehode i en bestand og areal på bestanden, hvor punktstørrelsen reflekterer EV (verdien bestanden har for metapopulasjonen av dragehode) og fargen om det er en bille tilstede eller ikke. Linjen viser en poisson-regresjon."}
+library(data.table);library(scales)
+library(cowplot);library(metapop)
+library(ggplot2)
+
 sol <- metacapa(d, Ar,
                 alpha = iD)
 
 Joint = cbind(Joint[centrY>0,.SD[1], c("Populasjon")][,c("Populasjon")],EV = sol$x
 )[Joint, on = "Populasjon"]
 
-```
-```{r, fig.cap="Forholdet mellom antall dragehode i en bestand og areal på bestanden, hvor punktstørrelsen reflekterer EV (verdien bestanden har for metapopulasjonen av dragehode) og fargen om det er en bille tilstede eller ikke. Linjen viser en poisson-regresjon."}
-library(data.table);library(scales)
-library(cowplot)
-library(ggplot2)
 p = ggplot(data = Joint[Areal>4 & nHost >0.1],
        aes( y = (nHost), x = (Areal)))+
   geom_point(mapping = aes(col = factor(BeetlePresent), size = EV))+
