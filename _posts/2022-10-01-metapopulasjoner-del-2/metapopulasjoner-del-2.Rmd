@@ -9,6 +9,10 @@ bibliography: bibliography.bib
 categories:
   - Økologi
   - Økosystem
+  - Arter
+  - Dragehode
+  - Dragehodeglansbille
+  - Verneområde
 output:
   distill::distill_article:
     self_contained: false
