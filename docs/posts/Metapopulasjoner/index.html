@@ -50,16 +50,17 @@ pre.numberSource code > span > a:first-child::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {   }
+  { color: #00769e; background-color: #f1f3f5; }
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
+code span { color: #00769e; } /* Normal */
 code span.al { color: #ad0000; } /* Alert */
 code span.an { color: #5e5e5e; } /* Annotation */
-code span.at { } /* Attribute */
+code span.at { color: #657422; } /* Attribute */
 code span.bn { color: #ad0000; } /* BaseN */
 code span.bu { } /* BuiltIn */
-code span.cf { color: #007ba5; } /* ControlFlow */
+code span.cf { color: #00769e; } /* ControlFlow */
 code span.ch { color: #20794d; } /* Char */
 code span.cn { color: #8f5902; } /* Constant */
 code span.co { color: #5e5e5e; } /* Comment */
@@ -73,9 +74,9 @@ code span.fl { color: #ad0000; } /* Float */
 code span.fu { color: #4758ab; } /* Function */
 code span.im { } /* Import */
 code span.in { color: #5e5e5e; } /* Information */
-code span.kw { color: #007ba5; } /* Keyword */
+code span.kw { color: #00769e; } /* Keyword */
 code span.op { color: #5e5e5e; } /* Operator */
-code span.ot { color: #007ba5; } /* Other */
+code span.ot { color: #00769e; } /* Other */
 code span.pp { color: #ad0000; } /* Preprocessor */
 code span.sc { color: #5e5e5e; } /* SpecialChar */
 code span.ss { color: #20794d; } /* SpecialString */
@@ -114,8 +115,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 
 <!--  https://schema.org/Article -->
-<meta property="article:published" itemprop="datePublished" content="2022-01-22"/>
-<meta property="article:created" itemprop="dateCreated" content="2022-01-22"/>
+<meta property="article:published" itemprop="datePublished" content="2022-10-16"/>
+<meta property="article:created" itemprop="dateCreated" content="2022-10-16"/>
 <meta name="article:author" content="Endre Grüner Ofstad"/>
 
 <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
@@ -141,7 +142,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--radix_placeholder_rmarkdown_metadata-->
 
 <script type="text/json" id="radix-rmarkdown-metadata">
-{"type":"NULL"}
+{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","draft","author","bibliography","categories","output","date"]}},"value":[{"type":"character","attributes":{},"value":["Metapopulasjoner"]},{"type":"character","attributes":{},"value":["For vi er legion."]},{"type":"logical","attributes":{},"value":[false]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name"]}},"value":[{"type":"character","attributes":{},"value":["Endre Grüner Ofstad"]}]}]},{"type":"character","attributes":{},"value":["bibliography.bib"]},{"type":"character","attributes":{},"value":["Økologi","Økosystem"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained","code_folding","toc","toc_float"]}},"value":[{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]},{"type":"logical","attributes":{},"value":[true]},{"type":"logical","attributes":{},"value":[true]}]}]},{"type":"character","attributes":{},"value":["10-16-2022"]}]}
 </script>
 <!--/radix_placeholder_rmarkdown_metadata-->
   
@@ -2102,7 +2103,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <!--/radix_placeholder_distill-->
-  <script src="../../site_libs/header-attrs-2.11/header-attrs.js"></script>
+  <script src="../../site_libs/header-attrs-2.14/header-attrs.js"></script>
   <script src="../../site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
   <script src="../../site_libs/popper-2.6.0/popper.min.js"></script>
   <link href="../../site_libs/tippy-6.2.7/tippy.css" rel="stylesheet" />
@@ -2123,7 +2124,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Metapopulasjoner","description":"For vi er legion.","authors":[{"author":"Endre Grüner Ofstad","authorURL":"#","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2022-01-22T00:00:00.000+01:00","citationText":"Ofstad, 2022"}
+{"title":"Metapopulasjoner","description":"For vi er legion.","authors":[{"author":"Endre Grüner Ofstad","authorURL":"#","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2022-10-16T00:00:00.000+02:00","citationText":"Ofstad, 2022"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2159,10 +2160,20 @@ document.addEventListener('DOMContentLoaded', function() {
 <div class="d-byline">
   Endre Grüner Ofstad  
   
-<br/>01-22-2022
+<br/>10-16-2022
 </div>
 
 <div class="d-article">
+<div class="d-contents d-contents-float">
+<nav class="l-text toc figcaption" id="TOC">
+<h3>Contents</h3>
+<ul>
+<li><a href="#øyer">Øyer</a></li>
+<li><a href="#alt-er-en-plass">Alt er en plass</a></li>
+<li><a href="#i-gode-og-onde-dager">I gode og onde dager</a></li>
+</ul>
+</nav>
+</div>
 <p>En bestand er sjeldent alene. Man finner ofte flere bestander av samme art spredt utover landskapet. Noen bestander er store, andre små. Noen ligger tett sammen, andre ligger mer isolert. Felles kalles disse bestandene (populasjonene) for en <em>metapopulasjon</em> (<span class="citation" data-cites="levins1969some"><a href="#ref-levins1969some" role="doc-biblioref">Levins</a> (<a href="#ref-levins1969some" role="doc-biblioref">1969</a>)</span>, <span class="citation" data-cites="levin1970community"><a href="#ref-levin1970community" role="doc-biblioref">Levin</a> (<a href="#ref-levin1970community" role="doc-biblioref">1970</a>)</span>), eller ‘populasjon av populasjoner.’ Hvor landskapet mellom bestandene blir omtalt som ‘matrisen.’</p>
 <div class="layout-chunk" data-layout="l-body">
 <details>
@@ -2170,19 +2181,18 @@ document.addEventListener('DOMContentLoaded', function() {
 Show code
 </summary>
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/dkahle/ggmap'>ggmap</a></span><span class='op'>)</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>mapproj</span><span class='op'>)</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://wilkelab.org/cowplot/'>cowplot</a></span><span class='op'>)</span>
-<span class='va'>aa</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/ggmap/man/ggmap.html'>ggmap</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/ggmap/man/get_map.html'>get_map</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>left <span class='op'>=</span> <span class='fl'>12.43</span>, right <span class='op'>=</span> <span class='fl'>12.55</span>,bottom <span class='op'>=</span> <span class='fl'>66.35</span>, top <span class='op'>=</span> <span class='fl'>66.40</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span><span class='op'>+</span>
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>xlab</a></span><span class='op'>(</span><span class='st'>"Lengdegrad"</span><span class='op'>)</span><span class='op'>+</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>ylab</a></span><span class='op'>(</span><span class='st'>"Breddegrad"</span><span class='op'>)</span><span class='op'>+</span><span class='fu'><a href='https://wilkelab.org/cowplot/reference/theme_cowplot.html'>theme_cowplot</a></span><span class='op'>(</span><span class='op'>)</span>
-<span class='va'>aa</span>
-</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/dkahle/ggmap'>ggmap</a></span><span class='op'>)</span></span>
+<span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>mapproj</span><span class='op'>)</span></span>
+<span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://wilkelab.org/cowplot/'>cowplot</a></span><span class='op'>)</span></span>
+<span><span class='va'>aa</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/ggmap/man/ggmap.html'>ggmap</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/ggmap/man/get_map.html'>get_map</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>left <span class='op'>=</span> <span class='fl'>12.43</span>, right <span class='op'>=</span> <span class='fl'>12.55</span>,bottom <span class='op'>=</span> <span class='fl'>66.35</span>, top <span class='op'>=</span> <span class='fl'>66.40</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span><span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>xlab</a></span><span class='op'>(</span><span class='st'>"Lengdegrad"</span><span class='op'>)</span><span class='op'>+</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>ylab</a></span><span class='op'>(</span><span class='st'>"Breddegrad"</span><span class='op'>)</span><span class='op'>+</span><span class='fu'><a href='https://wilkelab.org/cowplot/reference/theme_cowplot.html'>theme_cowplot</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span><span class='va'>aa</span></span></code></pre>
 </div>
 </details>
 <div class="figure"><span style="display:block;" id="fig:FIG0"></span>
-<img src="Blog_metapopulasjoner_files/figure-html5/FIG0-1.png" alt="Øyene langs kysten av Lovund i Nordland er habitat hvor fastlandsarter som vånd vil kunne danne bevege seg mellom og danne bestander. Antallet og hvor man finner individ vil variere med arealet og avstanden mellom øyene " width="768" />
+<img src="Blog_metapopulasjoner_files/figure-html5/FIG0-1.png" alt="Øyene langs kysten av Lovund i Nordland er habitat hvor fastlandsarter som vånd vil kunne danne bevege seg mellom og danne bestander. Antallet og hvor man finner individ vil variere med arealet og avstanden mellom øyene. " width="768" />
 <p class="caption">
-Figure 1: Øyene langs kysten av Lovund i Nordland er habitat hvor fastlandsarter som vånd vil kunne danne bevege seg mellom og danne bestander. Antallet og hvor man finner individ vil variere med arealet og avstanden mellom øyene
+Figure 1: Øyene langs kysten av Lovund i Nordland er habitat hvor fastlandsarter som vånd vil kunne danne bevege seg mellom og danne bestander. Antallet og hvor man finner individ vil variere med arealet og avstanden mellom øyene.
 </p>
 </div>
 </div>
@@ -2213,15 +2223,14 @@ Figure 1: Øyene langs kysten av Lovund i Nordland er habitat hvor fastlandsarte
 Show code
 </summary>
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>20</span>, by <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>, type <span class='op'>=</span> <span class='st'>"l"</span>, lty <span class='op'>=</span> <span class='fl'>2</span>, xlab <span class='op'>=</span> <span class='st'>"Antall arter"</span>, ylab <span class='op'>=</span> <span class='st'>"Innvandringer/Utryddelser"</span>, col <span class='op'>=</span> <span class='st'>"turquoise"</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>8</span>, by <span class='op'>=</span> <span class='fl'>.8</span><span class='op'>)</span>, col <span class='op'>=</span> <span class='st'>"turquoise"</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>8</span>, <span class='fl'>0</span>, by <span class='op'>=</span> <span class='op'>-</span><span class='fl'>.8</span><span class='op'>)</span>, col <span class='op'>=</span> <span class='st'>"coral"</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>18</span>, <span class='fl'>0</span>, by <span class='op'>=</span> <span class='op'>-</span><span class='fl'>1.8</span><span class='op'>)</span>, lty <span class='op'>=</span> <span class='fl'>2</span>, col <span class='op'>=</span> <span class='st'>"coral"</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/text.html'>text</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fl'>2</span>, y <span class='op'>=</span> <span class='fl'>8</span>, <span class='st'>"Fjernt"</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/text.html'>text</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fl'>3</span>, y <span class='op'>=</span> <span class='fl'>16</span>, <span class='st'>"Nært"</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/text.html'>text</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fl'>9</span>, y <span class='op'>=</span> <span class='fl'>8</span>, <span class='st'>"Stor øy"</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/text.html'>text</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fl'>8</span>, y <span class='op'>=</span> <span class='fl'>16</span>, <span class='st'>"Liten øy"</span><span class='op'>)</span>
-</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>20</span>, by <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>, type <span class='op'>=</span> <span class='st'>"l"</span>, lty <span class='op'>=</span> <span class='fl'>2</span>, xlab <span class='op'>=</span> <span class='st'>"Antall arter"</span>, ylab <span class='op'>=</span> <span class='st'>"Innvandringer/Utryddelser"</span>, col <span class='op'>=</span> <span class='st'>"turquoise"</span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>8</span>, by <span class='op'>=</span> <span class='fl'>.8</span><span class='op'>)</span>, col <span class='op'>=</span> <span class='st'>"turquoise"</span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>8</span>, <span class='fl'>0</span>, by <span class='op'>=</span> <span class='op'>-</span><span class='fl'>.8</span><span class='op'>)</span>, col <span class='op'>=</span> <span class='st'>"coral"</span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>18</span>, <span class='fl'>0</span>, by <span class='op'>=</span> <span class='op'>-</span><span class='fl'>1.8</span><span class='op'>)</span>, lty <span class='op'>=</span> <span class='fl'>2</span>, col <span class='op'>=</span> <span class='st'>"coral"</span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/graphics/text.html'>text</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fl'>2</span>, y <span class='op'>=</span> <span class='fl'>8</span>, <span class='st'>"Fjernt"</span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/graphics/text.html'>text</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fl'>3</span>, y <span class='op'>=</span> <span class='fl'>16</span>, <span class='st'>"Nært"</span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/graphics/text.html'>text</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fl'>9</span>, y <span class='op'>=</span> <span class='fl'>8</span>, <span class='st'>"Stor øy"</span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/graphics/text.html'>text</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fl'>8</span>, y <span class='op'>=</span> <span class='fl'>16</span>, <span class='st'>"Liten øy"</span><span class='op'>)</span></span></code></pre>
 </div>
 </details>
 <div class="figure"><span style="display:block;" id="fig:FIG1"></span>
@@ -2348,7 +2357,7 @@ Show code
 <span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Tidssteg </span></span>
 <span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a>  t <span class="ot">=</span> <span class="dv">2</span></span>
 <span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a>  <span class="cf">while</span>(t<span class="sc">&lt;</span>tmax){</span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a>  <span class="cf">while</span>(t<span class="sc">&lt;</span> ){</span>
 <span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a>    KoloniseringsRateØy_i <span class="ot">=</span> <span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span>nØyer, <span class="cf">function</span>(i){</span>
 <span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a>      c_konstant<span class="sc">*</span><span class="fu">sum</span>(Tilstede[<span class="sc">-</span>i]<span class="sc">*</span>ØyStr[<span class="sc">-</span>i]<span class="sc">*</span></span>
 <span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a>                       <span class="fu">exp</span>(<span class="sc">-</span>Alpha<span class="sc">*</span><span class="fu">as.matrix</span>(MellomØyAvstand)[<span class="sc">-</span>i,i]))}) <span class="co"># Si</span></span>
@@ -2389,88 +2398,93 @@ Show code
 <summary>
 Show code
 </summary>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2);<span class="fu">library</span>(ggExtra);<span class="fu">library</span>(data.table)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Antall øyer/habitat i systemet</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>nØyer <span class="ot">=</span> <span class="dv">40</span> <span class="co">#i</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co"># lengde på tidsserie</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>tmax <span class="ot">=</span> <span class="dv">500</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Sett et frø for utgangspunkt</span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co">#set.seed(999)</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Tilfeldig antall øyer er bebodd, og tilfeldig hvilken av disse</span></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="co">#AntallBebodd = sample(1:nØyer,1)</span></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>AntallBebodd <span class="ot">=</span> <span class="fu">ceiling</span>(nØyer<span class="sc">*</span>.<span class="dv">2</span>)</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>Bebodd <span class="ot">=</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span>nØyer,AntallBebodd)</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>Tilstede <span class="ot">=</span> <span class="fu">rep</span>(<span class="dv">0</span>, nØyer)</span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>Tilstede[Bebodd]<span class="ot">&lt;-</span><span class="dv">1</span></span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>TidsserieTilstede <span class="ot">=</span> <span class="fu">matrix</span>(<span class="fu">rep</span>(<span class="fu">rep</span>(<span class="cn">NA</span>, nØyer), tmax), <span class="at">ncol =</span> nØyer)</span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>TidsserieTilstede[<span class="dv">1</span>,]<span class="ot">&lt;-</span>Tilstede</span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>TidsserieKoloniseringsrater <span class="ot">=</span> <span class="fu">matrix</span>(<span class="fu">rep</span>(<span class="fu">rep</span>(<span class="cn">NA</span>, nØyer), tmax), <span class="at">ncol =</span> nØyer)</span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>TidsserieKoloniseringsrater[<span class="dv">1</span>,]<span class="ot">&lt;-</span><span class="dv">0</span></span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a><span class="co"># tilfeldig plassering av øyene</span></span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>ArenaStørrelse <span class="ot">=</span> <span class="fl">3.4</span></span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>xPos <span class="ot">=</span> <span class="fu">runif</span>(<span class="at">n =</span> nØyer, <span class="at">min =</span> <span class="dv">0</span>, <span class="at">max =</span> ArenaStørrelse)</span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>yPos <span class="ot">=</span> <span class="fu">runif</span>(<span class="at">n =</span> nØyer, <span class="at">min =</span> <span class="dv">0</span>, <span class="at">max =</span> ArenaStørrelse)</span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Tilfeldig størrelse</span></span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>ØyStr <span class="ot">=</span> <span class="fu">rlnorm</span>(<span class="at">n =</span> nØyer, <span class="at">meanlog =</span> .<span class="dv">1</span>, <span class="at">sdlog =</span> .<span class="dv">1</span>) <span class="co">#Ai</span></span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Regn ut mellom-øy avstand</span></span>
-<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>MellomØyAvstand <span class="ot">=</span> <span class="fu">dist</span>(<span class="fu">cbind</span>(xPos, yPos), <span class="at">diag =</span> T, <span class="at">upper =</span> T) <span class="co"># dij</span></span>
-<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>Alpha <span class="ot">=</span> <span class="sc">-</span><span class="dv">1</span><span class="co">#1/mean(MellomØyAvstand)</span></span>
-<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a><span class="co"># Konstanter</span></span>
-<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>c_konstant <span class="ot">=</span> .<span class="dv">6</span></span>
-<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>e_konstant <span class="ot">=</span> <span class="dv">87</span></span>
-<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a><span class="co"># Utryddelsesrater er konstant over tid</span></span>
-<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>UtryddelsesRateØy_i <span class="ot">=</span> e_konstant<span class="sc">/</span>ØyStr</span>
-<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a><span class="co"># fra Hanski, Ilkka, et al. &quot;The quantitative incidence function model and persistence of an endangered butterfly metapopulation.&quot; Conservation Biology 10.2 (1996): 578-590.</span></span>
-<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>ØystrEffekt <span class="ot">=</span> <span class="fl">0.952</span></span>
-<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>muTick <span class="ot">=</span> <span class="fl">0.158</span></span>
-<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>AjAi <span class="ot">=</span> <span class="fu">sapply</span>(ØyStr, <span class="cf">function</span>(x) x<span class="sc">*</span>ØyStr)</span>
-<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>mij <span class="ot">=</span> <span class="fu">exp</span>(<span class="sc">-</span>Alpha<span class="sc">*</span><span class="fu">as.matrix</span>(MellomØyAvstand))<span class="sc">*</span>AjAi <span class="co"># number of immigrants</span></span>
-<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a><span class="co">#print(eigen(mij)$values[1])</span></span>
-<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a><span class="co"># Tidssteg </span></span>
-<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a>t <span class="ot">=</span> <span class="dv">2</span></span>
-<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span>(t<span class="sc">&lt;</span>tmax){</span>
-<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a>  KoloniseringsRateØy_i <span class="ot">=</span> <span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span>nØyer, <span class="cf">function</span>(i){</span>
-<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a>    c_konstant<span class="sc">*</span><span class="fu">sum</span>(Tilstede[<span class="sc">-</span>i]<span class="sc">*</span>ØyStr[<span class="sc">-</span>i]<span class="sc">*</span></span>
-<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a>                     <span class="fu">exp</span>(<span class="sc">-</span>Alpha<span class="sc">*</span><span class="fu">as.matrix</span>(MellomØyAvstand)[<span class="sc">-</span>i,i]))</span>
-<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a>  }) <span class="co"># Si</span></span>
-<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a>  TidsserieKoloniseringsrater[t,]<span class="ot">&lt;-</span>KoloniseringsRateØy_i</span>
-<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Sannsynligheten for bebodd øy</span></span>
-<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a>  Pi <span class="ot">=</span> KoloniseringsRateØy_i<span class="sc">/</span>(KoloniseringsRateØy_i <span class="sc">+</span> UtryddelsesRateØy_i) <span class="co"># Også kjent som Ji</span></span>
-<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a>  <span class="co">#Pi = 1/(1+(muTick/(KoloniseringsRateØy_i*ØyStr^ØystrEffekt)))</span></span>
-<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a>  Kolonisert <span class="ot">=</span> <span class="fu">sapply</span>(Pi, <span class="cf">function</span>(x) <span class="fu">sample</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>, <span class="dv">1</span>, <span class="at">prob =</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">-</span>x,x)))</span>
-<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Oppdater bebodd-status</span></span>
-<span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a>  Tilstede<span class="ot">&lt;-</span>Kolonisert</span>
-<span id="cb2-69"><a href="#cb2-69" aria-hidden="true" tabindex="-1"></a>  TidsserieTilstede[t,]<span class="ot">&lt;-</span>Tilstede</span>
-<span id="cb2-70"><a href="#cb2-70" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Oppdater tidssteg</span></span>
-<span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a>  t <span class="ot">=</span> t<span class="sc">+</span><span class="dv">1</span></span>
-<span id="cb2-72"><a href="#cb2-72" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2);<span class="fu">library</span>(ggExtra);<span class="fu">library</span>(gridExtra)</span>
-<span id="cb2-76"><a href="#cb2-76" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">=</span> <span class="fu">ggplot</span>()<span class="sc">+</span><span class="fu">xlab</span>(<span class="st">&quot;Koordinat x&quot;</span>)<span class="sc">+</span><span class="fu">ylab</span>(<span class="st">&quot;Koordinat y&quot;</span>)<span class="sc">+</span></span>
-<span id="cb2-77"><a href="#cb2-77" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> xPos, <span class="at">y =</span> yPos, <span class="at">fill =</span> <span class="fu">colMeans</span>(TidsserieTilstede, <span class="at">na.rm =</span> T), <span class="at">size =</span> ØyStr), <span class="at">pch =</span> <span class="dv">21</span>, <span class="at">show.legend =</span> F)<span class="sc">+</span><span class="fu">theme_cowplot</span>()</span>
-<span id="cb2-78"><a href="#cb2-78" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">=</span> <span class="fu">ggplot</span>()<span class="sc">+</span></span>
-<span id="cb2-79"><a href="#cb2-79" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span>tmax, <span class="at">y =</span> <span class="fu">rowMeans</span>(TidsserieTilstede)))<span class="sc">+</span></span>
-<span id="cb2-80"><a href="#cb2-80" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Andel bebodde habitat&quot;</span>)<span class="sc">+</span><span class="fu">xlab</span>(<span class="st">&quot;Tidssteg&quot;</span>)<span class="sc">+</span><span class="fu">theme_cowplot</span>()</span>
-<span id="cb2-81"><a href="#cb2-81" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(p1, p2, <span class="at">nrow =</span> <span class="dv">3</span>, </span>
-<span id="cb2-82"><a href="#cb2-82" aria-hidden="true" tabindex="-1"></a>             <span class="at">layout_matrix =</span> <span class="fu">cbind</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">2</span>), <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">2</span>)))</span></code></pre></div>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://ggplot2.tidyverse.org'>ggplot2</a></span><span class='op'>)</span>;<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/daattali/ggExtra'>ggExtra</a></span><span class='op'>)</span>;<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://r-datatable.com'>data.table</a></span><span class='op'>)</span></span>
+<span></span>
+<span><span class='co'># Antall øyer/habitat i systemet</span></span>
+<span><span class='va'>nØyer</span> <span class='op'>=</span> <span class='fl'>40</span> <span class='co'>#i</span></span>
+<span></span>
+<span><span class='co'># lengde på tidsserie</span></span>
+<span><span class='va'>tmax</span> <span class='op'>=</span> <span class='fl'>500</span></span>
+<span></span>
+<span><span class='co'># Sett et frø for utgangspunkt</span></span>
+<span><span class='co'>#set.seed(999)</span></span>
+<span><span class='co'># Tilfeldig antall øyer er bebodd, og tilfeldig hvilken av disse</span></span>
+<span><span class='co'>#AntallBebodd = sample(1:nØyer,1)</span></span>
+<span><span class='va'>AntallBebodd</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>ceiling</a></span><span class='op'>(</span><span class='va'>nØyer</span><span class='op'>*</span><span class='fl'>.2</span><span class='op'>)</span></span>
+<span><span class='va'>Bebodd</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='va'>nØyer</span>,<span class='va'>AntallBebodd</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>Tilstede</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='va'>nØyer</span><span class='op'>)</span></span>
+<span><span class='va'>Tilstede</span><span class='op'>[</span><span class='va'>Bebodd</span><span class='op'>]</span><span class='op'>&lt;-</span><span class='fl'>1</span></span>
+<span><span class='va'>TidsserieTilstede</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='cn'>NA</span>, <span class='va'>nØyer</span><span class='op'>)</span>, <span class='va'>tmax</span><span class='op'>)</span>, ncol <span class='op'>=</span> <span class='va'>nØyer</span><span class='op'>)</span></span>
+<span><span class='va'>TidsserieTilstede</span><span class='op'>[</span><span class='fl'>1</span>,<span class='op'>]</span><span class='op'>&lt;-</span><span class='va'>Tilstede</span></span>
+<span></span>
+<span><span class='va'>TidsserieKoloniseringsrater</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='cn'>NA</span>, <span class='va'>nØyer</span><span class='op'>)</span>, <span class='va'>tmax</span><span class='op'>)</span>, ncol <span class='op'>=</span> <span class='va'>nØyer</span><span class='op'>)</span></span>
+<span><span class='va'>TidsserieKoloniseringsrater</span><span class='op'>[</span><span class='fl'>1</span>,<span class='op'>]</span><span class='op'>&lt;-</span><span class='fl'>0</span></span>
+<span></span>
+<span></span>
+<span><span class='co'># tilfeldig plassering av øyene</span></span>
+<span><span class='va'>ArenaStørrelse</span> <span class='op'>=</span> <span class='fl'>3.4</span></span>
+<span><span class='va'>xPos</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span><span class='op'>(</span>n <span class='op'>=</span> <span class='va'>nØyer</span>, min <span class='op'>=</span> <span class='fl'>0</span>, max <span class='op'>=</span> <span class='va'>ArenaStørrelse</span><span class='op'>)</span></span>
+<span><span class='va'>yPos</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span><span class='op'>(</span>n <span class='op'>=</span> <span class='va'>nØyer</span>, min <span class='op'>=</span> <span class='fl'>0</span>, max <span class='op'>=</span> <span class='va'>ArenaStørrelse</span><span class='op'>)</span></span>
+<span><span class='co'># Tilfeldig størrelse</span></span>
+<span><span class='va'>ØyStr</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Lognormal.html'>rlnorm</a></span><span class='op'>(</span>n <span class='op'>=</span> <span class='va'>nØyer</span>, meanlog <span class='op'>=</span> <span class='fl'>.1</span>, sdlog <span class='op'>=</span> <span class='fl'>.1</span><span class='op'>)</span> <span class='co'>#Ai</span></span>
+<span><span class='co'># Ovaskainen 2003 brukes snitt = 1, og sd = 4</span></span>
+<span></span>
+<span><span class='co'># Regn ut mellom-øy avstand</span></span>
+<span><span class='va'>MellomØyAvstand</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/dist.html'>dist</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span><span class='op'>(</span><span class='va'>xPos</span>, <span class='va'>yPos</span><span class='op'>)</span>, diag <span class='op'>=</span> <span class='cn'>T</span>, upper <span class='op'>=</span> <span class='cn'>T</span><span class='op'>)</span> <span class='co'># dij</span></span>
+<span><span class='va'>Alpha</span> <span class='op'>=</span> <span class='op'>-</span><span class='fl'>1</span><span class='co'>#1/mean(MellomØyAvstand)</span></span>
+<span></span>
+<span><span class='co'># Konstanter</span></span>
+<span><span class='va'>c_konstant</span> <span class='op'>=</span> <span class='fl'>.6</span></span>
+<span><span class='va'>e_konstant</span> <span class='op'>=</span> <span class='fl'>87</span></span>
+<span></span>
+<span></span>
+<span><span class='co'># l_ex = 0.8;l_em = .5; l_im = 0.5</span></span>
+<span><span class='co'># Utryddelsesrater er konstant over tid</span></span>
+<span><span class='va'>UtryddelsesRateØy_i</span> <span class='op'>=</span> <span class='va'>e_konstant</span><span class='op'>/</span><span class='va'>ØyStr</span></span>
+<span></span>
+<span><span class='co'># fra Hanski, Ilkka, et al. "The quantitative incidence function model and persistence of an endangered butterfly metapopulation." Conservation Biology 10.2 (1996): 578-590.</span></span>
+<span><span class='va'>ØystrEffekt</span> <span class='op'>=</span> <span class='fl'>0.952</span></span>
+<span><span class='va'>muTick</span> <span class='op'>=</span> <span class='fl'>0.158</span></span>
+<span></span>
+<span><span class='va'>AjAi</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>sapply</a></span><span class='op'>(</span><span class='va'>ØyStr</span>, <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='va'>x</span><span class='op'>*</span><span class='va'>ØyStr</span><span class='op'>)</span></span>
+<span><span class='va'>mij</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>exp</a></span><span class='op'>(</span><span class='op'>-</span><span class='va'>Alpha</span><span class='op'>*</span><span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span><span class='op'>(</span><span class='va'>MellomØyAvstand</span><span class='op'>)</span><span class='op'>)</span><span class='op'>*</span><span class='va'>AjAi</span> <span class='co'># number of immigrants</span></span>
+<span><span class='co'>#print(eigen(mij)$values[1])</span></span>
+<span></span>
+<span><span class='co'># Tidssteg </span></span>
+<span><span class='va'>t</span> <span class='op'>=</span> <span class='fl'>2</span></span>
+<span></span>
+<span><span class='kw'>while</span><span class='op'>(</span><span class='va'>t</span><span class='op'>&lt;</span><span class='va'>tmax</span><span class='op'>)</span><span class='op'>{</span></span>
+<span>  <span class='va'>KoloniseringsRateØy_i</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>sapply</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='va'>nØyer</span>, <span class='kw'>function</span><span class='op'>(</span><span class='va'>i</span><span class='op'>)</span><span class='op'>{</span></span>
+<span>    <span class='va'>c_konstant</span><span class='op'>*</span><span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>Tilstede</span><span class='op'>[</span><span class='op'>-</span><span class='va'>i</span><span class='op'>]</span><span class='op'>*</span><span class='va'>ØyStr</span><span class='op'>[</span><span class='op'>-</span><span class='va'>i</span><span class='op'>]</span><span class='op'>*</span></span>
+<span>                     <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>exp</a></span><span class='op'>(</span><span class='op'>-</span><span class='va'>Alpha</span><span class='op'>*</span><span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span><span class='op'>(</span><span class='va'>MellomØyAvstand</span><span class='op'>)</span><span class='op'>[</span><span class='op'>-</span><span class='va'>i</span>,<span class='va'>i</span><span class='op'>]</span><span class='op'>)</span><span class='op'>)</span></span>
+<span>  <span class='op'>}</span><span class='op'>)</span> <span class='co'># Si</span></span>
+<span>  </span>
+<span>  <span class='va'>TidsserieKoloniseringsrater</span><span class='op'>[</span><span class='va'>t</span>,<span class='op'>]</span><span class='op'>&lt;-</span><span class='va'>KoloniseringsRateØy_i</span></span>
+<span>  </span>
+<span>  <span class='co'># Sannsynligheten for bebodd øy</span></span>
+<span>  <span class='va'>Pi</span> <span class='op'>=</span> <span class='va'>KoloniseringsRateØy_i</span><span class='op'>/</span><span class='op'>(</span><span class='va'>KoloniseringsRateØy_i</span> <span class='op'>+</span> <span class='va'>UtryddelsesRateØy_i</span><span class='op'>)</span> <span class='co'># Også kjent som Ji</span></span>
+<span>  <span class='co'>#Pi = 1/(1+(muTick/(KoloniseringsRateØy_i*ØyStr^ØystrEffekt)))</span></span>
+<span>  <span class='va'>Kolonisert</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>sapply</a></span><span class='op'>(</span><span class='va'>Pi</span>, <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='fl'>0</span><span class='op'>:</span><span class='fl'>1</span>, <span class='fl'>1</span>, prob <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>-</span><span class='va'>x</span>,<span class='va'>x</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span>
+<span>  </span>
+<span>  <span class='co'># Oppdater bebodd-status</span></span>
+<span>  <span class='va'>Tilstede</span><span class='op'>&lt;-</span><span class='va'>Kolonisert</span></span>
+<span>  <span class='va'>TidsserieTilstede</span><span class='op'>[</span><span class='va'>t</span>,<span class='op'>]</span><span class='op'>&lt;-</span><span class='va'>Tilstede</span></span>
+<span>  <span class='co'># Oppdater tidssteg</span></span>
+<span>  <span class='va'>t</span> <span class='op'>=</span> <span class='va'>t</span><span class='op'>+</span><span class='fl'>1</span></span>
+<span><span class='op'>}</span></span>
+<span></span>
+<span></span>
+<span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://ggplot2.tidyverse.org'>ggplot2</a></span><span class='op'>)</span>;<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/daattali/ggExtra'>ggExtra</a></span><span class='op'>)</span>;<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>gridExtra</span><span class='op'>)</span></span>
+<span><span class='va'>p1</span> <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>+</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>xlab</a></span><span class='op'>(</span><span class='st'>"Koordinat x"</span><span class='op'>)</span><span class='op'>+</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>ylab</a></span><span class='op'>(</span><span class='st'>"Koordinat y"</span><span class='op'>)</span><span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span>mapping <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>xPos</span>, y <span class='op'>=</span> <span class='va'>yPos</span>, fill <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>colMeans</a></span><span class='op'>(</span><span class='va'>TidsserieTilstede</span>, na.rm <span class='op'>=</span> <span class='cn'>T</span><span class='op'>)</span>, size <span class='op'>=</span> <span class='va'>ØyStr</span><span class='op'>)</span>, pch <span class='op'>=</span> <span class='fl'>21</span>, show.legend <span class='op'>=</span> <span class='cn'>F</span><span class='op'>)</span><span class='op'>+</span><span class='fu'><a href='https://wilkelab.org/cowplot/reference/theme_cowplot.html'>theme_cowplot</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span><span class='va'>p2</span> <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_path.html'>geom_line</a></span><span class='op'>(</span>mapping <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='va'>tmax</span>, y <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>rowMeans</a></span><span class='op'>(</span><span class='va'>TidsserieTilstede</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span><span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>ylab</a></span><span class='op'>(</span><span class='st'>"Andel bebodde habitat"</span><span class='op'>)</span><span class='op'>+</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>xlab</a></span><span class='op'>(</span><span class='st'>"Tidssteg"</span><span class='op'>)</span><span class='op'>+</span><span class='fu'><a href='https://wilkelab.org/cowplot/reference/theme_cowplot.html'>theme_cowplot</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://rdrr.io/pkg/gridExtra/man/arrangeGrob.html'>grid.arrange</a></span><span class='op'>(</span><span class='va'>p1</span>, <span class='va'>p2</span>, nrow <span class='op'>=</span> <span class='fl'>3</span>, </span>
+<span>             layout_matrix <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>2</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
+</div>
 </details>
 <div class="figure"><span style="display:block;" id="fig:METAROM"></span>
 <img src="Blog_metapopulasjoner_files/figure-html5/METAROM-1.png" alt="Populasjonene er spredt utover landskapet, og migrasjonen mellom de er avengig av arealet og avstanden til populasjonene rundt. Trykk `Show code` over for parameterverdier for simuleringen." width="672" />
@@ -2489,146 +2503,146 @@ Figure 4: Populasjonene er spredt utover landskapet, og migrasjonen mellom de er
 <summary>
 Show code
 </summary>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(data.table)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>nSimulations <span class="ot">=</span> <span class="dv">100</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>ParameterSpace <span class="ot">=</span> <span class="fu">expand.grid</span>(<span class="at">nIterations =</span> <span class="dv">1</span><span class="sc">:</span>nSimulations,</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>                             <span class="co">#RangeØyer = seq(40,60,length.out = 1),</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>                             <span class="at">RangeStartProp =</span> <span class="fu">seq</span>(.<span class="dv">35</span>,.<span class="dv">6</span>,<span class="at">length.out =</span> <span class="dv">1</span>),</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>                             <span class="at">RangeLandskap =</span> <span class="fu">seq</span>(<span class="fl">3.4</span>,<span class="fl">3.7</span>,<span class="at">length.out =</span> <span class="dv">1</span>),</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>                             <span class="at">RangeKonstantC =</span> <span class="fu">seq</span>(.<span class="dv">24</span>,.<span class="dv">75</span>,<span class="at">length.out =</span>  <span class="dv">1</span>),<span class="co"># .23-&gt;.24</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>                             <span class="at">RangeKonstantE =</span> <span class="fu">seq</span>(<span class="dv">150</span>,<span class="dv">100</span>,<span class="at">length.out =</span> <span class="dv">1</span>),<span class="co"># 60-&gt;120</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>                             <span class="at">eNoise =</span> <span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">3</span>,<span class="at">length.out =</span> <span class="dv">4</span>))</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="fu">setorder</span>(ParameterSpace, nIterations)</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>ParameterSpace<span class="sc">$</span>SnittPrevalens <span class="ot">=</span> <span class="cn">NA</span></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>ParameterSpace<span class="sc">$</span>SdPrevalens <span class="ot">=</span> <span class="cn">NA</span></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>ParameterSpace<span class="sc">$</span>MinPrevalens <span class="ot">=</span> <span class="cn">NA</span></span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>ParameterSpace<span class="sc">$</span>AndelUtvikling <span class="ot">=</span> <span class="cn">NA</span></span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>iteration <span class="ot">=</span> <span class="dv">0</span></span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>RangeØyer <span class="ot">=</span> <span class="dv">40</span></span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>nØyer <span class="ot">=</span> RangeØyer <span class="co"># ParameterSpace$RangeØyer[i] #i</span></span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>TidsArray <span class="ot">=</span> <span class="fu">array</span>(<span class="fu">rep</span>(<span class="dv">0</span>, tmax<span class="sc">*</span>nØyer), </span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>                  <span class="at">dim =</span> <span class="fu">c</span>(tmax, nØyer,  <span class="fu">nrow</span>(ParameterSpace)))</span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>TidsserieKoloniseringsrater <span class="ot">=</span> <span class="fu">array</span>(<span class="fu">rep</span>(<span class="dv">0</span>, tmax<span class="sc">*</span>nØyer), </span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">dim =</span> <span class="fu">c</span>(tmax, nØyer, <span class="fu">nrow</span>(ParameterSpace)))</span>
-<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>GeografiArray <span class="ot">=</span> <span class="fu">array</span>(<span class="fu">rep</span>(<span class="cn">NA</span>, <span class="dv">3</span><span class="sc">*</span>nØyer),</span>
-<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>                      <span class="at">dim =</span> <span class="fu">c</span>(<span class="dv">3</span>, nØyer, <span class="fu">nrow</span>(ParameterSpace)))</span>
-<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(ParameterSpace)){</span>
-<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>  <span class="co">#print(paste(i , &quot;av&quot;, nrow(ParameterSpace)))</span></span>
-<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Antall øyer/habitat i systemet</span></span>
-<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>  <span class="co"># lengde på tidsserie</span></span>
-<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>  tmax <span class="ot">=</span> <span class="dv">100</span></span>
-<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>  iteration <span class="ot">&lt;-</span> ParameterSpace<span class="sc">$</span>nIterations[i]</span>
-<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>  AntallBebodd <span class="ot">=</span> ParameterSpace<span class="sc">$</span>RangeStartProp[i]<span class="sc">*</span>nØyer <span class="co">#i</span></span>
-<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(iteration) <span class="co"># slik at ulike miljøstøy-nivå vil testes på de samme øy-konfigurasjonene</span></span>
-<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>  Bebodd <span class="ot">=</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span>nØyer,AntallBebodd)</span>
-<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a>  Tilstede <span class="ot">=</span> <span class="fu">rep</span>(<span class="dv">0</span>, nØyer)</span>
-<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a>  Tilstede[Bebodd]<span class="ot">&lt;-</span><span class="dv">1</span></span>
-<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a>  TidsserieTilstede <span class="ot">=</span> <span class="fu">matrix</span>(<span class="fu">rep</span>(<span class="fu">rep</span>(<span class="cn">NA</span>, nØyer), tmax), <span class="at">ncol =</span> nØyer)</span>
-<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a>  TidsserieTilstede[<span class="dv">1</span>,]<span class="ot">&lt;-</span>Tilstede</span>
-<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a>  TidsArray[<span class="dv">1</span>,,iteration]<span class="ot">&lt;-</span>Tilstede</span>
-<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a>  TidsserieKoloniseringsrater[<span class="dv">1</span>,,iteration]<span class="ot">&lt;-</span>Tilstede</span>
-<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a>  <span class="co"># tilfeldig plassering av øyene</span></span>
-<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a>  ArenaStørrelse <span class="ot">=</span> ParameterSpace<span class="sc">$</span>RangeLandskap[i]</span>
-<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(iteration) <span class="co"># slik at ulike miljøstøy-nivå vil testes på de samme øy-konfigurasjonene</span></span>
-<span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a>  xPos <span class="ot">=</span> <span class="fu">runif</span>(<span class="at">n =</span> nØyer, <span class="at">min =</span> <span class="dv">0</span>, <span class="at">max =</span> ArenaStørrelse)</span>
-<span id="cb3-58"><a href="#cb3-58" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(<span class="sc">-</span>iteration) <span class="co"># slik at ulike miljøstøy-nivå vil testes på de samme øy-konfigurasjonene</span></span>
-<span id="cb3-59"><a href="#cb3-59" aria-hidden="true" tabindex="-1"></a>  yPos <span class="ot">=</span> <span class="fu">runif</span>(<span class="at">n =</span> nØyer, <span class="at">min =</span> <span class="dv">0</span>, <span class="at">max =</span> ArenaStørrelse)</span>
-<span id="cb3-60"><a href="#cb3-60" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb3-61"><a href="#cb3-61" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Tilfeldig størrelse</span></span>
-<span id="cb3-62"><a href="#cb3-62" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(iteration) <span class="co"># slik at ulike miljøstøy-nivå vil testes på de samme øy-konfigurasjonene</span></span>
-<span id="cb3-63"><a href="#cb3-63" aria-hidden="true" tabindex="-1"></a>  ØyStr <span class="ot">=</span> <span class="fu">rlnorm</span>(<span class="at">n =</span> nØyer, <span class="at">meanlog =</span> .<span class="dv">1</span>, <span class="at">sdlog =</span> .<span class="dv">2</span>) <span class="co">#Ai</span></span>
-<span id="cb3-64"><a href="#cb3-64" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb3-65"><a href="#cb3-65" aria-hidden="true" tabindex="-1"></a>  GeografiArray[,,i]<span class="ot">&lt;-</span><span class="fu">rbind</span>(ØyStr, xPos, yPos)</span>
-<span id="cb3-66"><a href="#cb3-66" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Regn ut mellom-øy avstand</span></span>
-<span id="cb3-67"><a href="#cb3-67" aria-hidden="true" tabindex="-1"></a>  MellomØyAvstand <span class="ot">=</span> <span class="fu">dist</span>(<span class="fu">cbind</span>(xPos, yPos), <span class="at">diag =</span> T, <span class="at">upper =</span> T) <span class="co"># dij</span></span>
-<span id="cb3-68"><a href="#cb3-68" aria-hidden="true" tabindex="-1"></a>  Alpha <span class="ot">=</span> <span class="sc">-</span><span class="dv">1</span><span class="co">#1/mean(MellomØyAvstand)</span></span>
-<span id="cb3-69"><a href="#cb3-69" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb3-70"><a href="#cb3-70" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Konstanter</span></span>
-<span id="cb3-71"><a href="#cb3-71" aria-hidden="true" tabindex="-1"></a>  c_konstant <span class="ot">=</span> ParameterSpace<span class="sc">$</span>RangeKonstantC[i]</span>
-<span id="cb3-72"><a href="#cb3-72" aria-hidden="true" tabindex="-1"></a>  e_konstant <span class="ot">=</span> ParameterSpace<span class="sc">$</span>RangeKonstantE[i]</span>
-<span id="cb3-73"><a href="#cb3-73" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb3-74"><a href="#cb3-74" aria-hidden="true" tabindex="-1"></a>  eNoise <span class="ot">=</span> ParameterSpace<span class="sc">$</span>eNoise[i]</span>
-<span id="cb3-75"><a href="#cb3-75" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Utryddelsesrater er konstant over tid</span></span>
-<span id="cb3-76"><a href="#cb3-76" aria-hidden="true" tabindex="-1"></a>  UtryddelsesRateØy_i <span class="ot">=</span> e_konstant<span class="sc">/</span>ØyStr</span>
-<span id="cb3-77"><a href="#cb3-77" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb3-78"><a href="#cb3-78" aria-hidden="true" tabindex="-1"></a>  <span class="co"># fra Hanski, Ilkka, et al. &quot;The quantitative incidence function model and persistence of an endangered butterfly metapopulation.&quot; Conservation Biology 10.2 (1996): 578-590.</span></span>
-<span id="cb3-79"><a href="#cb3-79" aria-hidden="true" tabindex="-1"></a>  <span class="co"># ØystrEffekt = 0.952</span></span>
-<span id="cb3-80"><a href="#cb3-80" aria-hidden="true" tabindex="-1"></a>  <span class="co"># muTick = 0.158</span></span>
-<span id="cb3-81"><a href="#cb3-81" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb3-82"><a href="#cb3-82" aria-hidden="true" tabindex="-1"></a>  <span class="co"># AjAi = sapply(ØyStr, function(x) x*ØyStr)</span></span>
-<span id="cb3-83"><a href="#cb3-83" aria-hidden="true" tabindex="-1"></a>  <span class="co"># mij = exp(-Alpha*as.matrix(MellomØyAvstand))*AjAi # number of immigrants</span></span>
-<span id="cb3-84"><a href="#cb3-84" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb3-85"><a href="#cb3-85" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Tidssteg </span></span>
-<span id="cb3-86"><a href="#cb3-86" aria-hidden="true" tabindex="-1"></a>  t <span class="ot">=</span> <span class="dv">2</span></span>
-<span id="cb3-87"><a href="#cb3-87" aria-hidden="true" tabindex="-1"></a>  NoiseE <span class="ot">=</span> <span class="fu">rnorm</span>(<span class="at">n =</span> tmax, <span class="at">sd =</span> eNoise)</span>
-<span id="cb3-88"><a href="#cb3-88" aria-hidden="true" tabindex="-1"></a>  <span class="cf">while</span>(t<span class="sc">&lt;</span>tmax){</span>
-<span id="cb3-89"><a href="#cb3-89" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb3-90"><a href="#cb3-90" aria-hidden="true" tabindex="-1"></a>    KoloniseringsRateØy_i <span class="ot">=</span> <span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span>nØyer, <span class="cf">function</span>(i){</span>
-<span id="cb3-91"><a href="#cb3-91" aria-hidden="true" tabindex="-1"></a>      Aj <span class="ot">=</span> ØyStr[<span class="sc">-</span>i]</span>
-<span id="cb3-92"><a href="#cb3-92" aria-hidden="true" tabindex="-1"></a>      Aj <span class="ot">=</span> Aj <span class="sc">+</span>NoiseE</span>
-<span id="cb3-93"><a href="#cb3-93" aria-hidden="true" tabindex="-1"></a>      c_konstant<span class="sc">*</span><span class="fu">sum</span>(Tilstede[<span class="sc">-</span>i]<span class="sc">*</span>Aj<span class="sc">*</span></span>
-<span id="cb3-94"><a href="#cb3-94" aria-hidden="true" tabindex="-1"></a>                       <span class="fu">exp</span>(<span class="sc">-</span>Alpha<span class="sc">*</span><span class="fu">as.matrix</span>(MellomØyAvstand)[<span class="sc">-</span>i,i]))}) <span class="co"># Si</span></span>
-<span id="cb3-95"><a href="#cb3-95" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb3-96"><a href="#cb3-96" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb3-97"><a href="#cb3-97" aria-hidden="true" tabindex="-1"></a>    TidsserieKoloniseringsrater[t,,i]<span class="ot">&lt;-</span>KoloniseringsRateØy_i</span>
-<span id="cb3-98"><a href="#cb3-98" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb3-99"><a href="#cb3-99" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb3-100"><a href="#cb3-100" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Sannsynligheten for bebodd øy</span></span>
-<span id="cb3-101"><a href="#cb3-101" aria-hidden="true" tabindex="-1"></a>    Pi <span class="ot">=</span> KoloniseringsRateØy_i<span class="sc">/</span>(KoloniseringsRateØy_i <span class="sc">+</span> UtryddelsesRateØy_i) <span class="co"># Også kjent som Ji</span></span>
-<span id="cb3-102"><a href="#cb3-102" aria-hidden="true" tabindex="-1"></a>    Pi <span class="ot">=</span> <span class="fu">ifelse</span>(Pi<span class="sc">&gt;</span><span class="dv">1</span>,<span class="dv">1</span>,<span class="fu">ifelse</span>(Pi<span class="sc">&lt;</span><span class="dv">0</span>,<span class="dv">0</span>,Pi))</span>
-<span id="cb3-103"><a href="#cb3-103" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb3-104"><a href="#cb3-104" aria-hidden="true" tabindex="-1"></a>    Kolonisert <span class="ot">=</span> <span class="fu">sapply</span>(Pi, <span class="cf">function</span>(x) <span class="fu">sample</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>, <span class="dv">1</span>, <span class="at">prob =</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">-</span>x,x)))</span>
-<span id="cb3-105"><a href="#cb3-105" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb3-106"><a href="#cb3-106" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Oppdater bebodd-status</span></span>
-<span id="cb3-107"><a href="#cb3-107" aria-hidden="true" tabindex="-1"></a>    Tilstede<span class="ot">&lt;-</span>Kolonisert</span>
-<span id="cb3-108"><a href="#cb3-108" aria-hidden="true" tabindex="-1"></a>    TidsserieTilstede[t,]<span class="ot">&lt;-</span>Tilstede</span>
-<span id="cb3-109"><a href="#cb3-109" aria-hidden="true" tabindex="-1"></a>    TidsArray[t,,i]<span class="ot">&lt;-</span>Tilstede</span>
-<span id="cb3-110"><a href="#cb3-110" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb3-111"><a href="#cb3-111" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Oppdater tidssteg</span></span>
-<span id="cb3-112"><a href="#cb3-112" aria-hidden="true" tabindex="-1"></a>    t <span class="ot">=</span> t<span class="sc">+</span><span class="dv">1</span></span>
-<span id="cb3-113"><a href="#cb3-113" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb3-114"><a href="#cb3-114" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb3-115"><a href="#cb3-115" aria-hidden="true" tabindex="-1"></a>  ParameterSpace<span class="sc">$</span>SnittPrevalens[i] <span class="ot">=</span> <span class="fu">median</span>(<span class="fu">rowMeans</span>(TidsserieTilstede), <span class="at">na.rm =</span> T)</span>
-<span id="cb3-116"><a href="#cb3-116" aria-hidden="true" tabindex="-1"></a>  ParameterSpace<span class="sc">$</span>SdPrevalens[i] <span class="ot">=</span> <span class="fu">sd</span>(<span class="fu">rowMeans</span>(TidsserieTilstede), <span class="at">na.rm =</span> T)</span>
-<span id="cb3-117"><a href="#cb3-117" aria-hidden="true" tabindex="-1"></a>  ParameterSpace<span class="sc">$</span>MinPrevalens[i] <span class="ot">=</span> <span class="fu">min</span>(<span class="fu">rowMeans</span>(TidsserieTilstede), <span class="at">na.rm =</span> T)</span>
-<span id="cb3-118"><a href="#cb3-118" aria-hidden="true" tabindex="-1"></a>  ParameterSpace<span class="sc">$</span>AndelUtvikling[i] <span class="ot">=</span> <span class="fu">coef</span>(<span class="fu">lm</span>(<span class="fu">rowMeans</span>(TidsserieTilstede)<span class="sc">~</span><span class="fu">I</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(<span class="fu">rowMeans</span>(TidsserieTilstede)))))[<span class="dv">2</span>]</span>
-<span id="cb3-119"><a href="#cb3-119" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(i<span class="sc">==</span><span class="fu">nrow</span>(ParameterSpace)){</span>
-<span id="cb3-120"><a href="#cb3-120" aria-hidden="true" tabindex="-1"></a>    <span class="fu">saveRDS</span>(<span class="fu">list</span>(<span class="at">ParameterSpace =</span> ParameterSpace,</span>
-<span id="cb3-121"><a href="#cb3-121" aria-hidden="true" tabindex="-1"></a>             <span class="at">Geografi =</span> GeografiArray,</span>
-<span id="cb3-122"><a href="#cb3-122" aria-hidden="true" tabindex="-1"></a>             <span class="at">TidsArray =</span> TidsArray,</span>
-<span id="cb3-123"><a href="#cb3-123" aria-hidden="true" tabindex="-1"></a>             <span class="at">TidsserieKoloniseringsrater =</span> TidsserieKoloniseringsrater),</span>
-<span id="cb3-124"><a href="#cb3-124" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;ParameterSpace_MetaPopStoch.rds&quot;</span>)</span>
-<span id="cb3-125"><a href="#cb3-125" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb3-126"><a href="#cb3-126" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb3-127"><a href="#cb3-127" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-128"><a href="#cb3-128" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-129"><a href="#cb3-129" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-130"><a href="#cb3-130" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2);<span class="fu">library</span>(cowplot);<span class="fu">library</span>(scales);<span class="fu">library</span>(gridExtra)</span>
-<span id="cb3-131"><a href="#cb3-131" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">=</span> <span class="fu">ggplot</span>(<span class="at">data =</span> ParameterSpace, <span class="fu">aes</span>(<span class="at">y =</span> MinPrevalens, <span class="at">x =</span> eNoise, <span class="at">group =</span> <span class="fu">factor</span>(eNoise)))<span class="sc">+</span><span class="fu">geom_boxplot</span>()<span class="sc">+</span><span class="fu">theme_cowplot</span>()<span class="sc">+</span></span>
-<span id="cb3-132"><a href="#cb3-132" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title.x =</span> <span class="fu">element_blank</span>(), <span class="at">axis.text.x =</span> <span class="fu">element_blank</span>())<span class="sc">+</span><span class="fu">ylab</span>(<span class="st">&quot;Andel</span><span class="sc">\n</span><span class="st">(minimum)&quot;</span>)</span>
-<span id="cb3-133"><a href="#cb3-133" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">=</span> <span class="fu">ggplot</span>(<span class="at">data =</span> ParameterSpace, <span class="fu">aes</span>(<span class="at">y =</span> SnittPrevalens, <span class="at">x =</span> eNoise, <span class="at">group =</span> <span class="fu">factor</span>(eNoise)))<span class="sc">+</span><span class="fu">geom_boxplot</span>()<span class="sc">+</span><span class="fu">theme_cowplot</span>()<span class="sc">+</span></span>
-<span id="cb3-134"><a href="#cb3-134" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title.x =</span> <span class="fu">element_blank</span>(), <span class="at">axis.text.x =</span> <span class="fu">element_blank</span>())<span class="sc">+</span><span class="fu">ylab</span>(<span class="st">&quot;Andel</span><span class="sc">\n</span><span class="st">(gj.snitt)&quot;</span>)</span>
-<span id="cb3-135"><a href="#cb3-135" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-136"><a href="#cb3-136" aria-hidden="true" tabindex="-1"></a>p3 <span class="ot">=</span> <span class="fu">ggplot</span>(<span class="at">data =</span> ParameterSpace, <span class="fu">aes</span>(<span class="at">y =</span> AndelUtvikling<span class="sc">*</span><span class="dv">200</span>, <span class="at">x =</span> eNoise, <span class="at">group =</span> <span class="fu">factor</span>(eNoise)))<span class="sc">+</span><span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">linetype=</span><span class="st">&quot;dashed&quot;</span>)<span class="sc">+</span><span class="fu">theme_cowplot</span>()<span class="sc">+</span></span>
-<span id="cb3-137"><a href="#cb3-137" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()<span class="sc">+</span><span class="fu">ylab</span>(<span class="st">&quot;Vekst </span><span class="sc">\n</span><span class="st"> (andel endring per år x 200)&quot;</span>) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">&quot;Miljøstokastisitet&quot;</span>)<span class="co">#+</span></span>
-<span id="cb3-138"><a href="#cb3-138" aria-hidden="true" tabindex="-1"></a><span class="co">#scale_y_continuous(breaks = seq(-.2,.2,.1))+coord_cartesian(ylim = c(-0.1,0.1))</span></span>
-<span id="cb3-139"><a href="#cb3-139" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-140"><a href="#cb3-140" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(p1,p2,p3)</span></code></pre></div>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://r-datatable.com'>data.table</a></span><span class='op'>)</span></span>
+<span><span class='va'>nSimulations</span> <span class='op'>=</span> <span class='fl'>100</span></span>
+<span><span class='va'>ParameterSpace</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/expand.grid.html'>expand.grid</a></span><span class='op'>(</span>nIterations <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='va'>nSimulations</span>,</span>
+<span>                             <span class='co'>#RangeØyer = seq(40,60,length.out = 1),</span></span>
+<span>                             RangeStartProp <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>.35</span>,<span class='fl'>.6</span>,length.out <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>,</span>
+<span>                             RangeLandskap <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>3.4</span>,<span class='fl'>3.7</span>,length.out <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>,</span>
+<span>                             RangeKonstantC <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>.24</span>,<span class='fl'>.75</span>,length.out <span class='op'>=</span>  <span class='fl'>1</span><span class='op'>)</span>,<span class='co'># .23-&gt;.24</span></span>
+<span>                             RangeKonstantE <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>150</span>,<span class='fl'>100</span>,length.out <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>,<span class='co'># 60-&gt;120</span></span>
+<span>                             eNoise <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>3</span>,length.out <span class='op'>=</span> <span class='fl'>4</span><span class='op'>)</span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://Rdatatable.gitlab.io/data.table/reference/setorder.html'>setorder</a></span><span class='op'>(</span><span class='va'>ParameterSpace</span>, <span class='va'>nIterations</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>ParameterSpace</span><span class='op'>$</span><span class='va'>SnittPrevalens</span> <span class='op'>=</span> <span class='cn'>NA</span></span>
+<span><span class='va'>ParameterSpace</span><span class='op'>$</span><span class='va'>SdPrevalens</span> <span class='op'>=</span> <span class='cn'>NA</span></span>
+<span><span class='va'>ParameterSpace</span><span class='op'>$</span><span class='va'>MinPrevalens</span> <span class='op'>=</span> <span class='cn'>NA</span></span>
+<span><span class='va'>ParameterSpace</span><span class='op'>$</span><span class='va'>AndelUtvikling</span> <span class='op'>=</span> <span class='cn'>NA</span></span>
+<span><span class='va'>iteration</span> <span class='op'>=</span> <span class='fl'>0</span></span>
+<span></span>
+<span><span class='va'>RangeØyer</span> <span class='op'>=</span> <span class='fl'>40</span></span>
+<span><span class='va'>nØyer</span> <span class='op'>=</span> <span class='va'>RangeØyer</span> <span class='co'># ParameterSpace$RangeØyer[i] #i</span></span>
+<span></span>
+<span><span class='va'>TidsArray</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/array.html'>array</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='va'>tmax</span><span class='op'>*</span><span class='va'>nØyer</span><span class='op'>)</span>, </span>
+<span>                  dim <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>tmax</span>, <span class='va'>nØyer</span>,  <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>ParameterSpace</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>TidsserieKoloniseringsrater</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/array.html'>array</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='va'>tmax</span><span class='op'>*</span><span class='va'>nØyer</span><span class='op'>)</span>, </span>
+<span>                                    dim <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>tmax</span>, <span class='va'>nØyer</span>, <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>ParameterSpace</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>GeografiArray</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/array.html'>array</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='cn'>NA</span>, <span class='fl'>3</span><span class='op'>*</span><span class='va'>nØyer</span><span class='op'>)</span>,</span>
+<span>                      dim <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>3</span>, <span class='va'>nØyer</span>, <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>ParameterSpace</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span>
+<span></span>
+<span></span>
+<span><span class='kw'>for</span><span class='op'>(</span><span class='va'>i</span> <span class='kw'>in</span> <span class='fl'>1</span><span class='op'>:</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>ParameterSpace</span><span class='op'>)</span><span class='op'>)</span><span class='op'>{</span></span>
+<span>  <span class='co'>#print(paste(i , "av", nrow(ParameterSpace)))</span></span>
+<span>  <span class='co'># Antall øyer/habitat i systemet</span></span>
+<span>  </span>
+<span>  <span class='co'># lengde på tidsserie</span></span>
+<span>  <span class='va'>tmax</span> <span class='op'>=</span> <span class='fl'>100</span></span>
+<span>  </span>
+<span>  <span class='va'>iteration</span> <span class='op'>&lt;-</span> <span class='va'>ParameterSpace</span><span class='op'>$</span><span class='va'>nIterations</span><span class='op'>[</span><span class='va'>i</span><span class='op'>]</span></span>
+<span>  </span>
+<span>  <span class='va'>AntallBebodd</span> <span class='op'>=</span> <span class='va'>ParameterSpace</span><span class='op'>$</span><span class='va'>RangeStartProp</span><span class='op'>[</span><span class='va'>i</span><span class='op'>]</span><span class='op'>*</span><span class='va'>nØyer</span> <span class='co'>#i</span></span>
+<span>  <span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='va'>iteration</span><span class='op'>)</span> <span class='co'># slik at ulike miljøstøy-nivå vil testes på de samme øy-konfigurasjonene</span></span>
+<span>  <span class='va'>Bebodd</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='va'>nØyer</span>,<span class='va'>AntallBebodd</span><span class='op'>)</span></span>
+<span>  </span>
+<span>  </span>
+<span>  <span class='va'>Tilstede</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='va'>nØyer</span><span class='op'>)</span></span>
+<span>  <span class='va'>Tilstede</span><span class='op'>[</span><span class='va'>Bebodd</span><span class='op'>]</span><span class='op'>&lt;-</span><span class='fl'>1</span></span>
+<span>  </span>
+<span>  <span class='va'>TidsserieTilstede</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='cn'>NA</span>, <span class='va'>nØyer</span><span class='op'>)</span>, <span class='va'>tmax</span><span class='op'>)</span>, ncol <span class='op'>=</span> <span class='va'>nØyer</span><span class='op'>)</span></span>
+<span>  <span class='va'>TidsserieTilstede</span><span class='op'>[</span><span class='fl'>1</span>,<span class='op'>]</span><span class='op'>&lt;-</span><span class='va'>Tilstede</span></span>
+<span>  </span>
+<span>  <span class='va'>TidsArray</span><span class='op'>[</span><span class='fl'>1</span>,,<span class='va'>iteration</span><span class='op'>]</span><span class='op'>&lt;-</span><span class='va'>Tilstede</span></span>
+<span>  <span class='va'>TidsserieKoloniseringsrater</span><span class='op'>[</span><span class='fl'>1</span>,,<span class='va'>iteration</span><span class='op'>]</span><span class='op'>&lt;-</span><span class='va'>Tilstede</span></span>
+<span>  </span>
+<span>  <span class='co'># tilfeldig plassering av øyene</span></span>
+<span>  <span class='va'>ArenaStørrelse</span> <span class='op'>=</span> <span class='va'>ParameterSpace</span><span class='op'>$</span><span class='va'>RangeLandskap</span><span class='op'>[</span><span class='va'>i</span><span class='op'>]</span></span>
+<span>  <span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='va'>iteration</span><span class='op'>)</span> <span class='co'># slik at ulike miljøstøy-nivå vil testes på de samme øy-konfigurasjonene</span></span>
+<span>  <span class='va'>xPos</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span><span class='op'>(</span>n <span class='op'>=</span> <span class='va'>nØyer</span>, min <span class='op'>=</span> <span class='fl'>0</span>, max <span class='op'>=</span> <span class='va'>ArenaStørrelse</span><span class='op'>)</span></span>
+<span>  <span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='op'>-</span><span class='va'>iteration</span><span class='op'>)</span> <span class='co'># slik at ulike miljøstøy-nivå vil testes på de samme øy-konfigurasjonene</span></span>
+<span>  <span class='va'>yPos</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span><span class='op'>(</span>n <span class='op'>=</span> <span class='va'>nØyer</span>, min <span class='op'>=</span> <span class='fl'>0</span>, max <span class='op'>=</span> <span class='va'>ArenaStørrelse</span><span class='op'>)</span></span>
+<span>  </span>
+<span>  <span class='co'># Tilfeldig størrelse</span></span>
+<span>  <span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='va'>iteration</span><span class='op'>)</span> <span class='co'># slik at ulike miljøstøy-nivå vil testes på de samme øy-konfigurasjonene</span></span>
+<span>  <span class='va'>ØyStr</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Lognormal.html'>rlnorm</a></span><span class='op'>(</span>n <span class='op'>=</span> <span class='va'>nØyer</span>, meanlog <span class='op'>=</span> <span class='fl'>.1</span>, sdlog <span class='op'>=</span> <span class='fl'>.2</span><span class='op'>)</span> <span class='co'>#Ai</span></span>
+<span>  </span>
+<span>  <span class='va'>GeografiArray</span><span class='op'>[</span>,,<span class='va'>i</span><span class='op'>]</span><span class='op'>&lt;-</span><span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>rbind</a></span><span class='op'>(</span><span class='va'>ØyStr</span>, <span class='va'>xPos</span>, <span class='va'>yPos</span><span class='op'>)</span></span>
+<span>  <span class='co'># Regn ut mellom-øy avstand</span></span>
+<span>  <span class='va'>MellomØyAvstand</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/dist.html'>dist</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span><span class='op'>(</span><span class='va'>xPos</span>, <span class='va'>yPos</span><span class='op'>)</span>, diag <span class='op'>=</span> <span class='cn'>T</span>, upper <span class='op'>=</span> <span class='cn'>T</span><span class='op'>)</span> <span class='co'># dij</span></span>
+<span>  <span class='va'>Alpha</span> <span class='op'>=</span> <span class='op'>-</span><span class='fl'>1</span><span class='co'>#1/mean(MellomØyAvstand)</span></span>
+<span>  </span>
+<span>  <span class='co'># Konstanter</span></span>
+<span>  <span class='va'>c_konstant</span> <span class='op'>=</span> <span class='va'>ParameterSpace</span><span class='op'>$</span><span class='va'>RangeKonstantC</span><span class='op'>[</span><span class='va'>i</span><span class='op'>]</span></span>
+<span>  <span class='va'>e_konstant</span> <span class='op'>=</span> <span class='va'>ParameterSpace</span><span class='op'>$</span><span class='va'>RangeKonstantE</span><span class='op'>[</span><span class='va'>i</span><span class='op'>]</span></span>
+<span>  </span>
+<span>  <span class='va'>eNoise</span> <span class='op'>=</span> <span class='va'>ParameterSpace</span><span class='op'>$</span><span class='va'>eNoise</span><span class='op'>[</span><span class='va'>i</span><span class='op'>]</span></span>
+<span>  <span class='co'># Utryddelsesrater er konstant over tid</span></span>
+<span>  <span class='va'>UtryddelsesRateØy_i</span> <span class='op'>=</span> <span class='va'>e_konstant</span><span class='op'>/</span><span class='va'>ØyStr</span></span>
+<span>  </span>
+<span>  <span class='co'># fra Hanski, Ilkka, et al. "The quantitative incidence function model and persistence of an endangered butterfly metapopulation." Conservation Biology 10.2 (1996): 578-590.</span></span>
+<span>  <span class='co'># ØystrEffekt = 0.952</span></span>
+<span>  <span class='co'># muTick = 0.158</span></span>
+<span>  </span>
+<span>  <span class='co'># AjAi = sapply(ØyStr, function(x) x*ØyStr)</span></span>
+<span>  <span class='co'># mij = exp(-Alpha*as.matrix(MellomØyAvstand))*AjAi # number of immigrants</span></span>
+<span>  </span>
+<span>  <span class='co'># Tidssteg </span></span>
+<span>  <span class='va'>t</span> <span class='op'>=</span> <span class='fl'>2</span></span>
+<span>  <span class='va'>NoiseE</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span>n <span class='op'>=</span> <span class='va'>tmax</span>, sd <span class='op'>=</span> <span class='va'>eNoise</span><span class='op'>)</span></span>
+<span>  <span class='kw'>while</span><span class='op'>(</span><span class='va'>t</span><span class='op'>&lt;</span><span class='va'>tmax</span><span class='op'>)</span><span class='op'>{</span></span>
+<span>    </span>
+<span>    <span class='va'>KoloniseringsRateØy_i</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>sapply</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='va'>nØyer</span>, <span class='kw'>function</span><span class='op'>(</span><span class='va'>i</span><span class='op'>)</span><span class='op'>{</span></span>
+<span>      <span class='va'>Aj</span> <span class='op'>=</span> <span class='va'>ØyStr</span><span class='op'>[</span><span class='op'>-</span><span class='va'>i</span><span class='op'>]</span></span>
+<span>      <span class='va'>Aj</span> <span class='op'>=</span> <span class='va'>Aj</span> <span class='op'>+</span><span class='va'>NoiseE</span></span>
+<span>      <span class='va'>c_konstant</span><span class='op'>*</span><span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>Tilstede</span><span class='op'>[</span><span class='op'>-</span><span class='va'>i</span><span class='op'>]</span><span class='op'>*</span><span class='va'>Aj</span><span class='op'>*</span></span>
+<span>                       <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>exp</a></span><span class='op'>(</span><span class='op'>-</span><span class='va'>Alpha</span><span class='op'>*</span><span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span><span class='op'>(</span><span class='va'>MellomØyAvstand</span><span class='op'>)</span><span class='op'>[</span><span class='op'>-</span><span class='va'>i</span>,<span class='va'>i</span><span class='op'>]</span><span class='op'>)</span><span class='op'>)</span><span class='op'>}</span><span class='op'>)</span> <span class='co'># Si</span></span>
+<span>    </span>
+<span>    </span>
+<span>    <span class='va'>TidsserieKoloniseringsrater</span><span class='op'>[</span><span class='va'>t</span>,,<span class='va'>i</span><span class='op'>]</span><span class='op'>&lt;-</span><span class='va'>KoloniseringsRateØy_i</span></span>
+<span>    </span>
+<span>    </span>
+<span>    <span class='co'># Sannsynligheten for bebodd øy</span></span>
+<span>    <span class='va'>Pi</span> <span class='op'>=</span> <span class='va'>KoloniseringsRateØy_i</span><span class='op'>/</span><span class='op'>(</span><span class='va'>KoloniseringsRateØy_i</span> <span class='op'>+</span> <span class='va'>UtryddelsesRateØy_i</span><span class='op'>)</span> <span class='co'># Også kjent som Ji</span></span>
+<span>    <span class='va'>Pi</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='va'>Pi</span><span class='op'>&gt;</span><span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='va'>Pi</span><span class='op'>&lt;</span><span class='fl'>0</span>,<span class='fl'>0</span>,<span class='va'>Pi</span><span class='op'>)</span><span class='op'>)</span></span>
+<span>    </span>
+<span>    <span class='va'>Kolonisert</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>sapply</a></span><span class='op'>(</span><span class='va'>Pi</span>, <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='fl'>0</span><span class='op'>:</span><span class='fl'>1</span>, <span class='fl'>1</span>, prob <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>-</span><span class='va'>x</span>,<span class='va'>x</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span>
+<span>    </span>
+<span>    <span class='co'># Oppdater bebodd-status</span></span>
+<span>    <span class='va'>Tilstede</span><span class='op'>&lt;-</span><span class='va'>Kolonisert</span></span>
+<span>    <span class='va'>TidsserieTilstede</span><span class='op'>[</span><span class='va'>t</span>,<span class='op'>]</span><span class='op'>&lt;-</span><span class='va'>Tilstede</span></span>
+<span>    <span class='va'>TidsArray</span><span class='op'>[</span><span class='va'>t</span>,,<span class='va'>i</span><span class='op'>]</span><span class='op'>&lt;-</span><span class='va'>Tilstede</span></span>
+<span>    </span>
+<span>    <span class='co'># Oppdater tidssteg</span></span>
+<span>    <span class='va'>t</span> <span class='op'>=</span> <span class='va'>t</span><span class='op'>+</span><span class='fl'>1</span></span>
+<span>  <span class='op'>}</span></span>
+<span>  </span>
+<span>  <span class='va'>ParameterSpace</span><span class='op'>$</span><span class='va'>SnittPrevalens</span><span class='op'>[</span><span class='va'>i</span><span class='op'>]</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/median.html'>median</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>rowMeans</a></span><span class='op'>(</span><span class='va'>TidsserieTilstede</span><span class='op'>)</span>, na.rm <span class='op'>=</span> <span class='cn'>T</span><span class='op'>)</span></span>
+<span>  <span class='va'>ParameterSpace</span><span class='op'>$</span><span class='va'>SdPrevalens</span><span class='op'>[</span><span class='va'>i</span><span class='op'>]</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/sd.html'>sd</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>rowMeans</a></span><span class='op'>(</span><span class='va'>TidsserieTilstede</span><span class='op'>)</span>, na.rm <span class='op'>=</span> <span class='cn'>T</span><span class='op'>)</span></span>
+<span>  <span class='va'>ParameterSpace</span><span class='op'>$</span><span class='va'>MinPrevalens</span><span class='op'>[</span><span class='va'>i</span><span class='op'>]</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>min</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>rowMeans</a></span><span class='op'>(</span><span class='va'>TidsserieTilstede</span><span class='op'>)</span>, na.rm <span class='op'>=</span> <span class='cn'>T</span><span class='op'>)</span></span>
+<span>  <span class='va'>ParameterSpace</span><span class='op'>$</span><span class='va'>AndelUtvikling</span><span class='op'>[</span><span class='va'>i</span><span class='op'>]</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/coef.html'>coef</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>rowMeans</a></span><span class='op'>(</span><span class='va'>TidsserieTilstede</span><span class='op'>)</span><span class='op'>~</span><span class='fu'><a href='https://rdrr.io/r/base/AsIs.html'>I</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>rowMeans</a></span><span class='op'>(</span><span class='va'>TidsserieTilstede</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>2</span><span class='op'>]</span></span>
+<span>  <span class='kw'>if</span><span class='op'>(</span><span class='va'>i</span><span class='op'>==</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>ParameterSpace</span><span class='op'>)</span><span class='op'>)</span><span class='op'>{</span></span>
+<span>    <span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>saveRDS</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>ParameterSpace <span class='op'>=</span> <span class='va'>ParameterSpace</span>,</span>
+<span>             Geografi <span class='op'>=</span> <span class='va'>GeografiArray</span>,</span>
+<span>             TidsArray <span class='op'>=</span> <span class='va'>TidsArray</span>,</span>
+<span>             TidsserieKoloniseringsrater <span class='op'>=</span> <span class='va'>TidsserieKoloniseringsrater</span><span class='op'>)</span>,</span>
+<span>        <span class='st'>"ParameterSpace_MetaPopStoch.rds"</span><span class='op'>)</span></span>
+<span>  <span class='op'>}</span></span>
+<span><span class='op'>}</span></span>
+<span></span>
+<span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://ggplot2.tidyverse.org'>ggplot2</a></span><span class='op'>)</span>;<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://wilkelab.org/cowplot/'>cowplot</a></span><span class='op'>)</span>;<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://scales.r-lib.org'>scales</a></span><span class='op'>)</span>;<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>gridExtra</span><span class='op'>)</span></span>
+<span><span class='va'>p1</span> <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>ParameterSpace</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>y <span class='op'>=</span> <span class='va'>MinPrevalens</span>, x <span class='op'>=</span> <span class='va'>eNoise</span>, group <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='va'>eNoise</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span><span class='op'>+</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_boxplot.html'>geom_boxplot</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>+</span><span class='fu'><a href='https://wilkelab.org/cowplot/reference/theme_cowplot.html'>theme_cowplot</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme.html'>theme</a></span><span class='op'>(</span>axis.title.x <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_blank</a></span><span class='op'>(</span><span class='op'>)</span>, axis.text.x <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_blank</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span><span class='op'>+</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>ylab</a></span><span class='op'>(</span><span class='st'>"Andel\n(minimum)"</span><span class='op'>)</span></span>
+<span><span class='va'>p2</span> <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>ParameterSpace</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>y <span class='op'>=</span> <span class='va'>SnittPrevalens</span>, x <span class='op'>=</span> <span class='va'>eNoise</span>, group <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='va'>eNoise</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span><span class='op'>+</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_boxplot.html'>geom_boxplot</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>+</span><span class='fu'><a href='https://wilkelab.org/cowplot/reference/theme_cowplot.html'>theme_cowplot</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme.html'>theme</a></span><span class='op'>(</span>axis.title.x <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_blank</a></span><span class='op'>(</span><span class='op'>)</span>, axis.text.x <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_blank</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span><span class='op'>+</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>ylab</a></span><span class='op'>(</span><span class='st'>"Andel\n(gj.snitt)"</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>p3</span> <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>ParameterSpace</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>y <span class='op'>=</span> <span class='va'>AndelUtvikling</span><span class='op'>*</span><span class='fl'>200</span>, x <span class='op'>=</span> <span class='va'>eNoise</span>, group <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='va'>eNoise</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span><span class='op'>+</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_abline.html'>geom_hline</a></span><span class='op'>(</span>yintercept <span class='op'>=</span> <span class='fl'>0</span>, linetype<span class='op'>=</span><span class='st'>"dashed"</span><span class='op'>)</span><span class='op'>+</span><span class='fu'><a href='https://wilkelab.org/cowplot/reference/theme_cowplot.html'>theme_cowplot</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_boxplot.html'>geom_boxplot</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>+</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>ylab</a></span><span class='op'>(</span><span class='st'>"Vekst \n (andel endring per år x 200)"</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>xlab</a></span><span class='op'>(</span><span class='st'>"Miljøstokastisitet"</span><span class='op'>)</span><span class='co'>#+</span></span>
+<span><span class='co'>#scale_y_continuous(breaks = seq(-.2,.2,.1))+coord_cartesian(ylim = c(-0.1,0.1))</span></span>
+<span></span>
+<span><span class='fu'><a href='https://rdrr.io/pkg/gridExtra/man/arrangeGrob.html'>grid.arrange</a></span><span class='op'>(</span><span class='va'>p1</span>,<span class='va'>p2</span>,<span class='va'>p3</span><span class='op'>)</span></span></code></pre>
+</div>
 </details>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:MILJOSTOK"></span>
 <img src="Blog_metapopulasjoner_files/figure-html5/MILJOSTOK-1.png" alt="Stokastisitet reduserer minimum og gjennomsnittlige andelen av habitat som over tid har en bestand, og kan forårsake negativ veksten i bebodde habitat. Den negative  veksten vil til slutt føre til at metapopulasjonen vil dø ut." width="768" />
@@ -2638,7 +2652,7 @@ Figure 5: Stokastisitet reduserer minimum og gjennomsnittlige andelen av habitat
 </div>
 </div>
 <p>Men hvilke habitat er viktige? Og hva kan vi gjøre for å styrke metapopulasjonen? Det er spørsmålet får vi gyve løs på senere.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
 <div id="ref-hanski1994practical" class="csl-entry" role="doc-biblioentry">
 Hanski, Ilkka. 1994. <span>“A Practical Model of Metapopulation Dynamics.”</span> <em>Journal of Animal Ecology</em>, 151–62.
