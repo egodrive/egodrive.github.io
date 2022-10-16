@@ -429,7 +429,7 @@ Dragehode er en [truet art](https://artsdatabanken.no/Taxon/Dracocephalum_ruysch
 
 For disse artene så brukes det mye tid og penger på tiltak. Metapopulasjonsteori *kan* være en tilnærming på hvordan man skal prioritere *hvor* man bør gjøre tiltakene. 
 
-Vi henter data fra GBIF (Artskart) for disse to artene. Og antar at dragehodeglansbille har en gjennomsnittlig spredningsdistanse på ca. 1500 meter. Vi kjører først en algoritme som grupperer forekomstene slik at de som er innenfor 1500 m fra hverandre blir gruppert sammen og utgjør en "bestand"." Slik at bevelse innenfor denne avstanden er "normal" bevegelse, mens bevegelse utover dette er "spredning". 
+Vi henter data fra GBIF (Artskart) for disse to artene. Og antar at dragehodeglansbille har en gjennomsnittlig spredningsdistanse på ca. 1500 meter. Vi kjører først en algoritme som grupperer forekomstene slik at de som er innenfor 1500 m fra hverandre blir gruppert sammen og utgjør en "bestand". Slik at bevelse innenfor denne avstanden er "normal" bevegelse, mens bevegelse utover dette er "spredning". 
 
 ```{r GBIF prepping, cache = T}
 ### DRAGEHODE #####
@@ -515,7 +515,7 @@ iD = 1/DispDistanceM
 ```{r Dragehode, cache = T, fig.cap="Utbredelsen av bestandene med dragehode, hvor størrelsen reflekterer EV, verdien bestanden har for metapopulasjonen."}
 sol <- metacapa(d, Ar,
                 alpha = iD)
-plot(sol)
+
 Joint = cbind(Joint[centrY>0,.SD[1], c("Populasjon")][,c("Populasjon")],EV = sol$x
 )[Joint, on = "Populasjon"]
 
