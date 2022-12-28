@@ -5,7 +5,7 @@ description: >
 draft: true
 author:
   - name: Endre Grüner Ofstad
-bibliography: bibliography.bib
+bibliography: bibliography_MVT.bib
 categories:
   - Forvaltning
   - Økosystem
@@ -13,6 +13,8 @@ output:
   distill::distill_article:
     self_contained: false
     code_folding: true
+    toc: true
+    toc_float: true
 
 fig_width: 8 
 fig_height: 4
@@ -45,7 +47,7 @@ qplot(data = data.frame(x = x, y = y) ,y = y, x = x, geom = "path")+
 ```
 Ved ankomst til habitatet så finner man innledningsvis ny mat ganske lett. Etterhvert som tiden går så blir det mindre og mindre mat igjen, og nytten av å være der øker ikke like raskt som det gjorde innledningsvis. Nytten man oppnår for hvert ekstra tidssteg, altså den marginale nytten, avtar ( se \@ref(fig:FIG1)a).
 
-Hvis man har brukt lang tid på å komme til habitatet må man oppholde seg der lengre for å veie opp for reisekostnadene. Men hvor mye lengre kommer an på nyttefunksjonen. I \@ref(fig:FIG1)a viser vi to nyttefunksjoner. Den optimale oppholdstiden kan løses grafisk ved å trekke en linje fra reisetidspunktet (på venstresiden av y-aksen, negative x-verdier) til tangenten av den aktuelle nyttefunksjonen. Den optimale oppholdstiden kan da leses av på x-aksen (vertikale linjer i figur \@ref(fig:FIG1)b). Slik at jo lengre man reiser dess lengre opphold bør man ha (figur \@ref(fig:FIG1)c.) 
+Hvis man har brukt lang tid på å komme til habitatet må man oppholde seg der lengre for å veie opp for reisekostnadene. Men hvor mye lengre kommer an på nyttefunksjonen. I \@ref(fig:FIG1)a viser vi to nyttefunksjoner. Den optimale oppholdstiden kan løses grafisk ved å trekke en linje fra reisetidspunktet (på venstresiden av y-aksen, negative x-verdier) til tangenten av den aktuelle nyttefunksjonen. Den optimale oppholdstiden kan da leses av på x-aksen (vertikale linjer i figur \@ref(fig:FIG1)b). Slik at jo lengre man reiser dess lengre opphold bør man ha (figur \@ref(fig:FIG1)c.). Med andre ord, oppholdstid er definert av $dG(t = t^*)/dt) = G(t^*)/(T + t^*)$ 
 
 ```{r FIG1, echo = T, cache = T, fig.width=8, fig.height=8, fig.cap = "Næringsopptak minker som regel jo lengre man er i habitatet. Hvor lenge et individ bør oppholde seg der er også avhenig av hvor lang tid man brukte på å reise til habitatet. "}
 knitr::opts_chunk$set(fig.width=12, fig.height=8) 
@@ -80,9 +82,8 @@ MVT = function(BetaTimeSpent=c(.15,.30),x.values = Times){
             datas$TimeBetas)
   # For which intervals do we have estimates for all betas?
   d =(apply(d, c(1,2),sign))
-  names(which(rowSums(d)>=length(BetaTimeSpent))[1])
-  c = as.numeric(unlist(str_split(gsub("\\(|\\]","",
-                                       names(which(rowSums(d)>=length(BetaTimeSpent))[1])),",")))
+  
+  c = as.numeric(unlist(str_split(gsub("\\(|\\]","",                                    names(which(rowSums(d)>=length(BetaTimeSpent))[1])),",")))
   c = datas[TravelTime>=c[1] & TravelTime<=c[2]]
   
   # Relationship btw cummulative gain, travel time and time spent in patch
@@ -278,54 +279,11 @@ MVT_1 = function(Method = "Standard", Asymptote = c(.5,1), Rate = c(0.5,1), Half
 
 }
 ```
-Nyttefunksjoner kan utformes på svært mange måter, men i praksis så ser man at de fleste er avtagende (dvs. deakkselererende eller konveks). I praksis vil man ofte være interessert i hva skjer om en bedrer habitat for arten. Noen slik nytte-funksjoner har bedret habitatkvaliteten ved å øke asymptoten (se likning \#eq:EQ1). Dette kan sammenlignes med å f.eks. doble mengden mat i habitatet. Men da har man sett at dette, i teorien, ikke har påvirket hvor lenge et individ bør oppholde seg der (Charnov and Parker 1995; Ranta et al. 1995; Livoreil and Giraldeau 1997). 
-
-
-$$
-F(t) = Asymptote - \frac{Asymptote}{1 + Rate\cdot t} (\#eq:EQ1)
-$$
-
-```{r}
-a = MVT_1(HandlingTime = seq(0,3,.05), Rate = c(0.75,.9), Intercept = c(0,1), HalfTime = 1.5, Method = "Aastrom_1")
-```
-
-
-$$
-F(t) = Habitat - \frac{Habitat^2}{Habitat + Rate\cdot t} (\#eq:EQ2)
-$$
-
-
-Forskjeller mellom disse er at likning \@ref(eq:EQ1) antar at prosent opptak er uavhengig av størrelsen på habitatet. Det vil si at en elg vil spise opp 20 % av en treklyngen på 10 minutt, uavhengig om treklyngen består av 10 eller 40 trær. Og det henger jo nøvendigvis ikke helt på greip. I likning \@ref(eq:EQ2) vil håndteringstiden øke med habitatstørrelsen, dvs. kurven blir flatere, og for de 10 minuttene så vil elgen ha spist en mindre andel av en stor klynge enn en liten klynge. 
-
-Videre vil opptaket i starten være variere habitatstørrelsen i \@ref(eq:EQ1), men ikke i \@ref(eq:EQ2). 
-
-
-
-### denne kan knyttes til funksjonell respons
-
-```{r}
-a = MVT_1(HandlingTime = seq(0,3,.05), Rate = c(0.75,.9), Intercept = c(0,1), HalfTime = 1.5, Method = "Aastrom_2")
-
-```
-
-En annen måte å skrive det vil være å se på det som et log-log-forhold. 
-
-Antall enheter inntak kan beskrives som Poisson-fordeling. Poisson kan brukes til modellere *proportional hazard*-modeller^[McCullagh, Peter, and John A. Nelder. Generalized linear models. Routledge, 2000.] Som er brukt til å modellere hvor lenge individ skal være i et område ^[Wajnberg, Eric, Xavier Fauvergue, and Odile Pons. "Patch leaving decision rules and the Marginal Value Theorem: an experimental analysis and a simulation model." Behavioral Ecology 11.6 (2000): 577-586]. Ved å legge til log-tid responsen tolkes som en rate. I MVT antar en avtagende utbytte, slik at $\beta_{Time}<1$. 
-
-
-I studier som går på habitatbruk legger man ofte til areal tilgjengelig habitat som offset for å se på hvordan bruken avviker fra tilgjengelighet, altså *habitatvalg*. Tilsvarende kan man også gjøre her. 
-
-$log(Opptak) = \beta_{Rate} * log(Area) + \beta_{Time}*log(Time)$
-
-
-Ved å legge til $log(Areal)$ vil det endelige uttrykket være $Opptak = Areal^{\beta_{areal}}*Tid^{\beta_{tid}}$. Og hvis areal er lagt til som en offset vil $\beta_{areal}=1$, slik at $Opptak = Areal*Tid^{\beta_{tid}}$
-
-
 
 
 # Utledninger
 ## Generell løsning
-1) Man har for oppholdstid t* så vil funksjonen $G(t)$ har stigningstall/tangent lik $\delta G/\delta t$
+1) Man har for oppholdstid $t*$ så vil funksjonen $G(t)$ ha stigningstall (tangent) lik $\delta G/\delta t$
 2) Punktet hvor tangenten $\delta G/\delta t$ skjærer i x-aksen er reisetid $T_s$. 
 3) Tangenten er jo en rett linje som kan beskrives med stigningstll $b$ og skjæringspunkt $a$, slik at $T_s = -a/b$. 
  Hvor $a = G(t = t*) - \delta G/\delta t$, og $b = \delta G/\delta t$.  
@@ -349,38 +307,40 @@ $$
 
 6. Dette vil så kunne løses for gitte nyttefunksjoner $G(t)$. 
 
-## log-log
-7. For log-log-funksjonen vi så over hvor $log(G(t)) = \beta log(t)$.
-$$
-G(t) = t^\beta
-$$
-og 
-$$
-\frac{\delta G}{\delta t} = \beta t^{\beta-1}
-$$
-Vi setter dette inn i det generelle løsningen over. 
-$$
-T_s = t^*- \frac{t^{*\beta}}{\beta t^{*\beta - 1}}
-$$
-Som forenkles til
-$$
-T_s = t^*- \frac{t^{*}}{\beta}
-$$
-
-$$
-T_s = t^* (1 - \frac{1}{\beta})
-$$
-$$
-\frac{T_s}{1-\frac{1}{\beta}} = t^*
-$$
-
-Man kan også legge til areal 
-$$ log(G(t)) = \beta log(t) + \gamma log(A)$$
-$$G(t) = t^{\beta}A^{\gamma}$$
-$$L_s = t^* - \frac{t^{\beta}A^{\gamma}}{A^{\gamma}\beta t^{\beta-1}}$$
-$$ L_s = t - \frac{t}{b}$$
-$$ t = \frac{bT}{b-1}$$
 ## Åström mfl 1990 likn. 1
+Nyttefunksjoner kan utformes på svært mange måter, men i praksis så ser man at de fleste er avtagende (dvs. deakkselererende eller konveks). 
+
+I praksis vil man ofte være interessert i hva skjer om en bedrer habitatet for arten. Noen slik nytte-funksjoner bedrer habitatkvaliteten ved å øke asymptoten (se likning \#eq:EQ1). Dette kan sammenlignes med å f.eks. doble mengden mat i habitatet. Men da har man sett at dette, i teorien, ikke har påvirket hvor lenge et individ bør oppholde seg der (Charnov and Parker 1995; Ranta et al. 1995; Livoreil and Giraldeau 1997). 
+
+
+$$
+F(t) = Asymptote - \frac{Asymptote}{1 + Rate\cdot t} (\#eq:EQ1)
+$$
+
+```{r}
+a = MVT_1(HandlingTime = seq(0,3,.05), Rate = c(0.75,.9), Intercept = c(0,1), HalfTime = 1.5, Method = "Aastrom_1")
+```
+
+
+$$
+F(t) = Asymptote - \frac{Asymptote^2}{Asymptote + Rate\cdot t} (\#eq:EQ2)
+$$
+
+Forskjeller mellom disse er at likning \@ref(eq:EQ1) antar at prosent opptak er uavhengig av størrelsen på habitatet. Det vil si at en elg vil spise opp 20 % av en treklyngen på 10 minutt, uavhengig om treklyngen består av 10 eller 40 trær. Og det henger jo nøvendigvis ikke helt på greip. I likning \@ref(eq:EQ2) vil håndteringstiden øke med habitatstørrelsen, dvs. kurven blir flatere, og for de 10 minuttene så vil elgen ha spist en mindre andel av en stor klynge enn en liten klynge. 
+
+Videre vil opptaket i starten være variere habitatstørrelsen i \@ref(eq:EQ1), men ikke i \@ref(eq:EQ2). 
+
+```{r}
+a = MVT_1(HandlingTime = seq(0,3,.05), Rate = c(0.75,.9), Intercept = c(0,1), HalfTime = 1.5, Method = "Aastrom_2")
+
+```
+
+
+
+
+
+Med utgangspunkt i nyttefunksjonene presentert som likning 1 i @astrom1990partial. 
+
 8. For liking 1 fra Åström mfl. 1990
 
 $$ G(t) = S_i(1 - \frac{1}{1 + kt}) $$ 
@@ -399,7 +359,11 @@ $$ T_s = kt^{*2} $$
 $$ \sqrt{\frac{T_s}{k}} = t^* $$
 
 ## Åström mfl 1990 likn. 2
-9. For likning 2 fra Åström mfl. 1990
+
+Med utgangspunkt i nyttefunksjonene presentert 
+som likning 2 i @astrom1990partial. 
+
+8. For likning 2 fra Åström mfl. 1990
 
 $$ 
 G(t) = S_i(1 - \frac{1}{1 + \frac{kt}{S_i}}) = S - \frac{S{_i}^2 }{S_i + kt}
@@ -415,23 +379,71 @@ $$
 T_s = t - \frac{S - \frac{S{_i}^2 }{S_i + kt}}{\frac{kS_{i}^2}{(kt + S_i)^2}}
 $$
 Og forenkler denne til
-$$
-T_s = \frac{(-1)kt^2}{S}
 
 $$
+T_s = \frac{(-1)kt^2}{S}
+$$
+
+Som vi løser for $t$
 
 $$-\frac{S_{i}T_{s}}{k} = t^2 $$
 
 Alternativt, ved å gå tilbake til den generelleløsningen så kan $b$ også skrives som $b = G(t)/[t^* + T_s]$.
-
-
 
 Hvis man bruker den, så vil 
 $T_s = T_s + t$
 
 $t = T_s/2$
 
-## SIH 1980
+
+
+## log-log
+
+En annen måte å skrive det vil være å se på det som et log-log-forhold. 
+
+Antall enheter inntak kan beskrives som Poisson-prosess. Poisson kan brukes til modellere *proportional hazard*-modeller^[McCullagh, Peter, and John A. Nelder. Generalized linear models. Routledge, 2000.], som er brukt til å modellere hvor lenge individ skal være i et område ^[Wajnberg, Eric, Xavier Fauvergue, and Odile Pons. "Patch leaving decision rules and the Marginal Value Theorem: an experimental analysis and a simulation model." Behavioral Ecology 11.6 (2000): 577-586]. Ved å bruke log-tid ($\beta_{log-tid}$) som forklaringsvariabel på opptak kan responsen tolkes som en rate. I MVT antar en avtagende utbytte, slik at $\beta_{log-tid}<1$. 
+
+
+I studier som går på habitatbruk legger man ofte til areal tilgjengelig habitat som offset for å se på hvordan bruken avviker fra tilgjengelighet. Ved å legge det til som en offset så antar man at opptak skal øke proporsjonalt med areal altså [*habitatvalg*](https://egodrive.github.io/posts/Nisje/#hvorfor-starter-og-slutter-nisjen). Tilsvarende kan man også gjøre her. 
+
+$log(Opptak) = \beta_{Rate} * log(Areal$
+
+
+Ved å legge til $log(Areal)$ vil det endelige uttrykket være 
+$Opptak = Areal^{\beta_{areal}}*Tid^{\beta_{tid}}$. 
+
+Og hvis areal er lagt til som en offset vil $\beta_{areal}=1$, slik at
+
+$Opptak = Areal*Tid^{\beta_{tid}}$
+
+
+7. For log-log-funksjonen vi så over hvor $log(G(t)) = \beta log(t)$.
+$$
+G(t) = t^\beta
+$$
+og 
+$$
+\frac{\delta G}{\delta t} = \beta t^{\beta-1}
+$$
+Vi setter dette inn i det generelle løsningen over. 
+
+$$
+T_s = t^*- \frac{t^{*\beta}}{\beta t^{*\beta - 1}}
+$$
+Som forenkles til
+$$
+T_s = t^*- \frac{t^{*}}{\beta}
+$$
+
+$$
+T_s = t^* (1 - \frac{1}{\beta})
+$$
+$$
+\frac{T_s}{1-\frac{1}{\beta}} = t^*
+$$
+
+## Sih 1980
+Nå tar vi utgangspunkt i nyttefunksjonen fra likning 2 @sih1980optimal. 
 
 $$G(t) = \frac{G_{max}t}{d + t}$$
 I denne studien har vi byttet ut $c$ med $d$, da $d$ er invers av hvordan vi har tolket raten tidligere. 
@@ -443,10 +455,113 @@ $$T_s = t - \frac{\frac{G_{max}t}{d + t}}{\frac{dG}{(d+t)^2}}$$
 $$T_s = t - \frac{t(d+t)}{d}$$
 $$ t = \sqrt{dT_s}$$
 $$ T_s = \frac{t^2}{d}$$
-### SIH 1980 alt
+
+## Sih 1980 alternativ
+
 $$G(t) = \frac{G_{max}t}{dG_{max} + t}$$
 $$\frac{\delta}{\delta t} = \frac{dG^2}{(dG+t)^2}$$
 $$T_s = t - \frac{t(dG_{max}+t)}{G_{max}d}$$
+
+# Sigmoide nyttefunksjoner
+Hvis et individ kommer inn i habitatet og bruker litt tid på å orientere seg om hva som er den mest nyttige maten før den spesialiserer seg inn på denne. En kan da ende opp med en sigmoid nyttefunksjon (@searle2005gain, @spalinger1992mechanisms likning 30).
+
+
+$G(t) = \frac{\alpha\cdot t^2\cdot M}{\alpha\cdot t^2 + M}$
+
+```{r, cache = T, fig.width = 8, fig.height= 8, fig.cap = "Sigmoide nyttefunksjon. "}
+
+ALPHA = .002
+BioMass = 0.382
+
+
+ggplot() +
+  xlim(0, 40)+
+  geom_function(fun = function(x) 
+    (ALPHA*BioMass*x^2)/(BioMass + ALPHA*x^2)
+  )+
+  theme_cowplot()+
+  theme(axis.text=element_blank(),axis.title=element_blank(),legend.position = "none")
+
+
+```
+
+Den deriverte av nyttefunksjonen i $t^*$ er lik langtidsnytten. I MVT optimum $t^*$, som gitt over, så er nyttefunksjonen sin andrederiverte < 0. For nyttefunksjoner som ikke er konkav (-opp) så vil ikke den generelle påstanden over om at å forbedre kvaliteten på habitatet øke oppholdstiden gjelde (@calcagno2014functional, fantastisk artikkel som man aldri kan få nok av). Da vil oppholdstiden bli kortere og individ vil bruke mer tid på å bevege seg mellom habitat. 
+
+## Calcagno-gjennomgang
+
+I heterogene miljø er snittet angitt som $<y_j>$.
+$s$ ulike miljø med frekvens $p_i$
+
+Likning 11 fra Calcagno 2013/2014
+
+$\frac{dt^*}{dx} = -E_n^*(\frac{\delta}{\delta x}ln\frac{\delta F(x,t^*)}{\delta t} - \frac{\delta ln E_n^*}{\delta x})(\frac{\delta^2F(x,t^*)}{\delta t^2})^{-1}$
+
+Linking 8
+
+$\frac{\delta\space ln E^*_n}{\delta x_i} = \frac{\delta ln <F_j (x_j ,t^*_j>}$
+
+
+
+
+```{r}
+#h(n) # Opptak per ressursnivå n
+#h(n) = n^theta
+ggplot() +
+  xlim(0, 3)+
+  geom_function(fun = function(x) 
+    x^.5, col = "green")+
+  geom_function(fun = function(x) 
+    x^1, col = "blue")+
+  geom_function(fun = function(x) 
+    x^2, col = "red")+
+  theme_cowplot()+
+  theme(axis.text=element_blank(),legend.position = "none")+
+  xlab("Ressursnivå (n)")+ylab("Ressursopptak (h) per tidsenhet")
+
+```
+
+
+```{r}
+# Time t
+# eat h(t)
+# deplete resource by n = -h(n)/S
+Forage = function(n, theta = 2/3, S = .01){
+  S*(n^theta)
+}
+
+Deplete = function(n0, theta = 2/3, S = .01){
+  n0-S*(n0^theta)
+}
+
+Gain = function(time, Resource = 50, theta = 3/2, PatchCost = .1, TravelCost = .4, Travel = 1,...){
+  Gains = 0
+  Gains = Gains - TravelCost*Travel
+  for(i in 1:time){
+      if(Resource>0 & !is.nan(Resource)){
+      Gains = Gains + Forage(n = Resource, theta = theta,...)
+      Resource = Resource = Deplete(n0 = Resource, theta = theta,...)
+    }
+    Gains = Gains-PatchCost
+  }
+  c(Gain = Gains, Resource = Resource, PatchCost = PatchCost*time)
+}
+
+
+library(data.table);library(ggplot2);library(cowplot)
+tmp = CJ(Time=1:30, 
+         Resources = c(50),
+         Thets = c(.8,1,1.2))
+tmp[,idx:=1:.N]
+tmp[,Gains:=Gain(time = Time, PatchCost = .001, Travel = 0,
+                 Resource = Resources, theta = Thets)[1], by = idx]
+
+ggplot(data = tmp, aes(x = Time, y = Gains, col = factor(Thets), shape = factor(Resources))) +
+  xlim(0, 10)+
+  geom_line()+
+  theme_cowplot()
+
+```
+
 
 
 
