@@ -827,4 +827,9 @@ Results$Plot
 
 ggmap(aaa)+geom_path(data = GEOS[c((combn(1:42,2))),], mapping = aes(x = PosX, y = PosY))
 
-
+```{r, layout="l-screen-inset"}
+library(leaflet)
+leaflet() %>%
+  addTiles() %>%  # Add default OpenStreetMap map tiles
+  addMarkers(lng=174.768, lat=-36.852, popup="The birthplace of R")
+```

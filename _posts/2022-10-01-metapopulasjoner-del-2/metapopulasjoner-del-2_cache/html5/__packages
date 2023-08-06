@@ -19,3 +19,7 @@ boot
 CircStats
 adehabitatLT
 adehabitatHR
+leaflet
+leaflegend
+crosstalk
+dplyr

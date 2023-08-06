@@ -464,12 +464,17 @@ fwrite(Joint,"C:/Users/endre/OneDrive/Tekster/egodrive.github.io/_posts/2022-10-
 }
 Joint = fread("C:/Users/endre/OneDrive/Tekster/egodrive.github.io/_posts/2022-10-01-metapopulasjoner-del-2/gbif_data.csv")
 
+Joint = Joint[decimalLatitude>58.5 & decimalLatitude<62]
+
 Joint = cbind(data.table(coordinates(spTransform(
   SpatialPoints(coords = Joint[,c("decimalLongitude", "decimalLatitude")],
                 proj4string = CRS("+init=epsg:4326")),
   CRS("+init=epsg:32632"))))
   , Joint)
 names(Joint)[1:2]<-c("UTMx", "UTMy")
+
+
+
 DispDistanceM = 1500
 
 # Create clusters, aka. populations
@@ -558,6 +563,48 @@ ggplot(data = df, aes(y = BeetlePresent, x = EV))+
               method.args = list(family = "binomial"), 
               se = FALSE)+
   ylab("Bille tilstede")
+
+
+```
+
+```{r, layout="l-screen-inset", cache = T, echo = F}
+knitr::opts_chunk$set(echo = FALSE)
+library(leaflet)
+library(leaflegend)
+library( crosstalk )
+library( dplyr )
+
+
+df = Joint[,.(lat = mean(decimalLatitude, na.rm = T),
+              long = mean(decimalLongitude, na.rm = T),
+              BeetlePresent = unique(BeetlePresent), 
+              mag = mean(EV, na.rm = T)),
+      c("Populasjon")]
+
+df = df[df$lat>0 & df$long>0,]
+#df$mag <- (df$mag-min(df$mag, na.rm = T))/(max(df$mag, na.rm = T)-min(df$mag,na.rm = T))
+df$mag<-ecdf(df$mag)(df$mag)
+
+
+symbols <- makeSymbolsSize(
+  values = df$mag,
+  shape = 'diamond',
+  color = 'red',
+  fillColor = 'red',
+  opacity = .5,
+  baseSize = 10
+)
+
+df$mag2 = df$mag
+shared_data <- SharedData$new(df)
+
+filter_slider("mag", "Metpop-verdi", shared_data, ~mag2, width = "100%")
+leaflet(shared_data) %>%
+  leaflet::addTiles() %>%
+  leaflet::addMarkers(icon = symbols,
+                      popup = paste0(round(df$mag,2)*100,"-persentil"),
+                      clusterOptions = markerClusterOptions()) 
+
 
 
 ```
