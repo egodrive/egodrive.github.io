@@ -423,10 +423,9 @@ Det kan gi mening at Klostervågen er vurdert til bedre. Den økter "tettheten" 
 # Hvilke områder er viktige?
 Om man nå har en rekke delområder som man skal skjøtte eller forvalte på noe vis, hvor skal man legge ned innsats?
 
-Eigenverdien, $\lambda_{M}$, til metapopulasjonen har en assosiert høyre eigenvektor. Denne har likt antall verdier ($x$) som antall bestander i systemet, og kan brukes til å beskrive den enkelte bestanden sin betydning for metapopulasjonen sin kapasitet. Hvor hvert tall i eigenvektoren ($x_{i}$, heretter kallt $EV$) kvadrert og multiplisert med $\lambda_{M}$ vil gi dette målet; $\lambda_{i} = \lambda_{M}EV^2$. I populasjonsøkologi tilsvarer vektoren den stabile aldersfordelingen om $M$-matrisen var Leslie-matrisen til en bestand. Og kan tolkes likedan; over tid så vil verdiene i eigenvektorene reflektere hvor det befinner seg flest individer i bestanden. Denne vektoren er blitt brukt for å identifisere viktige områder for bevaring av fugler i den atlantiske regnskogen (@huang2020using).
+Eigenverdien, $\lambda_{M}$, til metapopulasjonen har en assosiert høyre eigenvektor. Denne har likt antall verdier ($x$) som antall bestander i systemet, og kan brukes til å beskrive den enkelte bestanden sin betydning for metapopulasjonen sin kapasitet. Hvor hvert tall i eigenvektoren ($x_{i}$, heretter kallt $EV$) kvadrert og multiplisert med $\lambda_{M}$ vil gi dette målet; $\lambda_{i} = \lambda_{M}EV^2$. Eigenvektoren til $M$-matrisen er blitt brukt for å identifisere viktige områder for bevaring av fugler i den atlantiske regnskogen (@huang2020using).
 
-
-
+I populasjonsøkologi tilsvarer vektoren den stabile aldersfordelingen om $M$-matrisen var Leslie-matrisen til en bestand. Og kan tolkes likedan; over tid så vil verdiene i eigenvektorene reflektere hvor det befinner seg flest individer i bestanden. Og hvor man i populasjonsøkologi vil regne ut sensitivitet/elastisitet for å beregne hvilken parameter i Leslie-matrisen (f.eks. overlevelse eller fekunditet til en gitt aldersklasse) som er viktigst for bestandsveksten, så blir dette overflødig for $M$-matrisen da den er symmetrisk. Dette betyr også at sensitivitet/elastisitet samsvarer med $EV$. Kan også se til denne [studien](https://www.researchgate.net/profile/Selina-Heppell/publication/228579870_Life_Histories_and_Elasticity_Patterns_Perturbation_Analysis_for_Species_with_Minimal_Demographic_Data/links/5b76029692851ca65064e532/Life-Histories-and-Elasticity-Patterns-Perturbation-Analysis-for-Species-with-Minimal-Demographic-Data.pdf) for beregning av sensitivitet/elastisitet. 
 
 ## Dragehode og dragehodeglansbille
 Dragehode er en [truet art](https://artsdatabanken.no/Taxon/Dracocephalum_ruyschiana/102285), som er vertsplante for den enda mer truede [dragehodeglansbillen](https://www.artsdatabanken.no/Taxon/Meligethes%20norvegicus/8060). 
@@ -525,7 +524,27 @@ library(data.table);library(scales)
 library(cowplot);library(metapop)
 library(ggplot2)
 
-sol <- metacapa(d, Ar,
+metacapa_2 = function(d, A, alpha = 1, ...){
+ M<- as.matrix(exp(-alpha*d))
+ diag(M)<- 0
+ M<-M * outer(A, A)
+ tmp <- eigen(M)
+ #tmp2 <- eigen(t(M))
+ 
+ ev <- tmp$values[1]
+ 
+ eij = (M/ev)*((tmp$vectors[, 1]*tmp$vectors[, 1])/(tmp$vectors%*%tmp$vectors))
+ 
+ 
+ 
+ cap <- list(capacity = ev, x = tmp$vectors[, 1]^2, d = d, 
+             A = A, 
+             M = M)
+ class(cap) <- "metacapa"
+ cap
+ }
+
+sol <- metacapa_2(d, Ar,
                 alpha = iD)
 
 Joint = cbind(Joint[centrY>0,.SD[1], c("Populasjon")][,c("Populasjon")],EV = sol$x
@@ -585,14 +604,22 @@ df = df[df$lat>0 & df$long>0,]
 #df$mag <- (df$mag-min(df$mag, na.rm = T))/(max(df$mag, na.rm = T)-min(df$mag,na.rm = T))
 df$mag<-ecdf(df$mag)(df$mag)
 
+# symbols <- makeSymbolsSize(
+#   values = df$mag,
+#   shape = 'diamond',
+#   #color = 'red',
+#   color = ~pal(df$mag2), 
+#   #fillColor = 'red',
+#   opacity = .5,
+#   baseSize = 10
+# )
 
-symbols <- makeSymbolsSize(
-  values = df$mag,
-  shape = 'diamond',
-  color = 'red',
-  fillColor = 'red',
-  opacity = .5,
-  baseSize = 10
+
+# If you want to use predefined palettes in the RColorBrewer package:
+# Call RColorBrewer::display.brewer.all() to see all possible palettes
+pal <- colorNumeric(
+  palette = 'YlOrRd',
+  domain = df$mag2
 )
 
 df$mag2 = df$mag
@@ -600,11 +627,19 @@ shared_data <- SharedData$new(df)
 
 filter_slider("mag", "Metpop-verdi", shared_data, ~mag2, width = "100%")
 leaflet(shared_data) %>%
-  leaflet::addTiles() %>%
-  leaflet::addMarkers(icon = symbols,
-                      popup = paste0(round(df$mag,2)*100,"-persentil"),
-                      clusterOptions = markerClusterOptions()) 
-
+  addTiles() %>%
+  addCircleMarkers(#lng = ~lng, lat = ~lat
+             , weight = 1
+             #, shape = 'diamond'
+             #, opacity = 0.1
+             , stroke = T
+             #, size = 10
+             #, radius = ~size
+             , popup = paste0(round(df$mag,2)*100,"-persentil")
+             , color = ~pal(mag2)
+             , fillColor = ~pal(mag2)
+             #, clusterOptions = markerClusterOptions()
+             )
 
 
 ```
