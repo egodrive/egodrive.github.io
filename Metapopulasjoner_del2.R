@@ -95,7 +95,7 @@ for(i in 1:nrow(ParameterSpace)){
       dij = as.matrix(MellomØyAvstand)[-i,i]
       c_konstant*sum(Pj*Aj*
                        exp(-Alpha*dij))
-      }) # Si
+    }) # Si
     
     
     TidsserieKoloniseringsrater[t,,i]<-KoloniseringsRateØy_i
@@ -247,7 +247,7 @@ Centrality = function(Geografi, DispersalDistance = 30.9, Alpha = NULL, unit = "
   Areal = Geografi[,1]
   if(unit=="m"){
     Areal = Areal/1000000
-    }
+  }
   dij = as.matrix(dist(cbind(Geografi[,2], Geografi[,3]), diag = T, upper = T))
   if(unit == "m"){
     dij = dij/1000# transform from meter to kilometer
@@ -277,7 +277,7 @@ Centrality = function(Geografi, DispersalDistance = 30.9, Alpha = NULL, unit = "
             Eigenvectors = we,
             ConnectedHabitat = ConnectedHabitat,
             EigenValue = eigen(M)$value[1]
-            )
+  )
   
   attr(ls, "Areal")<-Areal
   attr(ls, "xPos")<-Geografi[,2]
@@ -330,8 +330,8 @@ p0_c = ggplot()+
                            size = log(Centrality(Geografi = VOgeo)$Eigenvectors),
                            col =log(Centrality(Geografi = VOgeo)$Eigenvectors)))+
   geom_label(mapping = aes(x = min(VOgeo3[,2]), y = max(VOgeo3[,3]),
-                          label = paste("Metapopulasjonskapasitet = ",
-                                        round(Centrality(Geografi = VOgeo)$EigenValue,2))), fontface = "bold", fill = alpha("white",0.5), hjust = -.1)
+                           label = paste("Metapopulasjonskapasitet = ",
+                                         round(Centrality(Geografi = VOgeo)$EigenValue,2))), fontface = "bold", fill = alpha("white",0.5), hjust = -.1)
 
 p1_c = ggplot()+
   geom_point(mapping = aes(x = VOgeo1[,2], y = VOgeo1[,3],
@@ -339,8 +339,8 @@ p1_c = ggplot()+
                            col = log(Centrality(Geografi = VOgeo1)$Eigenvectors)))+
   geom_point(data = as.data.frame(tail(VOgeo1,1)), mapping = aes(x = PosX, y = PosY), col = "red")+
   geom_label(mapping = aes(x = min(VOgeo1[,2]), y = max(VOgeo1[,3]), 
-                          label = paste("Metapopulasjonskapasitet = ",
-                                        round(Centrality(Geografi = VOgeo1)$EigenValue,2))), fontface = "bold", fill = alpha("white",0.5), hjust = -.1)
+                           label = paste("Metapopulasjonskapasitet = ",
+                                         round(Centrality(Geografi = VOgeo1)$EigenValue,2))), fontface = "bold", fill = alpha("white",0.5), hjust = -.1)
 
 p2_c = ggplot()+
   geom_point(mapping = aes(x = VOgeo2[,2], y = VOgeo2[,3],
@@ -348,8 +348,8 @@ p2_c = ggplot()+
                            col = log(Centrality(Geografi = VOgeo2)$Eigenvectors)))+
   geom_point(data = as.data.frame(tail(VOgeo2,1)), mapping = aes(x = PosX, y = PosY), col = "red")+
   geom_label(mapping = aes(x = min(VOgeo2[,2]), y = max(VOgeo2[,3]),
-                          label = paste("Metapopulasjonskapasitet = ",
-                                        round(Centrality(Geografi = VOgeo2)$EigenValue,2))), fontface = "bold", fill = alpha("white",0.5), hjust = -.1)
+                           label = paste("Metapopulasjonskapasitet = ",
+                                         round(Centrality(Geografi = VOgeo2)$EigenValue,2))), fontface = "bold", fill = alpha("white",0.5), hjust = -.1)
 
 p3_c = ggplot()+
   geom_point(mapping = aes(x = VOgeo3[,2], y = VOgeo3[,3],
@@ -357,8 +357,8 @@ p3_c = ggplot()+
                            col = log(Centrality(Geografi = VOgeo3)$Eigenvectors)))+
   geom_point(data = as.data.frame(tail(VOgeo3,2)), mapping = aes(x = PosX, y = PosY), col = "red")+
   geom_label(mapping = aes(x = min(VOgeo3[,2]), y = max(VOgeo3[,3]),
-                          label = paste("Metapopulasjonskapasitet = ",
-                                        round(Centrality(Geografi = VOgeo3)$EigenValue,2))), fontface = "bold", fill = alpha("white",0.5), hjust = -.1)
+                           label = paste("Metapopulasjonskapasitet = ",
+                                         round(Centrality(Geografi = VOgeo3)$EigenValue,2))), fontface = "bold", fill = alpha("white",0.5), hjust = -.1)
 
 th = theme_cowplot()+theme(axis.text=element_blank(),axis.title=element_blank(),legend.position = "none")
 library(gridExtra)
@@ -833,3 +833,646 @@ leaflet() %>%
   addTiles() %>%  # Add default OpenStreetMap map tiles
   addMarkers(lng=174.768, lat=-36.852, popup="The birthplace of R")
 ```
+
+
+### Simuleringer ####
+library(data.table);library(gstat);library(rlang);library(ggplot2);library(dplyr);library(gridExtra)
+library(igraph);library(ggraph)
+
+sseed = sample(1:1000000,1)
+# Seed med modularitet
+# 118: interessant konfigurasjon
+# >0.4: 4913
+
+
+set.seed(sseed)
+#meth = "exp"
+nPar = 40
+n = nPar*2 # Number of points
+Area = rlnorm(n = n, sdlog = .25, meanlog = .05)
+#Area = runif(n = n, 0.002, 1)
+DIM = 500
+# Uniform distribution
+#if(meth == "unif"){
+#  set.seed(sseed)
+#  cxy = matrix(runif(n = n*2, min = 0, max = DIM), ncol = 2, nrow = n)
+#}else{
+
+#spatially autocorrelated distribution
+## generer punkt
+size=DIM
+xy <- expand.grid(1:size, 1:size) %>%
+  set_names("x","y")
+
+g.dummy <- gstat(formula=z~1, locations=~x+y, dummy=T, beta=0,
+                 model=vgm(psill=1, nugget = 0, range=10, model='Gau'), nmax=10)
+set.seed(sseed) # 366978
+yy <- predict(g.dummy, newdata=xy, nsim=1)
+# Old
+#yy$sim1 = (yy$sim1 - min(yy$sim1))/(max(yy$sim1)-min(yy$sim1))
+#cxy = yy[,c("x","y","sim1","P")]
+#cxy = arrange(cxy, -sim1)
+#cxy = head(cxy[cxy$P>0,], n)[,1:2]
+yy_0 = yy#readRDS(file = "metapopulasjoner_del3_sims.RDS")
+#New
+if(ncol(yy)>3){
+  yy = cbind(yy[,1:2], 
+             apply(yy[,3:ncol(yy)], 2, function(x) {((x - min(x))/(max(x)-min(x)))}))
+  
+  yy2 = cbind(yy[,1:2], 
+              apply(yy[,3:ncol(yy)], c(1,2), function(x){sample(c(0,1), 1, replace = T, prob = c(x,1-x))}))
+  
+  t3 = lapply(3:(ncol(yy)), function(x){
+    #print(x)
+    tmp = cbind(yy[,1:2], sim = yy[,x], P = yy2[,x])
+    t2 = arrange(tmp, -sim)
+    t2 = head(t2[t2$P>0,], n)[,1:2]
+    t2
+  })
+  saveRDS(list(yy_0 = yy_0, yy = yy, yy2 = yy2, t3= t3), file = "metapopulasjoner_del3_sims.RDS")
+  
+  ls = readRDS(file = "metapopulasjoner_del3_sims.RDS")
+  t3 = ls$t3
+}else{
+  yy = cbind(yy[,1:2], 
+             ((yy[,3] - min(yy[,3]))/(max(yy[,3])-min(yy[,3]))))
+  
+  yy2 = cbind(yy[,1:2], 
+              sapply(yy[,3], function(x){sample(c(0,1), 1, replace = T, prob = c(x,1-x))}))
+  
+  t3 = lapply(3:(ncol(yy)), function(x){
+    #print(x)
+    tmp = cbind(yy[,1:2], sim = yy[,x], P = yy2[,x])
+    t2 = arrange(tmp, -sim)
+    t2 = head(t2[t2$P>0,], n)[,1:2]
+    t2
+  })
+}
+
+
+mods = sapply(seq_along(t3),function(x) {
+  print(x)
+  cxy = t3[[x]]
+  dij = as.matrix(dist(cxy))
+  Alpha = 1/(DIM/4)
+  
+  dij = exp(-Alpha*dij)
+  diag(dij)<-0
+  aij = outer(Area,Area)
+  Cij = dij*aij
+  A = Cij
+  
+  # Lag enz graf basert på A matrisen, hvor grafen beholder de estimert vektene
+  g = graph_from_adjacency_matrix(A, weighted = T, mode = "undirected", diag = F)
+  lec <- cluster_leading_eigen(g);lec = cluster_leading_eigen(g, start = membership(lec))
+  lec$modularity
+}
+)
+summary(mods)
+if(ncol(yy)>3){
+  x = which.max(mods)
+  x = head(rev(seq_along(t3)[order(mods)]))[2]
+}else{
+  x = 1
+}
+
+
+##### se sim resultat ####
+
+cxy = t3[[x]]
+dij = as.matrix(dist(cxy))
+Alpha = 1/(DIM/4)
+minx = min(dij);maxx = max(dij)
+
+distP = ggplot(data.frame(x=c(minx, maxx)), aes(x)) + 
+  geom_histogram(data = data.frame(dd = dij[lower.tri(dij)]),
+                 aes(dd,after_stat(ndensity)))+
+  stat_function(fun=function(x) exp(-Alpha*x))+
+  ylab("Sannsynlighet for spredning|Andel per distanse")+
+  xlab("Distanse mellom noder")
+
+ls = EigenMeasures(AXY = cbind(Area,t3[[x]]), Alpha = Alpha)
+summary(ls$PatchValue)
+A = ls$ConnectionMatrix
+cxy = t3[[x]]
+ss = as.table(ls$ConnectionSensivity)
+df = data.table(as.data.frame(ss))
+colnames(A) = colnames(ss)
+row.names(A) = row.names(ss)
+names(df)[3]<-"Sens"
+df_1 = data.table(as.data.frame(as.table(A)))
+names(df_1)[3] = "Connection"
+summary(df_1$Connection)
+df = df_1[df, on = c("Var1", "Var2")]
+df2 = data.table(Var1 = unique(df$Var1), 
+                 x = cxy[,1], 
+                 y = cxy[,2], 
+                 Area = Area,
+                 Eig = ls$PatchValue_scaled,
+                 W = ls$PatchValue)
+summary(df2$Eig)
+df = df2[df, on = "Var1"]
+names(df2)[1:3]<-c("Var2", "x2", "y2")
+df = df2[,1:3][df, on = "Var2"]
+df = arrange(df, Sens)
+
+colnames(dij) = colnames(ss)
+row.names(dij) = row.names(ss)
+ds = as.table(dij)
+ds = data.table(as.data.frame(ds))
+names(ds)[3]<-"DispP"
+df = ds[df, on = c("Var1", "Var2")]
+
+
+df[,qArea:=as.numeric(cut(Area, quantile(Area, c(0,1/3,2/3,1)), include.lowest = T))]
+df[,Eig_q:=as.numeric(cut(Eig, quantile(Eig, c(0,1/3,2/3,1)), include.lowest = T))]
+df[,Sens_q:=as.numeric(cut(Sens, quantile(Sens, seq(0,1,.1)), include.lowest = T))]
+df[,Sens_s := (Sens-min(Sens))/(max(Sens)-min(Sens))]
+df[,Sens_r:=round(rank(Sens)/.N*100), "Var1"]
+df[,Sens_p0:=Sens/sum(Sens)]
+setorder(df,  -Sens_p0)
+df[,Sens_p:=cumsum(Sens_p0)]
+
+
+df[,Connection_p0:=Connection/sum(Connection), "Var1"]
+setorder(df, Var1, -Connection_p0)
+df[,Connection_p:=cumsum(Connection_p0), "Var1"]
+
+df[,Connection_s := (Connection-min(Connection))/(max(Connection)-min(Connection))]
+df[,Connection_s_d := (Connection-min(Connection))/(max(Connection)-min(Connection)), "Var1"]
+df[,Connection_r:=round(rank(Connection)/.N*100), "Var1"]
+
+#######
+# Lag en graf basert på A matrisen, hvor grafen beholder de estimert vektene
+g = graph_from_adjacency_matrix(A, weighted = T)
+lec <- cluster_leading_eigen(g);lec = cluster_leading_eigen(g, start = membership(lec))
+
+gr = data.table(Var1 = names(membership(lec)), 
+                gr1 =  paste(membership(lec)))
+df = gr[df, on = "Var1"]
+names(gr)<-c("Var2", "gr2")
+df = gr[df, on = "Var2"]
+
+####
+a = ggplot(data = arrange(df, -Eig_q))+
+  geom_segment(mapping =  aes(x = x, y = y, xend = x2, yend = y2),
+               alpha = .4, col = "grey60")+
+  geom_point(mapping = aes(x = x, y = y,
+                           size = Eig_q, fill = Eig_q),
+             alpha = .8, shape=21)+
+  scale_fill_gradient(low = "yellow", high = "red", na.value = NA)+
+  labs(subtitle="Alle noder og linker \n")
+b = ggplot(data = arrange(df, Connection_r))+
+  geom_segment(data = df[,.SD[Connection_p<.5], "Var1"],
+               mapping =  aes(x = x, y = y, xend = x2, yend = y2,
+                              col = Eig_q))+
+  geom_point(mapping = aes(x = x, y = y, size = Eig_q, fill = Eig_q), alpha = .8, shape=21)+
+  scale_fill_gradient(low = "yellow", high = "red", na.value = NA)+
+  scale_color_gradient(low = "yellow", high = "red", na.value = NA)+
+  labs(subtitle="Viser for hver node linkene som står for 50 % av flyten per node.\n Linkene er fargelagt etter hvor viktige de er for nettverket. ")+
+  theme(legend.position="top")
+
+c = ggplot(data = arrange(df, Sens_q))+
+  geom_segment(data = df[Sens_q>9],mapping =  aes(x = x, y = y, xend = x2, yend = y2,
+                                                  alpha = Sens_q))+
+  geom_point(mapping = aes(x = x, y = y, size = Eig_q, fill = Eig_q), shape=21)+
+  scale_fill_gradient(low = "yellow", high = "red", na.value = NA)+
+  labs(subtitle="Linker med topp 10-persentil linkene effekt på \n bevegelse i nettverket")
+
+
+
+d = ggplot() +
+  geom_segment(data = df[gr1!=gr2 & Connection_p<.5],
+               mapping =  aes(x = x, y = y, xend = x2, yend = y2))+
+  geom_polygon(data = unique(df[,.SD[,c("x", "y")][chull(.SD[,c("x", "y")])], "gr1"]),
+               aes(x = x, y = y, colour=gr1, 
+                   fill = gr1), 
+               alpha = 0.5)+
+  geom_point(data = df, aes(x = x, y = y, colour=gr1, fill = gr1)) + 
+  labs(subtitle=paste0("Grupperinger i nettverket \n"))
+
+th2 = theme_classic()+
+  theme(legend.position = 'none',
+        axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        axis.line = element_blank(),
+        axis.title = element_blank())
+
+textBox = ggplot()+geom_blank()+
+  geom_text(mapping = aes(x = 1, y = 1,
+                          label = paste0("Simulering: ",sseed,"\n",
+                                         "Modularitet: ",round(lec$modularity,2))))+
+  th2
+
+th = theme_classic()+
+  theme(legend.position = 'none',
+        axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        axis.title = element_blank())  
+windows()
+grid.arrange(grobs = list(a+th,
+                          b+th,
+                          c+th,
+                          d+th,
+                          textBox),
+             left = ggpubr::text_grob("y", 
+                                      rot = 90, 
+                                      vjust = 1),
+             bottom = ggpubr::text_grob("x", 
+                                        rot = 0, 
+                                        vjust = 0),
+             
+             layout_matrix = rbind(c(5, 5),
+                                   c(5, 5),
+                                   c(1, 2), 
+                                   c(1, 2),
+                                   c(1, 2), 
+                                   c(1, 2),
+                                   c(1, 2), 
+                                   c(1, 2),
+                                   c(1, 2),
+                                   c(3, 4),
+                                   c(3, 4),
+                                   c(3, 4),
+                                   c(3, 4),
+                                   c(3, 4),
+                                   c(3, 4),
+                                   c(3, 4)))
+
+
+# Forkastede plot
+# b = ggplot(data = df)+
+#   geom_segment(data = df[,.SD[which.max(Sens)],"Var2"],mapping =  aes(x = x, y = y, xend = x2, yend = y2, size = Sens, alpha = Sens_q))+
+#   geom_point(mapping = aes(x = x, y = y, size = Sens, col = Eig_q))+
+#   scale_colour_gradient(low = "yellow", high = "red", na.value = NA)+
+#   labs(subtitle="De viktigste koblingene for hver node")
+# d1 = ggplot(data = df)+
+#   geom_segment(data = df[Sens_q>9],mapping =  aes(x = x, y = y, xend = x2, yend = y2, size = Sens, alpha = Sens_q))+
+#   geom_point(mapping = aes(x = x, y = y, size = qArea, col = qArea))+
+#   scale_colour_gradient(low = "yellow", high = "red", na.value = NA)+
+#   labs(subtitle="Koblingene med 90 % høyest effekt på bevegelse mellom nodene i nettverket")
+# 
+# dd = b + geom_label(data = unique(df[,c("Var1", "x", "y")]),
+#                     mapping = aes(x = x, y = y, label = Var1))
+
+##############
+# https://rdrr.io/cran/linkcomm/man/getCommunityCentrality.html
+# install.packages("linkcomm")
+#library(linkcomm)
+#windows()
+#lc = getLinkCommunities(network = as.data.frame(as.table(as.matrix(as.dist(A, diag = T, upper = T)))),
+#                        plot = T)
+
+
+######
+
+# add a point
+# axy
+# Original distance matrix/M-matrix
+# Patch sizes
+# New patches
+# naxy
+axy = rbind(c(2,43,98),
+            c(4,2,28),
+            c(3,20,35),
+            c(2.5,40,64))
+naxy = rbind(c(2.1,98,42),
+             c(5.1,43,48))
+
+AddOneEig = function(AXY = axy, NAXY = naxy[1,], Alpha = 1/1000, Result = "comparison", origXYdist=NULL, origA=NULL){
+  if(is.null(origXYdist)){
+    origXYdist = dist(AXY[,2:3], diag = T, upper = T)
+  }
+  # calculating distances btw the old locations and the new one
+  ndist = sqrt(rowSums(sweep(AXY[,2:3],2,matrix(NAXY, nrow = 1)[,2:3])^2))
+  nudist = cbind(rbind(as.matrix(origXYdist),ndist),c(ndist,0))
+  
+  # Orig
+  dij = exp(-Alpha*origXYdist)
+  aij = outer(c(AXY[,1]),c(AXY[,1]))
+  Cij = dij*aij
+  Eig_o = eigen(Cij)
+  
+  # New
+  dij = exp(-Alpha*nudist)
+  aij = outer(c(AXY[,1],NAXY[1]),c(AXY[,1],NAXY[1]))
+  Cij = dij*aij
+  Eig = eigen(Cij)
+  
+  if(Result == "raw"){
+    return(list(Eig, Eig_o))
+  }else if(Result == "comparison"){
+    return(list(c(Eig_o$values[[1]],Eig$values[[1]]),
+                cbind(R,Eig$vectors[,1])))
+  }else if(Result == "OnlyNew"){
+    return(list(Eig$values[[1]], Eig$vectors[,1]))
+  }else if(Result =="Measures"){
+    Lambda = Re(Eig$values[which.max(Eig$values)])
+    w <- abs(Re(Eig$vectors[,1])) # approx. stable age distribution = right eigenvector
+    V <- solve(Conj(Eig$vectors))
+    v <- abs(Re(V[1,])) # Repr. value = left eigenvector
+    pc = t(v)*w
+    pc = pc/sum(pc)
+    s <- v%o%w
+    
+    return(list(Lambda = Lambda,
+                LeftEig = w,
+                RightEig = v,
+                Sens = s))
+  }
+}
+
+lapply(1:nrow(naxy), function(ii){
+  AddOneEig(AXY = axy, NAXY = naxy[ii,], Result = "Measures")
+})
+### Verneområder ####
+library(sf)
+VO <- sf::st_read(dsn = "Vern_0000_norge_25833_FILEGDB.gdb", layer = "Naturvernområde")
+FVO<- sf::st_read(dsn = "ForeslattVern_0000_norge_25833_FILEGDB.gdb")
+
+VO = VO[VO$verneplan=="skogvern",]
+FVO = FVO[FVO$verneplan=="skogvern",]
+#VO_dist = st_distance(VO)
+
+# For simplicity we only use centroids!
+axy = cbind(st_area(VO),
+            st_coordinates(st_centroid(VO)))
+evo = EigenMeasures(axy, Alpha = 1/1500)
+
+hist(evo$ConnectionMatrix)
+Coms = Communities(LandscapeMatrix = evo$ConnectionMatrix)
+plot(axy[,2:3], col = Coms[,ncol(Coms)])
+
+
+
+naxy = cbind(st_area(FVO),
+             st_coordinates(st_centroid(FVO)))
+origXYdist = dist(axy[,2:3], diag = T, upper = T)
+adds = lapply(1:nrow(naxy), function(ii){
+  print(ii)
+  AddOneEig(AXY = axy, NAXY = naxy[ii,],
+            Alpha = 1/1000, origXYdist = origXYdist,
+            Result = "Measures")
+})
+x = which.max(sapply(adds, function(x) {x$Lambda}))
+plot(axy[,2:3])
+points(naxy[x,2:3], col = "red")
+FVO$verneplan[x]<-"VINNER"
+FVO$verneplan[-x]<-"Foreslått"
+tmp = rbind(VO[,names(VO)[names(VO) %in% names(FVO)]],
+      FVO[,names(VO)[names(VO) %in% names(FVO)]])
+plot(tmp[,7])
+plot((st_centroid(tmp)[,7]))
+
+
+plot(st_coordinates(st_centroid(tmp)), 
+     add = T, col = ifelse(tmp$verneplan=="VINNER", "red", "green"))
+points(st_coordinates(st_centroid(FVO)), 
+       add = T, col = "purple")
+points(st_coordinates(st_centroid(tmp)), 
+     add = T, col = ifelse(tmp$verneplan=="VINNER", "red", "green"))
+Cij
+Dij = Cij
+Dij[2,]<-0
+Dij[,2]<-0
+
+Eij = Cij
+Eij[4,]<-0
+Eij[,4]<-0
+
+pcon = sapply(1:nrow(Cij), function(ii){
+  Dij = Cij
+  Dij[ii,]<-0
+  Dij[,ii]<-0
+  eigen(Cij)$values[1]-eigen(Dij)$values[1]
+})
+
+eigen(Cij)$values[1]-eigen(Dij)$values[1]
+eigen(Cij)$values[1]-eigen(Eij)$values[1]
+
+
+######## FINDING COMMUNITIES ######
+
+
+pos = rbind(cbind(x = runif(10, 20,30),y = runif(10, 20,30)),
+            cbind(x = runif(10, 35,45),y = runif(10, 50,60)),
+            cbind(x = runif(10, 170,190),y = runif(10, 170,190)),
+            cbind(x = runif(10, 170,190),y = runif(10, 20,40)),
+            cbind(x = runif(10, 120,140),y = runif(10, 120,140)))
+plot(pos)
+
+M = as.matrix(dist(pos))
+M = exp(-M*1/30)
+diag(M)<-0
+
+Communities = function(LandscapeMatrix){
+  # This follows the method of Newman 2006 www.pnas.orgcgidoi10.1073pnas.0601602103
+  # Also known as the adjacency matrix
+  M = LandscapeMatrix
+  # Total number of edges/links in the landscape, i.e. non-negative values of the adjacency matrix
+  m = sum(sign(M)>0)
+  
+  # Degrees of the vertices/nodes/patches
+  kj = colSums(sign(M)>0)
+  ki = rowSums(sign(M)>0)
+  # Defines the modularity matrix
+  B = M - outer(ki,kj)/(2*m)
+  
+  ev <- eigen(B)
+  lmax <- which.max(Re(ev$values))
+  W <- ev$vectors
+  W = W[,lmax]
+  
+  wFrame = cbind(idx = seq_along(W),Gr = letters[(sign(W)+2)])
+  plot(pos, col = as.numeric(as.factor(wFrame[,2])))
+  
+  t = 1
+  while(length(unique(wFrame[,t]))!=length(unique(wFrame[,t+1]))){
+    print(t)
+    wFrame = cbind(wFrame,NA)
+    for(i in unique(wFrame[,t+1])){
+      idx = which(wFrame[,t+1]==i)
+      subB = B[idx,idx]
+      ev <- eigen(subB)
+      lmax <- which.max(Re(ev$values))
+      W <- ev$vectors
+      W = W[,lmax]
+      
+      wFrame[idx,t+2]<-paste0(wFrame[idx,t+1],"-",letters[sign(W)+2])
+    }
+    wFrame[,t+1]<- as.numeric(as.factor(wFrame[,t+1]))
+    t = t+1
+  }
+  return(wFrame[,-ncol(wFrame)])
+}
+Communities(LandscapeMatrix = M)
+coms = Communities(LandscapeMatrix = evo$ConnectionMatrix)
+library(data.table)
+coms = data.table(coms)
+setorderv(coms, names(coms)[-1])
+
+plot(axy[,2:3], col = coms[,ncol(coms)])
+library(ggplot2)
+qplot(x = axy[,2], y = axy[,3], col = as.matrix(coms)[,2])
+qplot(x = axy[,2], y = axy[,3], col = coms[,3], alpha = ifelse(coms[,3]==coms[,2],1,.6))
+qplot(x = axy[,2], y = axy[,3], col = coms[,4], alpha = ifelse(coms[,3]==coms[,4],1,2))
+qplot(x = axy[,2], y = axy[,3], col = coms[,5])
+qplot(x = axy[,2], y = axy[,3], col = coms[,6])
+
+
+qplot(x = axy[,2], y = axy[,3], col = coms[,ncol(coms)])
+
+#### FUNCTIONS SUMMARY #####
+plot(axy[1:100,2:3])
+evo = EigenMeasures(AXY = axy[1:100,])
+plot(axy[1:100,2:3],col = evo$Grouping)
+
+
+EigenMeasures = function(AXY, Alpha = 1/1000, Grouping = F, LandscapeMatrix = NULL, origXYdist=NULL, origA=NULL){
+  require(pdist);require(igraph);require(parallel)
+  # AXY = axy[1:3,]; alpha = 1/1000; LandscapeMatrix = NULL; origXYdist=NULL; origA=NULL
+  if(is.null(LandscapeMatrix)){# In case you have a landscape matrix ready, you can skip this part
+    if(is.null(origXYdist)){
+      print("Distance matrix")
+      origXYdist = parallelDist::parDist(as.matrix(AXY[,2:3]), diag = T, upper = T)
+      }
+    # If you build from input based on distancematrix and patch size
+    if(is.null(AXY) & !is.null(origA)){
+      AXY = origA
+      }
+    
+    # Calculate distance matrix (d)
+    dij = as.matrix(exp(-Alpha*origXYdist))
+    diag(dij)<-0
+    # Calculate areas
+    aij = outer(c(AXY[,1]),c(AXY[,1]))
+    # Calculate connectivity matrix (Cij)
+    Mij <<- dij*aij # uses <<- to write the variable to global env.
+  }
+  
+  # Calculate eigen-data
+  Eig = eigen(Mij)
+  
+  # calculate the leading eigenvalue, i.e. the metapopulation capacity
+  Le = which.max(Eig$values)
+  Lambda <<- Re(Eig$values[Le])
+  # approx. stable age distribution = right eigenvector
+  w <- abs(Re(Eig$vectors[,Le]))
+  # Repr. value = left eigenvector
+  V <- solve(Conj(Eig$vectors))
+  v <- abs(Re(V[Le,]))
+  
+  # Contribution to lambda according to Ovaskainen & Hanski 2003
+  # Appropriate for large perturbation, such as complete habitat loss
+  print("Patch values - large")
+  cl <- makeCluster(detectCores()-1)
+  clusterExport(cl, list("Lambda","Mij"))
+  pcon = parSapply(cl,1:nrow(Mij), function(ii){
+    print(ii)
+    (Lambda-Re(eigen(Mij[-ii,-ii])$values[1]))/Lambda
+  })
+  stopCluster(cl)
+  # Pcon[i]/A[i] ~ pc[i]
+  # Contribution of the patch to lambda 
+  # When considering small perturbations, loses a small part of the habitats
+  pc = c(t(v)*w) # yes, we could have use v^2 since we have a symmetric matrix, but we write it out in case we start with asymetric ones
+  pc_s = pc/sum(pc)
+  # Calculating the sensitiy, i.e. the value of the connection btw two patches on metapopulation capacity
+  s <- v%o%w
+  s[dij == 0] <- 0
+  
+  # Build the output
+  ls = list(Dij = origXYdist,
+            ConnectionMatrix = Mij,
+            MetapopCapacity = Lambda,
+            PatchValue_large = pcon,
+            PatchValue_scaled = c(pc_s),
+            PatchValue = c(pc),
+            ConnectionSensivity = s)
+  
+  
+  # Calculate the grouping, i.e. the modularity
+  if(Grouping){
+    print("Modularity")
+    # https://kops.uni-konstanz.de/server/api/core/bitstreams/283d523f-ebf3-4f1d-9bd0-96e4b96bc4eb/content
+    
+    # Lag en graf basert på landskapsmatrisen, hvor grafen beholder de estimert vektene
+    g = graph_from_adjacency_matrix(Mij, 
+                                    weighted = T,
+                                    mode = "undirected", diag = F)
+    
+    cluster_leiden(g, objective_function = "modularity")
+    
+    
+    lec <- cluster_leading_eigen(g, #start = hc$cluster,
+                                 option = list(sym = isSymmetric(Mij,
+                                                                 check.attributes = FALSE)))
+    
+    # Rerun for robust estimation
+    lec = cluster_leading_eigen(g, start = membership(cluster_fast_greedy(g)))
+    
+    # add to output
+    ls = c(ls,
+           Modularity = lec$modularity,
+           Grouping = membership(lec))
+  }
+  ls
+}
+
+AddOneEig = function(AXY = axy, NAXY = naxy[1,], Alpha = 1/1000, Result = "comparison", origXYdist=NULL, origA=NULL){
+  if(is.null(origXYdist)){
+    origXYdist = dist(AXY[,2:3], diag = T, upper = T)
+  }
+  # calculating distances btw the old locations and the new one
+  ndist = sqrt(rowSums(sweep(AXY[,2:3],2,matrix(NAXY, nrow = 1)[,2:3])^2))
+  nudist = cbind(rbind(as.matrix(origXYdist),ndist),c(ndist,0))
+  
+  # Orig
+  dij = exp(-Alpha*origXYdist)
+  aij = outer(c(AXY[,1]),c(AXY[,1]))
+  Cij = dij*aij
+  Eig_o = eigen(Cij)
+  
+  # New
+  dij = exp(-Alpha*nudist)
+  aij = outer(c(AXY[,1],NAXY[1]),c(AXY[,1],NAXY[1]))
+  Cij = dij*aij
+  Eig = eigen(Cij)
+  
+  if(Result == "raw"){
+    return(list(Eig, Eig_o))
+  }else if(Result == "comparison"){
+    return(list(c(Eig_o$values[[1]],Eig$values[[1]]),
+                cbind(R,Eig$vectors[,1])))
+  }else if(Result == "OnlyNew"){
+    return(list(Eig$values[[1]], Eig$vectors[,1]))
+  }else if(Result =="Measures"){
+    Lambda = Re(Eig$values[which.max(Eig$values)])
+    w <- abs(Re(Eig$vectors[,1])) # approx. stable age distribution = right eigenvector
+    V <- solve(Conj(Eig$vectors))
+    v <- abs(Re(V[1,])) # Repr. value = left eigenvector
+    pc = t(v)*w
+    pc = pc/sum(pc)
+    s <- v%o%w
+    
+    return(list(Lambda = Lambda,
+                LeftEig = w,
+                RightEig = v,
+                Sens = s))
+  }
+}
+
+# https://www.nature.com/articles/srep30750
+# Anbefaler louvain
+# Viderutivlet her: https://www.nature.com/articles/s41598-019-41695-z
+# til Leiden
+
+
+
+ Community = function(Mij){
+   Mij = eigs$ConnectionMatrix
+   d = eigen(Mij)
+   grs0 = sign(d$vectors[,1])
+   qplot(x = axy[,2], y = axy[,3],
+         size = (axy[,1]), col = factor(grs0))
+   }

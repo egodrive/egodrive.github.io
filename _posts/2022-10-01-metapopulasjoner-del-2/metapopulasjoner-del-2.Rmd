@@ -425,7 +425,7 @@ Om man nå har en rekke delområder som man skal skjøtte eller forvalte på noe
 
 Eigenverdien, $\lambda_{M}$, til metapopulasjonen har en assosiert høyre eigenvektor. Denne har likt antall verdier ($x$) som antall bestander i systemet, og kan brukes til å beskrive den enkelte bestanden sin betydning for metapopulasjonen sin kapasitet. Hvor hvert tall i eigenvektoren ($x_{i}$, heretter kallt $EV$) kvadrert og multiplisert med $\lambda_{M}$ vil gi dette målet; $\lambda_{i} = \lambda_{M}EV^2$. Eigenvektoren til $M$-matrisen er blitt brukt for å identifisere viktige områder for bevaring av fugler i den atlantiske regnskogen (@huang2020using).
 
-I populasjonsøkologi tilsvarer vektoren den stabile aldersfordelingen om $M$-matrisen var Leslie-matrisen til en bestand. Og kan tolkes likedan; over tid så vil verdiene i eigenvektorene reflektere hvor det befinner seg flest individer i bestanden. Og hvor man i populasjonsøkologi vil regne ut sensitivitet/elastisitet for å beregne hvilken parameter i Leslie-matrisen (f.eks. overlevelse eller fekunditet til en gitt aldersklasse) som er viktigst for bestandsveksten, så blir dette overflødig for $M$-matrisen da den er symmetrisk. Dette betyr også at sensitivitet/elastisitet samsvarer med $EV$. Kan også se til denne [studien](https://www.researchgate.net/profile/Selina-Heppell/publication/228579870_Life_Histories_and_Elasticity_Patterns_Perturbation_Analysis_for_Species_with_Minimal_Demographic_Data/links/5b76029692851ca65064e532/Life-Histories-and-Elasticity-Patterns-Perturbation-Analysis-for-Species-with-Minimal-Demographic-Data.pdf) for beregning av sensitivitet/elastisitet. 
+I populasjonsøkologi tilsvarer vektoren den stabile aldersfordelingen om $M$-matrisen var Leslie-matrisen til en bestand. Og kan tolkes likedan; over tid så vil verdiene i eigenvektorene reflektere hvor det befinner seg flest individer i bestanden. Kan også se til denne [studien](https://www.researchgate.net/profile/Selina-Heppell/publication/228579870_Life_Histories_and_Elasticity_Patterns_Perturbation_Analysis_for_Species_with_Minimal_Demographic_Data/links/5b76029692851ca65064e532/Life-Histories-and-Elasticity-Patterns-Perturbation-Analysis-for-Species-with-Minimal-Demographic-Data.pdf) for beregning av sensitivitet/elastisitet. 
 
 ## Dragehode og dragehodeglansbille
 Dragehode er en [truet art](https://artsdatabanken.no/Taxon/Dracocephalum_ruyschiana/102285), som er vertsplante for den enda mer truede [dragehodeglansbillen](https://www.artsdatabanken.no/Taxon/Meligethes%20norvegicus/8060). 
@@ -646,3 +646,11 @@ leaflet(shared_data) %>%
 
 # Forbehold
 En (av kanskje flere) ting som ikke er nevnt i angående metapopulasjoner så langt. Bestandsdynamikk i den enkelte bestand. 
+
+# Neste steg
+Visualisere styrken på lenken. Til dette kan vi bruke sensitivitetsanalyser fra populasjonsøkologi. 
+https://web.stanford.edu/~jhj1/teachingdocs/Jones-leslie22005.pdf
+
+
+Sensitivtet er eigenvector *u_i* multiplisert med eigenvector *v_j*. I populasjonsøkologi så tilsvarer dette reproduktiv verdi til klasse i med stabil aldersfordeling til klasse j. I metapopulasjonsteori så er matrisen symmetrisk og derfor så er u = v, slik at det blir de eigenvectorsentralitetsverdiene til de to delbestandene multiplisert med hverandre. 
+

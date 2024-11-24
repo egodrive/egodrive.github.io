@@ -17,8 +17,7 @@ output:
     toc_float: true
 ---
 
-
-En bestand er sjeldent alene. Man finner ofte flere bestander av samme art spredt utover landskapet. Noen bestander er store, andre små. Noen ligger tett sammen, andre ligger mer isolert. Felles kalles disse bestandene (populasjonene) for en *metapopulasjon* (@levins1969some, @levin1970community), eller 'populasjon av populasjoner'. Hvor landskapet mellom bestandene blir omtalt som 'matrisen'. 
+En bestand er sjeldent alene. Man finner ofte flere bestander av samme art spredt utover landskapet. Noen bestander er store, andre små. Noen ligger tett sammen, andre ligger mer isolert. Felles kalles disse bestandene (populasjonene) for en *metapopulasjon* (@levins1969some, @levin1970community), eller 'populasjon av populasjoner'. Hvor landskapet mellom bestandene blir omtalt som 'matrisen'.
 
 ```{r FIG0, cache = T, fig.width=8, fig.height=8, fig.cap = "Øyene langs kysten av Lovund i Nordland er habitat hvor fastlandsarter som vånd vil kunne danne bevege seg mellom og danne bestander. Antallet og hvor man finner individ vil variere med arealet og avstanden mellom øyene. "}
 library(ggmap)
@@ -27,38 +26,42 @@ library(cowplot)
 aa = ggmap(get_map(c(left = 12.43, right = 12.55,bottom = 66.35, top = 66.40)))+
   xlab("Lengdegrad")+ ylab("Breddegrad")+theme_cowplot()
 aa
-``` 
+```
 
-Hvis en ser $N$ bestander som kan finnes på $T$ forskjellige steder (habitat) i landskapet så vil $x$ antall av bestandene bli utryddet hvert år (utryddelsesrate), mens $m'$ nye bestander etableres hvert år (immigrasjonsrate). Noen habitat har bestander hvert år, mens andre habitat har mer flyktige bestander som opptrer bare noen år om annen. 
+Hvis en ser $N$ bestander som kan finnes på $T$ forskjellige steder (habitat) i landskapet så vil $x$ antall av bestandene bli utryddet hvert år (utryddelsesrate), mens $m'$ nye bestander etableres hvert år (immigrasjonsrate). Noen habitat har bestander hvert år, mens andre habitat har mer flyktige bestander som opptrer bare noen år om annen.
 
 Endring i antall bestander hvert år ($t$) kan da beskrives som
 
+```{=tex}
 \begin{equation}
 \frac{dN}{dt} = m'N(T-N)-XN (\#eq:EQ1)
 \end{equation}
+```
+Hvis en så setter $p = N/T$ hvor $p$ er andelen av områder med en bestand , og $m = m'T$, vil gjøre likningen over til
 
-Hvis en så setter $p = N/T$ hvor $p$ er andelen av områder med en bestand , og $m = m'T$, vil gjøre likningen over til 
-
+```{=tex}
 \begin{equation}
 \frac{dp}{dt} = mp(1-p) - xp (\#eq:EQ2)
 \end{equation}
+```
+som beskriver endringen i andelen av områder med en bestand per år. Hvis endringen er 0, altså systemet er stabilt, vil andelen bebodde habitat være:
 
-som beskriver endringen i andelen av områder med en bestand per år. Hvis endringen er 0, altså systemet er stabilt, vil andelen bebodde habitat være:  
-
+```{=tex}
 \begin{equation}
 \hat{p} = 1-x/m (\#eq:EQ3)
 \end{equation}
-
-Disse formlene er lik noen av formlene man også bruker for å beskrive bestandsvekst (logistisk vekst) hvor formel \@ref(eq:EQ3) tilsvarer bæreevnen i logistisk vekst. 
+```
+Disse formlene er lik noen av formlene man også bruker for å beskrive bestandsvekst (logistisk vekst) hvor formel \@ref(eq:EQ3) tilsvarer bæreevnen i logistisk vekst.
 
 ## Øyer
+
 Matrisen, området mellom bestandene, kan også være havet og områdene vi ser på være faktiske øyer. Og vi ser ikke på om et området har en bestand eller ikke, men hvor mange arter som finnes der. Vi snakker da om øybiogeografi (@macarthur2016theory). I øybiogeografi er antall arter på en øy avhengig av:
 
 -   Avstand til fastlandet (hvor en antar at alle aktuelle arter finnes): jo lengre unna øya er fastlandet dess færre arter (\@ref(fig:FIG1)).
 
 -   Størrelsen på øya: jo større øya er dess flere arter (\@ref(fig:FIG1)).
 
--   Tid isolert: jo kortere tid øya har vært isolert fra fastlandet dess flere arter har den.  
+-   Tid isolert: jo kortere tid øya har vært isolert fra fastlandet dess flere arter har den.
 
 ```{r FIG1, fig.width=8, fig.height=8, echo = T, fig.cap="Hvordan antall inndvandringer og utvandringer er avhengig av avstand til fastland og arealet."}
 plot(seq(0, 20, by = 2), type = "l", lty = 2, xlab = "Antall arter", ylab = "Innvandringer/Utryddelser", col = "turquoise")
@@ -72,15 +75,13 @@ text(x = 8, y = 16, "Liten øy")
 
 ```
 
-Hvis en kan velge blant $P$ arter på fastlandet vil en øy på et gitt tidspunkt *t* ha *S* antall arter (gitt invasjonsrate $i_{\alpha}$ og utryddelsesrate $e_{\alpha}$ for art $\alpha$, @simberloff1970experimental). 
+Hvis en kan velge blant $P$ arter på fastlandet vil en øy på et gitt tidspunkt *t* ha *S* antall arter (gitt invasjonsrate $i_{\alpha}$ og utryddelsesrate $e_{\alpha}$ for art $\alpha$, @simberloff1970experimental).
 
 $$
 S(t) = \sum_{\alpha = 1}^{P} \frac{i_{\alpha}}{i_{\alpha} + e_{\alpha}}(1-e^{-(i_{\alpha}+e_{\alpha})t}) 
-$$
-Per år så vil antall arter på en øy ($S_{s}$) kunne forandre seg ut fra $$\frac{dS_s}{dt} = i(P - S_s) - eS_s $$
+$$ Per år så vil antall arter på en øy ($S_{s}$) kunne forandre seg ut fra $$\frac{dS_s}{dt} = i(P - S_s) - eS_s $$
 
-En vil så kunne se hvordan immigrasjon- og utryddelsesraten (hhv. $I(t)$ og $E(t)$) endrer seg over tid. Hvor $S_{\alpha}(t)$ er lik 1 hvis arten $\alpha$ er tilstede på øya ved tidspunkt $t$, og 0 ellers. Over tid vil disse kunne gå mot stabile verdier (\@ref(fig:FIG2)). 
-
+En vil så kunne se hvordan immigrasjon- og utryddelsesraten (hhv. $I(t)$ og $E(t)$) endrer seg over tid. Hvor $S_{\alpha}(t)$ er lik 1 hvis arten $\alpha$ er tilstede på øya ved tidspunkt $t$, og 0 ellers. Over tid vil disse kunne gå mot stabile verdier (\@ref(fig:FIG2)).
 
 $$
 I(t) = \sum_{\alpha = 1}^{P} i_{\alpha}- \frac{i_{\alpha}^{2}}{i_{\alpha} + e_{\alpha}}(1-e^{-(i_{\alpha}+e_{\alpha})t}) =  \sum_{\alpha = 1}^{P} i_{\alpha}  - i_{\alpha}S_{\alpha}(t)
@@ -116,11 +117,14 @@ plot(Ss~idx, xlab = "Tidssteg", ylab = "Antall arter på øya", type = "l")
 ```
 
 ## Alt er en plass
-@levin1970community antok at 1) alle habitat er like og derfor lik migrasjonsrater til og fra alle habitat, og 2) at habitat er enten bebodd eller ubebodd. Men alle habitat er ikke like: noen er små, store gode, dårlige, nærme eller fjernt unna. Dette vil igjen påvirke hvor *mange* individ som migrerer mellom habitat, ikke bare hvorvidt en øy er bebodd eller ikke. @hanski1994practical viser hvordan vi kan ta hensyn til dette (kan også anbefale å lese @hanski2000metapopulation). 
 
-Man antar utryddelsesraten synker dess større habitatet er, $E_{i} = \frac{e}{A_{i}^{x}}$. Mindre habitat har mindre bestander som lettere kan bli utryddet av rovdyr eller andre tilfeldigheter. Mens immigrasjonsraten ($S_{i}$) er avhengig av habitatene omkring. Immigrasjonsrate er avheging av om det er individ der ($p_{j}$), og øker med størrelsen ($A_{j}$) til habitatene rundt, men synker med økende avstand ($d_{ij}$) til de: $S_{i} = c \sum_{j  = 1}^{N} = p_{j}A_{j}e^{(-\alpha d_{ij})}$^[Vi antar stort antall øyer, og at Allee-effekten er neglisjerbar og ser bort fra $y^2$, @hanski1994practical]. Med det utgangspunktet så kan vi se på hvordan en metapopulasjon oppfører seg. 
+@levin1970community antok at 1) alle habitat er like og derfor lik migrasjonsrater til og fra alle habitat, og 2) at habitat er enten bebodd eller ubebodd. Men alle habitat er ikke like: noen er små, store gode, dårlige, nærme eller fjernt unna. Dette vil igjen påvirke hvor *mange* individ som migrerer mellom habitat, ikke bare hvorvidt en øy er bebodd eller ikke. @hanski1994practical viser hvordan vi kan ta hensyn til dette (kan også anbefale å lese @hanski2000metapopulation).
 
-Den virkelige verden er ikke et tilfeldig utvalg. Den har kanskje kommet dit som en rekke av tilfeldige hendelser, men hvor den stopper er ikke tilfeldig. Slik at en kan ikke velge hva som helst av verdier for øystørrelse, avstander og forvente at metapopulasjonen vil eksistere over tid. Som er hva vi ser rundt oss mesteparten av tiden. Slik at jeg måtte leke litt rundt for å finne ut hvilke verdier vi må jobbe med. Trykk 'Show code' for å se koden hvor vi leter fram til "fornuftige" utvalg av parameterverdier å velge blant. 
+Man antar utryddelsesraten synker dess større habitatet er, $E_{i} = \frac{e}{A_{i}^{x}}$. Mindre habitat har mindre bestander som lettere kan bli utryddet av rovdyr eller andre tilfeldigheter. Mens immigrasjonsraten ($S_{i}$) er avhengig av habitatene omkring. Immigrasjonsrate er avheging av om det er individ der ($p_{j}$), og øker med størrelsen ($A_{j}$) til habitatene rundt, men synker med økende avstand ($d_{ij}$) til de: $S_{i} = c \sum_{j = 1}^{N} = p_{j}A_{j}e^{(-\alpha d_{ij})}$[^1]. Med det utgangspunktet så kan vi se på hvordan en metapopulasjon oppfører seg.
+
+[^1]: Vi antar stort antall øyer, og at Allee-effekten er neglisjerbar og ser bort fra $y^2$, @hanski1994practical
+
+Den virkelige verden er ikke et tilfeldig utvalg. Den har kanskje kommet dit som en rekke av tilfeldige hendelser, men hvor den stopper er ikke tilfeldig. Slik at en kan ikke velge hva som helst av verdier for øystørrelse, avstander og forvente at metapopulasjonen vil eksistere over tid. Som er hva vi ser rundt oss mesteparten av tiden. Slik at jeg måtte leke litt rundt for å finne ut hvilke verdier vi må jobbe med. Trykk 'Show code' for å se koden hvor vi leter fram til "fornuftige" utvalg av parameterverdier å velge blant.
 
 ```{r METAROM PARAMETER TESTING, eval = F, cache = T}
 library(ggplot2);library(ggExtra);library(data.table)
@@ -310,15 +314,15 @@ grid.arrange(p1, p2, nrow = 3,
              layout_matrix = cbind(c(1,1,1,1,2,2), c(1,1,1,1,2,2)))
 ```
 
-Metapopuasjonsteori er blitt brukt til å finne ut hvordan bestander av sommerfuglen prikkrutevinge (*Melitaea cinxia*) på øyene i Åland svinger fra år til år (@hanski1996quantitative). Her beveger den seg mellom øyer og mellom de tørre blomsterengene som den trives i. 
+Metapopuasjonsteori er blitt brukt til å finne ut hvordan bestander av sommerfuglen prikkrutevinge (*Melitaea cinxia*) på øyene i Åland svinger fra år til år (@hanski1996quantitative). Her beveger den seg mellom øyer og mellom de tørre blomsterengene som den trives i.
 
 ## I gode og onde dager
-I den virkelige verden finnes det også gode og dårlige år. Slike tilfeldigheter (som skjer innenfor et visst omfang) kalles  *miljøstokastisitet*. Miljøstokastisitet rammer alle bestander like mye - store bestander vil riktignok kunne tåle det bedre enn mindre bestander. 
 
-Habitatstørrelsen $A_{j}$ i forrige del kan også tolkes som habitatkvalitet. Gode og dårlige år kan derfor simuleres ved å lage en normalfordeling rundt 0 hvor en trekker en verdi for hvert år, som så legges til alle habitatstørrelser. Gode år vil være positive verdier og øke habitatstørrelsen, mens dårlige år vil være negative verdier som reduserer habitatstørrelsen. Økende stokastisitet vil tilsi at en øker variansen på normalfordelingen man trekker ifra. Økende varians betyr at en vil få enda bedre gode år, men tilsvarende også enda verre dårlige år (figur \@ref(fig:MILJOSTOK)). 
+I den virkelige verden finnes det også gode og dårlige år. Slike tilfeldigheter (som skjer innenfor et visst omfang) kalles *miljøstokastisitet*. Miljøstokastisitet rammer alle bestander like mye - store bestander vil riktignok kunne tåle det bedre enn mindre bestander.
+
+Habitatstørrelsen $A_{j}$ i forrige del kan også tolkes som habitatkvalitet. Gode og dårlige år kan derfor simuleres ved å lage en normalfordeling rundt 0 hvor en trekker en verdi for hvert år, som så legges til alle habitatstørrelser. Gode år vil være positive verdier og øke habitatstørrelsen, mens dårlige år vil være negative verdier som reduserer habitatstørrelsen. Økende stokastisitet vil tilsi at en øker variansen på normalfordelingen man trekker ifra. Økende varians betyr at en vil få enda bedre gode år, men tilsvarende også enda verre dårlige år (figur \@ref(fig:MILJOSTOK)).
 
 På lang sikt har stokastisitet som regel negative konsekvenser for den langsiktig veksten for bestander. Og ja, klimaendringer med økende frekvens av ekstremvær betyr at det vil bli mer stokastisitet. Økende stokastisitet kan føre til at bestander går fra å være i vekst til å være i nedgang (figur \@ref(fig:MILJOSTOK)).
-
 
 ```{r MILJOSTOK, cache = T, fig.align = "center", fig.width=8, fig.height=11, echo = F, fig.cap="Stokastisitet reduserer minimum og gjennomsnittlige andelen av habitat som over tid har en bestand, og kan forårsake negativ veksten i bebodde habitat. Den negative  veksten vil til slutt føre til at metapopulasjonen vil dø ut."}
 library(data.table)
@@ -462,4 +466,4 @@ grid.arrange(p1,p2,p3)
 
 ```
 
-Men hvilke habitat er viktige? Og hva kan vi gjøre for å styrke metapopulasjonen? Det er spørsmålet får vi gyve løs på senere. 
+Men hvilke habitat er viktige? Og hva kan vi gjøre for å styrke metapopulasjonen? Det er spørsmålet får vi gyve løs på senere.
