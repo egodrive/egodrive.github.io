@@ -1,0 +1,12 @@
+---
+title: "Valg"
+description: |
+  Hvordan velge den rette. 
+author: Endre
+date: 2025-08-03
+output:
+  distill::distill_article:
+    self_contained: false
+    draft: false
+---
+

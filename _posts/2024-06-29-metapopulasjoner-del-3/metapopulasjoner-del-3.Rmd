@@ -1,0 +1,281 @@
+---
+title: "Metapopulasjoner - del 3"
+description: |
+  Kan vi finne klynger av bestander?
+author:
+  - name: Endre Grüner Ofstad
+    url: {}
+date: 2024-06-29
+draft: false
+bibliography: C:/Users/endre/OneDrive/Bibliotek/Tekster/egodrive.github.io/bibliography.bib
+categories:
+ - Nettverk
+ - Metapopulasjon
+output:
+  distill::distill_article:
+    self_contained: false
+    code_folding: true
+    toc: true
+    toc_float: true
+---
+
+I en tidligere post om [metapopulasjoner](https://egodrive.github.io/posts/Metapopulasjoner/) skrev vi om hvordan konnektivitet i en metapopulasjon kan skildres basert på avstanden mellom delområdene ($d_{ij}$) og størrelsen av delområdene ($A_{i}A_{j}$). Større konnektivitet er ofte assosiert med høyere utveksling mellom områdene $i$ og $j$: $m_{ij} = e^{-\alpha d_{ij}}A_{i}A_{j}$, og derfor større sannsynlighet for tilstedeværelse av en bestand (@ranius2014metapopulation). 
+
+Man kan beskrive bevegelsen mellom alle områdene (dvs. for hele metapopulasjonen) med en kvadratisk matrise **M** hvor lengden (og bredden) er lik antall områder og fyller den med verdiene $m_{ij}$. For denne matrisen så finner vi eigenverdien $\lambda_{M}$. $\lambda_{M}$ kalles også for *metapopulasjonens kapasitet*. Egenverdien er da proporsjonal med andel bebodde områder ($h$ i modellene til  @levins1969some, @levin1970community; også tilsvarende $p$ i [likning 3 her](https://egodrive.github.io/posts/Metapopulasjoner/)). 
+
+Parametrene som inngår i $\lambda_{M}$ er teoretisk knyttet til bestandens overlevelse. Noe som også er bekreftet eksperimentelt (@molofsky2005extinction, @govindan2015intermediate) og i felt (@bulman2007minimum). 
+
+Egenvektoren til egenverdien beskriver som nevnt tidligere hvor viktig et gitt område er. I fagområdet knyttet til nettverksanalyser så blir dette omtalt som egenvektor sentralitet eller *egensentralitet*. Egensentraliteten øker med *sentraliteten* til tilgrensende noder, ikke *antall* tilgrensende noder.
+
+Den venstre (ledende) egenvektoren tilsvarer også *reproduktiv verdi* (fra Caswell). Men vil i en metapopulasjonssetting bli tolket som: node *i* sitt bidrag til koloniseringshendelser når den er bebodd [OvaskainenHanski2003]. Dette vil inkludere nodens funksjon som en 'stepping stone' for bevegelse mellom andre noder. 
+
+Man kan bygge videre på dette for å si noe om tilstedeværelsen av klynger ('communities') i nettverket. Disse klyngene beregnes ut prinsippene om at 1) det må være forskjellig fra tilfeldig spredning, og 2) det vil være mer spredning mellom noder innad klynger enn mellom klynger.Fra **M** hvor man så trekker fra en forventning knyttet til tilfeldig spredning ($(k_{i}*k_{j})/2m$), altså hvordan avviker dette fra en tilfeldig spredning, og ender opp med en såkalt *modularitsmatrise* ([Newman](https://journals.aps.org/pre/abstract/10.1103/PhysRevE.74.036104])). Når vi så har standardisert denne med tanke på nullforventningen så kan vi se på egenverdiene på nytt. Da vil fortegnet (+ eller -) angi grupperingen til de ulike nodene. Denne tilnærmingen deler metapopulasjonen i potensielt to grupper. Vi kan deretter gjenta prosessen innad de to gruppene til egenverdiene ikke lengre har forskjeller i fortegnet. 
+
+```{r setup, include=FALSE, echo = F, cache = T}
+library(data.table);library(gstat);library(rlang);library(ggplot2);library(dplyr);library(gridExtra)
+library(igraph);library(ggraph)
+
+sseed = sample(1:1000000,1)
+# Seed med modularitet
+# 118: interessant konfigurasjon
+# >0.4: 4913
+sseed = 346644
+set.seed(sseed)
+meth = "exp"
+nPar = 40
+n = nPar*2 # Number of points
+Area = rlnorm(n = n, sdlog = .25, meanlog = .05)
+#Area = runif(n = n, 0.002, 1)
+DIM = 500
+if(meth == "unif"){
+  set.seed(sseed)
+  cxy = matrix(runif(n = n*2, min = 0, max = DIM), ncol = 2, nrow = n)
+}else{
+  ## generer punkt
+  size=DIM
+  xy <- expand.grid(1:size, 1:size) %>%
+    set_names("x","y")
+  g.dummy <- gstat(formula=z~1, locations=~x+y, dummy=T, beta=0,
+                   model=vgm(psill=1, nugget = 0, range=10, model='Gau'), nmax=10)
+  set.seed(sseed)
+  yy <- predict(g.dummy, newdata=xy, nsim=1)
+  yy$sim1 = (yy$sim1 - min(yy$sim1))/(max(yy$sim1)-min(yy$sim1))
+  yy$P = sapply(yy$sim1,FUN = function(x){sample(c(0,1), 1, replace = T, prob = c(x,1-x))})
+  #qplot(x = yy$x, y = yy$y, col = yy$sim1)
+  
+  yy = arrange(yy, -sim1)
+  cxy = head(yy[yy$P>0,], n)[,1:2]
+}
+
+dij = as.matrix(dist(cxy))
+Alpha = 1/(DIM/4)
+minx = min(dij);maxx = max(dij)
+distP = ggplot(data.frame(x=c(minx, maxx)), aes(x)) + 
+  geom_histogram(data = data.frame(dd = dij[lower.tri(dij)]),
+                 aes(dd,after_stat(ndensity)))+
+  stat_function(fun=function(x) exp(-Alpha*x))+
+  ylab("Sannsynlighet for spredning|Andel per distanse")+
+  xlab("Distanse mellom noder")
+
+
+dij = exp(-Alpha*dij)
+# # Beregne standardavviket for en negativ exp. spredningskernel
+#Halvveis = .5
+#2*(log(1/Halvveis)/Alpha)
+
+diag(dij)<-0
+aij = outer(Area,Area)
+Cij = dij*aij
+#### sensitivity #####
+# https://web.stanford.edu/~jhj1/teachingdocs/Jones-leslie12006.pdf
+# https://web.stanford.edu/~jhj1/teachingdocs/Jones-leslie22006.pdf
+A = Cij
+lambda <- eigen(A)
+W <- lambda$vectors
+w <- abs(Re(W[,1])) # approx. stable age distribution = right eigenvector
+V <- solve(Conj(W))
+v <- abs(Re(V[1,])) # Repr. value = left eigenvector
+s <- v%o%w
+s[A == 0] <- 0
+elast = s*A/lambda$values[1]
+#s = s/sum(s)
+
+
+ss = as.table(s)
+df = data.table(as.data.frame(ss))
+colnames(A) = colnames(ss)
+row.names(A) = row.names(ss)
+names(df)[3]<-"Sens"
+df_1 = data.table(as.data.frame(as.table(A)))
+names(df_1)[3] = "Connection"
+df = df_1[df, on = c("Var1", "Var2")]
+df2 = data.table(Var1 = unique(df$Var1), 
+                 x = cxy[,1], 
+                 y = cxy[,2], 
+                 Area = Area,
+                 Eig = W[,1]^2, W = w)
+
+df = df2[df, on = "Var1"]
+names(df2)[1:3]<-c("Var2", "x2", "y2")
+df = df2[,1:3][df, on = "Var2"]
+df = arrange(df, Sens)
+df[,qArea:=as.numeric(cut(Area, quantile(Area, c(0,1/3,2/3,1)), include.lowest = T))]
+
+df[,Eig_q:=as.numeric(cut(Eig, quantile(Eig, c(0,1/3,2/3,1)), include.lowest = T))]
+df[,Sens_q:=as.numeric(cut(Sens, quantile(Sens, seq(0,1,.1)), include.lowest = T))]
+df[,Sens_s := (Sens-min(Sens))/(max(Sens)-min(Sens))]
+df[,Sens_d:=round(rank(Sens)/.N*100), "Var1"]
+
+df[,Connection_s := (Connection-min(Connection))/(max(Connection)-min(Connection))]
+df[,Connection_s_d := (Connection-min(Connection))/(max(Connection)-min(Connection)), "Var1"]
+df[,Connection_d:=round(rank(Connection)/.N*100), "Var1"]
+
+
+#######
+# Lag en graf basert på A matrisen, hvor grafen beholder de estimert vektene
+g = graph_from_adjacency_matrix(A, weighted = T)
+lec <- cluster_leading_eigen(g);lec = cluster_leading_eigen(g, start = membership(lec))
+
+gr = data.table(Var1 = names(membership(lec)), 
+                gr1 =  paste(membership(lec)))
+df = gr[df, on = "Var1"]
+names(gr)<-c("Var2", "gr2")
+df = gr[df, on = "Var2"]
+
+####
+a = ggplot(data = arrange(df, -Eig_q))+
+  geom_segment(mapping =  aes(x = x, y = y, xend = x2, yend = y2),
+               alpha = .4, col = "grey60")+
+  geom_point(mapping = aes(x = x, y = y, size = Eig_q, fill = Eig_q), alpha = .8, shape=21)+
+  scale_fill_gradient(low = "yellow", high = "red", na.value = NA)+
+  labs(subtitle="Alle noder og linker \n")
+b = ggplot(data = arrange(df, Connection_d))+
+  geom_segment(data = df[,.SD[Connection_d>90], "Var1"],
+               mapping =  aes(x = x, y = y, xend = x2, yend = y2,
+                               alpha = Connection_s_d))+
+  geom_point(mapping = aes(x = x, y = y, size = Eig_q, fill = Eig_q), alpha = .8, shape=21)+
+  scale_fill_gradient(low = "yellow", high = "red", na.value = NA)+
+  labs(subtitle="Viser for hver node topp 10-persentil linkene til \n andre noder.")+
+  theme(legend.position="top")
+
+c = ggplot(data = arrange(df, Sens_q))+
+  geom_segment(data = df[Sens_q>9],mapping =  aes(x = x, y = y, xend = x2, yend = y2,
+                                                  alpha = Sens_q))+
+  geom_point(mapping = aes(x = x, y = y, size = Eig_q, fill = Eig_q), shape=21)+
+  scale_fill_gradient(low = "yellow", high = "red", na.value = NA)+
+  labs(subtitle="Topp 10-persentil linker med effekt på \n bevegelse i nettverket")
+
+
+
+d = ggplot() +
+  geom_segment(data = df[gr1!=gr2 & Sens_q==3],
+               mapping =  aes(x = x, y = y, xend = x2, yend = y2))+
+   geom_polygon(data = unique(df[,.SD[,c("x", "y")][chull(.SD[,c("x", "y")])], "gr1"]),
+               aes(x = x, y = y, colour=gr1, 
+                   fill = gr1), 
+               alpha = 0.5)+
+  geom_point(data = df, aes(x = x, y = y, colour=gr1, fill = gr1)) + 
+  labs(subtitle=paste0("Grupperinger i nettverket \n"))
+
+th2 = theme_classic()+
+  theme(legend.position = 'none',
+        axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        axis.line = element_blank(),
+        axis.title = element_blank())
+
+textBox = ggplot()+geom_blank()+
+  geom_text(mapping = aes(x = 1, y = 1,
+                          label = paste0("Simulering: ",sseed,"\n",
+                                         "Modularitet: ",round(lec$modularity,2))))+
+  th2
+
+th = theme_classic()+
+  theme(legend.position = 'none',
+        axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        axis.title = element_blank())  
+
+
+# Forkastede plot
+# b = ggplot(data = df)+
+#   geom_segment(data = df[,.SD[which.max(Sens)],"Var2"],mapping =  aes(x = x, y = y, xend = x2, yend = y2, size = Sens, alpha = Sens_q))+
+#   geom_point(mapping = aes(x = x, y = y, size = Sens, col = Eig_q))+
+#   scale_colour_gradient(low = "yellow", high = "red", na.value = NA)+
+#   labs(subtitle="De viktigste koblingene for hver node")
+# d1 = ggplot(data = df)+
+#   geom_segment(data = df[Sens_q>9],mapping =  aes(x = x, y = y, xend = x2, yend = y2, size = Sens, alpha = Sens_q))+
+#   geom_point(mapping = aes(x = x, y = y, size = qArea, col = qArea))+
+#   scale_colour_gradient(low = "yellow", high = "red", na.value = NA)+
+#   labs(subtitle="Koblingene med 90 % høyest effekt på bevegelse mellom nodene i nettverket")
+# 
+# dd = b + geom_label(data = unique(df[,c("Var1", "x", "y")]),
+#                     mapping = aes(x = x, y = y, label = Var1))
+
+##############
+# https://rdrr.io/cran/linkcomm/man/getCommunityCentrality.html
+# install.packages("linkcomm")
+#library(linkcomm)
+#windows()
+#lc = getLinkCommunities(network = as.data.frame(as.table(as.matrix(as.dist(A, diag = T, upper = T)))),
+#                        plot = T)
+
+
+
+
+```
+
+```{r spredning, echo = F, cache = T}
+distP
+```
+
+
+```{r, echo = F, fig.asp=1, fig.height=8, cache = T}
+grid.arrange(grobs = list(a+th,
+                          b+th,
+                          c+th,
+                          d+th,
+                          textBox),
+             left = ggpubr::text_grob("y", 
+                                      rot = 90, 
+                                      vjust = 1),
+             bottom = ggpubr::text_grob("x", 
+                                        rot = 0, 
+                                        vjust = 0),
+             
+             layout_matrix = rbind(c(5, 5),
+                                   c(5, 5),
+                                   c(1, 2), 
+                                   c(1, 2),
+                                   c(1, 2), 
+                                   c(1, 2),
+                                   c(1, 2), 
+                                   c(1, 2),
+                                   c(1, 2),
+                                   c(3, 4),
+                                   c(3, 4),
+                                   c(3, 4),
+                                   c(3, 4),
+                                   c(3, 4),
+                                   c(3, 4),
+                                   c(3, 4)))
+
+```
+
+
+
+
+
+
+@bonacich1972factoring, @bonacich2007some
+
+@grilli2015metapopulation
+
+Identifisere viktige områder: 
+- @watson2011identifying
+- @jacobi2011optimal
+
+
+
+- https://www.researchgate.net/publication/225751056_Metapopulation_structure_and_movements_in_five_species_of_checkerspot_butterflies
+

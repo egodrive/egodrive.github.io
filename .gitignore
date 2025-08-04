@@ -4,6 +4,7 @@
 *.Ruserdata
 *.rds
 *.rdb
+*.rdx
 *.csv
 *.qmd
 *.Rproj
