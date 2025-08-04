@@ -1,4 +1,13 @@
-.Rproj.user
-.Rhistory
-.RData
-.Ruserdata
+*.Rproj.user
+*.Rhistory
+*.RData
+*.Ruserdata
+*.rds
+*.rdb
+*.csv
+*.qmd
+*.Rproj
+*.Rproj.lock
+*.Renviron
+[^.]*           # ignores files that have no dot (i.e., no extension)
+*.pack
